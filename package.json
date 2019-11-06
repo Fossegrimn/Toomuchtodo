@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "server.js",
   "scripts": {
-    "start": "Yes"
+    "start": "node index.html"
   },
   "dependencies": {
     "cors": "^2.8.5",
