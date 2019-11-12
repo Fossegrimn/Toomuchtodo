@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenselist</title>
+</head>
+
+<body>
+
+    <div id="container"></div>
+
+</body>
+
+<script>
+//Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
+    let url = "http://localhost:3000/expenses";
+    let container = document.getElementById('container');
+    let txtTravel = document.getElementById('txtTravel');
+
+    let trvID = sessionStorage.getItem("travelid");
+
+    listExpenses();
+    // ---------------------------------------    
+    async function listExpenses() {
+
+        try {
+            var resp = await fetch(url + "?travelid=" + trvID);
+            var data = await resp.json();
+
+            container.innerHTML = ""; //delete previous content
+
+            for (let value of data) {
+                let html = `
+                    <h3>Travel to: ${value.description}</h3>
+                    <p>kr ${value.amount},-</p>
+                    <hr>
+                `;
+                let div = document.createElement("div");
+                div.innerHTML = html;
+
+                let delBtn = document.createElement("button");
+                delBtn.innerHTML = "Delete";
+                delBtn.addEventListener('click', function (evt) {
+                    deleteExpense(value.id);
+                });
+                div.insertBefore(delBtn, div.lastElementChild);
+                container.appendChild(div);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    
+    //---------------------
+    async function deleteExpense(id) {
+
+        let updata = {expenseID: id};
+        let cfg = {
+            method: "DELETE",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(updata)
+        }
+
+        try {
+            await fetch(url, cfg);
+            listExpenses();
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travelcreate</title>
+</head>
+
+<body>
+
+        <input type="text" id="inpDest" placeholder="Destination">
+        <input type="date" id="inpDate">
+        <input type="number" id="inpKm" placeholder="km">
+        <input type="text" id="inpDescr" placeholder="Description">
+        <br><br>
+        <button id="btnCreate">Create travel</button>
+        <h3 id="txtResult">Result...</h3>
+    
+    </body>
+    
+    <script>
+    //Html ark for en side hvor du kan adde reiser, trenger en knapp for å komme til denne siden
+        let inpDest = document.getElementById('inpDest');
+        let inpDate = document.getElementById('inpDate');
+        let inpKm = document.getElementById('inpKm');
+        let inpDescr = document.getElementById('inpDescr');
+        let btnCreate = document.getElementById('btnCreate');
+        let txtResult = document.getElementById('txtResult');
+    
+        btnCreate.addEventListener('click', async function(evt) {
+
+
+            let url = "http://localhost:3000/travel";
+
+            let updata =  {
+                dest: inpDest.value,
+                date: inpDate.value,
+                km: inpKm.value,
+                descr: inpDescr.value,
+                userid: 1
+            }
+            
+            let cfg = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(updata)
+            }
+
+            try {
+                var resp = await fetch(url, cfg);
+                var data = await resp.json();
+                txtResult.innerHTML = data.msg;
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+
+</script>
+
+</html>

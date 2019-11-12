@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travellist</title>
+</head>
+
+<body>
+
+    <div id="container"></div>
+
+</body>
+
+<script>
+//Html ark for å vis listene som er laget
+
+    let url = "http://localhost:3000/travel";
+    let container = document.getElementById('container')
+
+    listTravels();
+    // ---------------------------------------    
+    async function listTravels() {
+
+        try {
+            var resp = await fetch(url);
+            var data = await resp.json();
+
+            container.innerHTML = ""; //delete previous content
+
+            for (let value of data){
+                let date = new Date(value.date).toDateString();
+                let html = `
+                    <h3>Travel to: ${value.destination}</h3>
+                    <p>${value.km} km - ${date}</p>
+                    <p>${value.description}</p>
+                    <hr>
+                `;
+                let div = document.createElement("div");
+                div.innerHTML = html;
+                //Dette er det som vises til listene
+
+                //Lager en delete knapp som
+                let delBtn = document.createElement("button");
+                delBtn.innerHTML = "Delete";
+                delBtn.addEventListener('click', function (evt) {
+                    deleteTravel(value.id);
+                });
+            
+
+                //Lager en knapp for å adde til Items
+                let addExpsBtn = document.createElement("button");
+                addExpsBtn.innerHTML = "Add expenses";
+                addExpsBtn.addEventListener('click', function (evt) {
+                    sessionStorage.setItem("travelid", value.id);
+                    location.href = "expensecreate.html";
+                });
+
+                //Lager ern knapp for å kunne se listene
+                let lstExpsBtn = document.createElement("button");
+                lstExpsBtn.innerHTML = "List expense";
+                lstExpsBtn.addEventListener('click', function (evt) {
+                    sessionStorage.setItem("travelid", value.id);
+                    location.href = "expenselist.html";
+                });
+
+                div.insertBefore(delBtn, div.lastElementChild);
+                div.insertBefore(addExpsBtn, div.lastElementChild);
+                div.insertBefore(lstExpsBtn, div.lastElementChild);
+                container.appendChild(div);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    
+    //---------------------
+    async function deleteTravel(id) {
+
+        let updata = {travelID: id};
+        let cfg = {
+            method: "DELETE",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(updata)
+        }
+
+        try {
+            await fetch(url, cfg);
+            listTravels();
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+</script>
+
+</html>
