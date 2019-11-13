@@ -9,15 +9,15 @@
 </head>
 
 <body>
-    <form id="firstSideBox">
+    
         <h1>To Much too do</h1>
-        <input type="email" id="inpEmail" placeholder="E-mail">
-        <input type="password" id="inpPasswrd" placeholder="Password">
+        <input type="text" id="inpEmail" placeholder="E-mail">
+        <input type="text" id="inpPasswrd" placeholder="Password">
         <br><br>
         <button id="btnLogin">Login</button>
-        <!--<h3 id="txtResult">Result...</h3>-->
+        <h3 id="txtResult">Result...</h3>
         <a href="usercreate.html"><button> Sign up </button></a>
-    <form>
+    
 </body>
     
     <script>
@@ -25,13 +25,16 @@
     
         let inpEmail = document.getElementById('inpEmail');
         let inpPasswrd = document.getElementById('inpPasswrd');
-        let btnCreate = document.getElementById('btnLogin');
+        let btnLogin = document.getElementById('btnLogin');
         let txtResult = document.getElementById('txtResult');
-        
+
+       
     
-        btnCreate.addEventListener('click', async function(evt) {
+        btnLogin.addEventListener('click', async function(evt) {
 
             let url = "http://localhost:3000/auth";
+
+            console.log(url);
 
             let updata =  {
                 email: inpEmail.value,
@@ -44,9 +47,10 @@
                 body: JSON.stringify(updata)
             }
 
-            try {
+           try {
                 var resp = await fetch(url, cfg);
                 var data = await resp.json();
+                console.log(data)
                 if(resp.status > 202) {
                     throw(data);
                 };
