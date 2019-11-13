@@ -24,8 +24,20 @@
     async function listTravels() {
 
         try {
-            var resp = await fetch(url);
+            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+            let token = logindata.token;
+
+            let cfg = {
+                method: "GET",
+                headers: {"authorization": token}
+            };
+
+            var resp = await fetch(url, cfg);
             var data = await resp.json();
+
+            if (resp.status > 202) {
+                throw(data);
+            };
 
             container.innerHTML = ""; //delete previous content
 
@@ -80,14 +92,26 @@
     async function deleteTravel(id) {
 
         let updata = {travelID: id};
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
         let cfg = {
             method: "DELETE",
-            headers: {"Content-Type":"application/json"},
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
             body: JSON.stringify(updata)
         }
 
         try {
-            await fetch(url, cfg);
+            let resp = await fetch(url, cfg);
+
+            if (resp.status > 200) {
+                throw(data)
+            };
+
             listTravels();
         }
         catch (err) {

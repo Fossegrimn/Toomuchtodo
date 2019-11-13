@@ -1,0 +1,21 @@
+*{
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("../Client/images/back.jpg");
+    text-align: center;
+}
+
+#firstSideBox {
+    background-color: ivory;
+    margin-left: 550px;
+    margin-right: 550px;
+    margin-top: 200px;
+    height: 500px;
+    padding-top: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-color: grey;
+
+}

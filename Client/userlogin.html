@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>To-do List</title>
+</head>
+
+<body>
+    <form id="firstSideBox">
+        <h1>To Much too do</h1>
+        <input type="email" id="inpEmail" placeholder="E-mail">
+        <input type="password" id="inpPasswrd" placeholder="Password">
+        <br><br>
+        <button id="btnLogin">Login</button>
+        <!--<h3 id="txtResult">Result...</h3>-->
+        <a href="usercreate.html"><button> Sign up </button></a>
+    <form>
+</body>
+    
+    <script>
+        //Html ark for å logge inn
+    
+        let inpEmail = document.getElementById('inpEmail');
+        let inpPasswrd = document.getElementById('inpPasswrd');
+        let btnCreate = document.getElementById('btnLogin');
+        let txtResult = document.getElementById('txtResult');
+        
+    
+        btnCreate.addEventListener('click', async function(evt) {
+
+            let url = "http://localhost:3000/auth";
+
+            let updata =  {
+                email: inpEmail.value,
+                passwrd: inpPasswrd.value
+            }
+            
+            let cfg = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(updata)
+            }
+
+            try {
+                var resp = await fetch(url, cfg);
+                var data = await resp.json();
+                if(resp.status > 202) {
+                    throw(data);
+                };
+                txtResult.innerHTML = data.email + " is logged in!";
+                sessionStorage.setItem("logindata", JSON.stringify(data));
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+
+</script>
+
+</html>

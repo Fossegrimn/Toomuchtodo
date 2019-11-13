@@ -33,23 +33,34 @@
 
             let url = "http://localhost:3000/travel";
 
+            let login = JSON.parse(sessionStorage.getItem("logindata"));
+            let token = logindata.token;
+
             let updata =  {
                 dest: inpDest.value,
                 date: inpDate.value,
                 km: inpKm.value,
                 descr: inpDescr.value,
-                userid: 1
+                userid: logindata.userid
             }
             
             let cfg = {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "authorization": token,
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify(updata)
             }
 
             try {
                 var resp = await fetch(url, cfg);
                 var data = await resp.json();
+
+                if (resp.status > 202) {
+                    throw(data) 
+                };
+
                 txtResult.innerHTML = data.msg;
             }
             catch (err) {

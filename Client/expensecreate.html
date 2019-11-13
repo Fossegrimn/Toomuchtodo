@@ -32,6 +32,9 @@
 
             let url = "http://localhost:3000/expenses";
 
+            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+            let token = logindata.token;
+
             let updata =  {
                 descr: inpDescr.value,
                 amount: inpAmount.value,
@@ -40,13 +43,21 @@
             
             let cfg = {
                 method: "POST",
-                headers: {"Content-Type":"application/json"},
+                headers: {
+                    "authorization": token,
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify(updata)
             }
 
             try {
                 var resp = await fetch(url, cfg);
                 var data = await resp.json();
+
+                if (resp.status > 202) {
+                    throw(data);
+                };
+
                 txtResult.innerHTML = data.msg + " for " + inpDescr.value;
             }
             catch (err) {
