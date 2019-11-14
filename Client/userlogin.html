@@ -5,37 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
-    <title>Usercreate</title>
+    <title>To-do List</title>
 </head>
 
 <body>
     <div class="firstSideBox">
-        <h2 id="SignUphead"> Sign up here! </h2>
-        <input type="email" id="inpEmail" placeholder="E-mail">
+        <img id="logo" src="../Client/images/logo_3.png" width="300px" height="100px">
+        <br><br><br>
+        <input type="email" id="inpEmail" placeholder="E-mail"> <br>
         <input type="password" id="inpPasswrd" placeholder="Password">
+        <br>
+        <button id="btnLogin">Login</button>
+        <!--<h3 id="txtResult">Result...</h3>-->
         <br><br>
-        <button id="btnCreate">Create user</button>
-        <button id="btnBack">Back</button>
-        <h3 id="txtResult">Result...</h3>
+        <div id="SignupP">
+            <p>Not a member? <a href="usercreate.html">Sign up now!</a> here!</p>
+        </div>
     </div>
-    </body>
+</body>
     
     <script>
-        //Html ark for å lage bruker
-        //
+        //Html ark for å logge inn
+    
         let inpEmail = document.getElementById('inpEmail');
         let inpPasswrd = document.getElementById('inpPasswrd');
-        let btnCreate = document.getElementById('btnCreate');
+        let btnLogin = document.getElementById('btnLogin');
         let txtResult = document.getElementById('txtResult');
-        let btnBack = document.getElementById('btnBack');
+
+       
     
-        btnBack.addEventListener('click', async function(evt) {
-                window.location.href = "userlogin.html";
-            });
-        btnCreate.addEventListener('click', async function(evt) {
+        btnLogin.addEventListener('click', async function(evt) {
 
+            let url = "http://localhost:3000/auth";
 
-            let url = "http://localhost:3000/users";
+            console.log(url);
 
             let updata =  {
                 email: inpEmail.value,
@@ -48,16 +51,23 @@
                 body: JSON.stringify(updata)
             }
 
-            try {
+           try {
                 var resp = await fetch(url, cfg);
                 var data = await resp.json();
-                txtResult.innerHTML = data.msg;
+                console.log(data)
+                if(resp.status > 202) {
+                    throw(data);
+                };
+                //txtResult.innerHTML = data.email + " is logged in!";
+                sessionStorage.setItem("logindata", JSON.stringify(data));
+                window.location.href = "travelcreate.html";
             }
             catch (err) {
                 console.log(err);
             }
+       
+                
         });
-        
 
 </script>
 

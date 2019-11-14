@@ -4,16 +4,21 @@ const app = express(); //server-app
 const bcrypt = require('bcrypt'); //Hashtagger haha, passordet
 const pg = require('pg');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const secret = "jhgkjhkj";
 
 const dbURI = "postgres://mrculhchcipczd:fc7107e2a5205045f559d12c831331516f7418db9a359b8732f92c1087aa0c79@ec2-54-217-235-87.eu-west-1.compute.amazonaws.com:5432/d5ltmt8lskihj" + "?ssl=true";
 const connstring  = process.env.DATABASE_URL || dbURI;
 const pool = new pg.Pool({ connectionString: connstring });
 
+let logindats;
 
 // middleware ------------------------------------
 app.use(cors()); //allow all CORS requests
 app.use(express.json()); //for extracting json in the request-body
-app.use('/', express.static('client')); //for serving client files
+app.use('/', express.static('Client')); //for serving client files
+app.use('/travels', protectEndpoints);
+app.use('/expenses', protectEndpoints);
 
 
 
@@ -22,9 +27,10 @@ app.use('/', express.static('client')); //for serving client files
 // endpoint - travel GET ----------------------------
 app.get('/travel', async function (req, res) {
     
-    let sql = 'SELECT * FROM travel';
+    let sql = 'SELECT * FROM travel WHERE userid = §1';
+    let values = [logindata.userid];
     try {
-        let result = await pool.query(sql);
+        let result = await pool.query(sql, values);
         res.status(200).json(result.rows); //send response   
     }  
     catch(err) {
@@ -180,6 +186,61 @@ app.post('/users', async function (req, res) {
     }
 });
 
+
+// endpoint - auth (login) POST -------------------
+app.post('/auth', async function (req, res) {
+
+    let updata = req.body; //the data sent from the client
+
+    //get the user from the database
+    let sql = 'SELECT * FROM users WHERE email = $1';
+    let values = [updata.email];    
+
+    try {
+        let result = await pool.query(sql, values);        
+
+        if (result.rows.length == 0) {
+            res.status(400).json({msg: "User doesn´t exist"});
+        }
+        else {            
+
+            let check = bcrypt.compareSync(updata.passwrd, result.rows[0].pswhash);            
+
+            if (check == true) {
+                let payload = {userid: result.rows[0].id};
+                let tok = jwt.sign(payload, secret, {expiresIn: "12"}); //create token
+                res.status(200).json({email: result.rows[0].email, userid: result.rows[0].id, token: tok});
+            }
+            else {
+                res.status(400).json({msg: "Wrong password"});
+            }
+        }
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json({error:err}); //send error response
+    }
+});
+
+
+//function used for protectiong endpoints----------
+function protectEndpoints(req, res, next){
+    
+    let token = req.headers['authorization'];
+
+    if (token) {
+        try {
+            logindata = jwt.verify(token, secret);
+            next();
+        }
+        catch (err) {
+            res.status(403).json({msg: "Not a valig token"})
+        }
+    }
+    else {
+        res.status(403).json({ msg: "No token"});
+    }
+}
 
 // start server -----------------------------------
 var port = process.env.PORT || 3000;
