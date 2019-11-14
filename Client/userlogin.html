@@ -12,10 +12,10 @@
     <div class="firstSideBox">
         <img id="logo" src="../Client/images/logo_3.png" width="300px" height="100px">
         <br><br><br>
-        <input type="text" id="inpEmail" placeholder="E-mail"> <br>
-        <input type="text" id="inpPasswrd" placeholder="Password">
+        <input type="email" id="inpEmail" placeholder="E-mail"> <br>
+        <input type="password" id="inpPasswrd" placeholder="Password">
         <br>
-        <button class="btnLogin">Login</button>
+        <button id="btnLogin">Login</button>
         <!--<h3 id="txtResult">Result...</h3>-->
         <br><br>
         <div id="SignupP">
@@ -58,16 +58,15 @@
                 if(resp.status > 202) {
                     throw(data);
                 };
-                txtResult.innerHTML = data.email + " is logged in!";
+                //txtResult.innerHTML = data.email + " is logged in!";
                 sessionStorage.setItem("logindata", JSON.stringify(data));
+                window.location.href = "travellist";
             }
             catch (err) {
                 console.log(err);
             }
-
-            btnLogin.addEventListener("click", function(evt){
-                window.location.href = "travellist";
-            });
+       
+                
         });
 
 </script>
