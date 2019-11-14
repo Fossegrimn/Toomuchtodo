@@ -28,16 +28,15 @@
                 method: "GET",
                 headers: {"authorization": token}
             };
-            
+            console.log("this far");
             var resp = await fetch(url, cfg);
             var data = await resp.json();
-
+            
             if (resp.status > 202) {
                 throw(data);
             };
-
             container.innerHTML = ""; //delete previous content
-
+            
             for (let value of data){
                 let date = new Date(value.date).toDateString();
                 let html = `
@@ -48,6 +47,7 @@
                 `;
                 let div = document.createElement("div");
                 div.innerHTML = html;
+                containter.appendChild(div);
                 //Dette er det som vises til listene
 
                 //Lager en delete knapp som

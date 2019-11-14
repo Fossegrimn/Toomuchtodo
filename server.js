@@ -11,29 +11,31 @@ const dbURI = "postgres://mrculhchcipczd:fc7107e2a5205045f559d12c831331516f7418d
 const connstring  = process.env.DATABASE_URL || dbURI;
 const pool = new pg.Pool({ connectionString: connstring });
 
-let logindats;
+let token;
+let logindata;
 
 // middleware ------------------------------------
 app.use(cors()); //allow all CORS requests
 app.use(express.json()); //for extracting json in the request-body
 app.use('/', express.static('Client')); //for serving client files
-app.use('/travels', protectEndpoints);
+app.use('/travel', protectEndpoints);
 app.use('/expenses', protectEndpoints);
-
-
 
 // ----------------------TRAVEL----------------------
 
 // endpoint - travel GET ----------------------------
 app.get('/travel', async function (req, res) {
-    
-    let sql = 'SELECT * FROM travel WHERE userid = §1';
+    let logindata = req.query;
+
+    let sql = 'SELECT * FROM travel WHERE userid = $1';
     let values = [logindata.userid];
+    
     try {
         let result = await pool.query(sql, values);
         res.status(200).json(result.rows); //send response   
     }  
     catch(err) {
+        console.log(err);
         res.status(500).json({error: err});
     }
 });
@@ -208,7 +210,7 @@ app.post('/auth', async function (req, res) {
 
             if (check == true) {
                 let payload = {userid: result.rows[0].id};
-                let tok = jwt.sign(payload, secret, {expiresIn: "12"}); //create token
+                let tok = jwt.sign(payload, secret, {expiresIn: "12h"}); //create token
                 res.status(200).json({email: result.rows[0].email, userid: result.rows[0].id, token: tok});
             }
             else {
@@ -226,15 +228,22 @@ app.post('/auth', async function (req, res) {
 //function used for protectiong endpoints----------
 function protectEndpoints(req, res, next){
     
-    let token = req.headers['authorization'];
+    token = req.headers['authorization'];
+    //token = req.query.token;
+    console.log(token);
+    
 
     if (token) {
         try {
+            console.log(token);
+            
             logindata = jwt.verify(token, secret);
+            
             next();
         }
         catch (err) {
             res.status(403).json({msg: "Not a valig token"})
+
         }
     }
     else {
