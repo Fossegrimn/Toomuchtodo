@@ -9,15 +9,19 @@
 </head>
 
 <body>
-    
-        <h1>To Much too do</h1>
-        <input type="text" id="inpEmail" placeholder="E-mail">
+    <div class="firstSideBox">
+        <img id="logo" src="../Client/images/logo_3.png" width="300px" height="100px">
+        <br><br><br>
+        <input type="text" id="inpEmail" placeholder="E-mail"> <br>
         <input type="text" id="inpPasswrd" placeholder="Password">
+        <br>
+        <button class="btnLogin">Login</button>
+        <!--<h3 id="txtResult">Result...</h3>-->
         <br><br>
-        <button id="btnLogin">Login</button>
-        <h3 id="txtResult">Result...</h3>
-        <a href="usercreate.html"><button> Sign up </button></a>
-    
+        <div id="SignupP">
+            <p>Not a member? <a href="usercreate.html">Sign up now!</a> here!</p>
+        </div>
+    </div>
 </body>
     
     <script>
@@ -60,6 +64,10 @@
             catch (err) {
                 console.log(err);
             }
+
+            btnLogin.addEventListener("click", function(evt){
+                window.location.href = "travellist";
+            });
         });
 
 </script>

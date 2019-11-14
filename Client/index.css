@@ -1,21 +1,87 @@
 *{
-    font-family: sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     box-sizing: border-box;
 }
 
 body {
-    background-image: url("../Client/images/back.jpg");
+    background-image: url("../Client/images/back_2.jpg");
     text-align: center;
 }
 
-#firstSideBox {
-    background-color: ivory;
-    margin-left: 550px;
-    margin-right: 550px;
-    margin-top: 200px;
+.firstSideBox #logo {
+    margin-right: 30px;
+}
+.firstSideBox #SignupP {
+    font-size: x-small;
+}
+
+.firstSideBox {
+    background-color: rgb(252, 252, 252);
+    margin-left: 500px;
+    margin-right: 500px;
+    margin-top: 150px;
     height: 500px;
     padding-top: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-color: grey;
-
+    border-radius: 25px;
 }
+
+
+#inpEmail {
+    width: 70%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+  }
+
+#inpPasswrd {
+    width: 70%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+  }
+
+.btnLogin {
+        background-color: rgb(4, 43, 94);
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 5px;
+        width: 70%;
+}
+
+.btnCreate {
+        background-color: rgb(4, 43, 94);
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 5px;
+        width: 70%;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.btnLogin:hover {opacity: 1}

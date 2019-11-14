@@ -30,7 +30,7 @@ app.get('/travel', async function (req, res) {
     let sql = 'SELECT * FROM travel WHERE userid = §1';
     let values = [logindata.userid];
     try {
-        let result = await pool.query(sql);
+        let result = await pool.query(sql, values);
         res.status(200).json(result.rows); //send response   
     }  
     catch(err) {
