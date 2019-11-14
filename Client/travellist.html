@@ -15,23 +15,20 @@
 
 <script>
 //Html ark for å vis listene som er laget
-
     let url = "http://localhost:3000/travel";
-    let container = document.getElementById('container')
+    let container = document.getElementById('container');
 
     listTravels();
     // ---------------------------------------    
     async function listTravels() {
-
         try {
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;
-
             let cfg = {
                 method: "GET",
                 headers: {"authorization": token}
             };
-
+            
             var resp = await fetch(url, cfg);
             var data = await resp.json();
 
