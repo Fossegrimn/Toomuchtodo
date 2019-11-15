@@ -202,7 +202,7 @@ app.post('/users', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "Insert Good"}); //send respons
+            res.status(200).json({msg: "Congratulation"}); //send respons
         }
         else {
             throw "Insert failed";
