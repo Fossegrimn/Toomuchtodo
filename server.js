@@ -1,4 +1,4 @@
-//--------------------------- Version 1.3 ---------------------------------------
+//--------------------------- Version 1.4 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -114,6 +114,8 @@ app.delete('/lists', async function (req, res) {
         res.status(500).json ({error: err}); //send error respons
     }
 });
+
+//endpoint - lists UPDATE ---------------------------------
 
 //--------------------items-------------------------
 
