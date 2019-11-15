@@ -1,4 +1,4 @@
-//--------------------------- Version 1.3 ---------------------------------------
+//--------------------------- Version 1.4 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -115,6 +115,8 @@ app.delete('/lists', async function (req, res) {
     }
 });
 
+//endpoint - lists UPDATE ---------------------------------
+
 //--------------------items-------------------------
 
 // endpoint - items POST ---------------------------
@@ -202,7 +204,7 @@ app.post('/users', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "Insert Good"}); //send respons
+            res.status(200).json({msg: "Congratulation"}); //send respons
         }
         else {
             throw "Insert failed";

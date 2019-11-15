@@ -10,13 +10,15 @@
 
 <body>
     <div class="firstSideBox">
+        <img class="logo" src="/images/logo_3.png" width="300px" height="100px">
+        <br><br>
         <h2 id="SignUphead"> Sign up here! </h2>
         <input type="email" id="inpEmail" placeholder="E-mail">
         <input type="password" id="inpPasswrd" placeholder="Password">
-        <br><br>
+        <br>
         <button id="btnCreate">Create user</button>
-        <button id="btnBack">Back back back</button>
-        <h3 id="txtResult">Result...</h3>
+        <h3 id="txtResult"> </h3>
+        <p id="goToLogin">Go to <a href="userlogin.html">Login page</a> to use your new acount</p>
     </div>
     </body>
     
@@ -27,9 +29,9 @@
         let btnCreate = document.getElementById('btnCreate');
         let txtResult = document.getElementById('txtResult');
         let btnBack = document.getElementById('btnBack');
-        btnBack.addEventListener('click', async function(evt) {
+        /*btnBack.addEventListener('click', async function(evt) {
                 window.location.href = "index.html";
-            });
+            });*/
         btnCreate.addEventListener('click', async function(evt) {
 
 
