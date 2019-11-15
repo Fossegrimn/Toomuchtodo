@@ -4,27 +4,37 @@
 }
 
 body {
-    background-image: url("../Client/images/back_2.jpg");
+    background-image: url("images/back_2.jpg");
     text-align: center;
 }
 
-.firstSideBox #logo {
-    margin-right: 30px;
+.logo {
+    margin-right: 31px;
 }
 .firstSideBox #SignupP {
     font-size: x-small;
 }
 
+#SignUphead {
+    font-size: large;
+}
+
+#goToLogin {
+    font-size: x-small;
+}
+
 .firstSideBox {
     background-color: rgb(252, 252, 252);
-    margin-left: 500px;
-    margin-right: 500px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 150px;
     height: 500px;
     padding-top: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-color: grey;
     border-radius: 25px;
+    min-width: 350px;
+    max-width: 350px;
 }
 
 
