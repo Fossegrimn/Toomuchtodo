@@ -9,13 +9,12 @@
 
 <body>
 
-        <input type="text" id="inpDest" placeholder="Destination">
+        <input type="text" id="inpDest" placeholder="List Name">
         <input type="date" id="inpDate">
-        <input type="number" id="inpKm" placeholder="km">
         <input type="text" id="inpDescr" placeholder="Description">
         <br><br>
         <button id="btnCreate">Create travel</button>
-        <button id="btnToLists">To lists</button>
+        <button id="btnLogOut">Log out</button>
         <h3 id="txtResult">Result...</h3>
         <div id="container"></div>
 
@@ -27,11 +26,10 @@
         let container = document.getElementById('container');
         let inpDest = document.getElementById('inpDest');
         let inpDate = document.getElementById('inpDate');
-        let inpKm = document.getElementById('inpKm');
         let inpDescr = document.getElementById('inpDescr');
         let btnCreate = document.getElementById('btnCreate');
         let txtResult = document.getElementById('txtResult');
-        let btnToLists = document.getElementById('btnToLists');
+        let btnLogOut = document.getElementById('btnLogOut');
 
         listTravels();
         async function listTravels() {
@@ -53,33 +51,16 @@
             container.innerHTML = ""; //delete previous content
             
             for (let value of data){
-                console.log("hi");
                 let date = new Date(value.date).toDateString();
                 let html = `
-                    <h3>Travel to: ${value.destination}</h3>
-                    <p>${value.km} km - ${date}</p>
+                    <h3>${value.destination}</h3>
+                    <p>${date}</p>
                     <p>${value.description}</p>
                     <hr>
                 `;
                 let div = document.createElement("div");
                 div.innerHTML = html;
                 //Dette er det som vises til listene
-
-                //Lager en delete knapp som
-                let delBtn = document.createElement("button");
-                delBtn.innerHTML = "Delete";
-                delBtn.addEventListener('click', function (evt) {
-                    deleteTravel(value.id);
-                });
-            
-
-                //Lager en knapp for å adde til Items
-                let addExpsBtn = document.createElement("button");
-                addExpsBtn.innerHTML = "Add expenses";
-                addExpsBtn.addEventListener('click', function (evt) {
-                    sessionStorage.setItem("travelid", value.id);
-                    location.href = "expensecreate.html";
-                });
 
                 //Lager ern knapp for å kunne se listene
                 let lstExpsBtn = document.createElement("button");
@@ -89,9 +70,16 @@
                     location.href = "expenselist.html";
                 });
 
-                div.insertBefore(delBtn, div.lastElementChild);
-                div.insertBefore(addExpsBtn, div.lastElementChild);
+                //Lager en delete knapp som
+                let delBtn = document.createElement("button");
+                delBtn.innerHTML = "Delete";
+                delBtn.addEventListener('click', function (evt) {
+                    deleteTravel(value.id);
+                });
+
+                //div.insertBefore(addExpsBtn, div.lastElementChild);
                 div.insertBefore(lstExpsBtn, div.lastElementChild);
+                div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
         }
@@ -130,9 +118,11 @@
             console.log(err);
         }
     }
+        //Sends you back to login
+        btnLogOut.addEventListener('click', async function(evt) {
+            window.location.href = "userlogin.html";
+        });
 
-        /*btnToLists.addEventListener('click', async function(evt) {
-        });*/
         btnCreate.addEventListener('click', async function(evt) {
 
 
@@ -144,7 +134,6 @@
             let updata =  {
                 dest: inpDest.value,
                 date: inpDate.value,
-                km: inpKm.value,
                 descr: inpDescr.value,
                 userid: logindata.userid
             }
@@ -157,6 +146,7 @@
                 },
                 body: JSON.stringify(updata)
             }
+            window.location.href = "travelcreate.html";
             console.log(updata);
             try {
                 var resp = await fetch(url, cfg);
