@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>To-do List</title>
+</head>
+
+<body>
+    <div class="firstSideBox">
+        <img id="logo" src="/images/logo_3.png" width="300px" height="100px">
+        <br><br><br>
+        <input type="email" id="inpEmail" placeholder="E-mail"> <br>
+        <input type="password" id="inpPasswrd" placeholder="Password">
+        <br>
+        <button id="btnLogin">Login</button>
+        <!--<h3 id="txtResult">Result...</h3>-->
+        <br><br>
+        <div id="SignupP">
+            <p>Not a member? <a href="usercreate.html">Sign up now!</a> here!</p>
+        </div>
+    </div>
+</body>
+    
+    <script>
+        //Html ark for å logge inn
+    
+        let inpEmail = document.getElementById('inpEmail');
+        let inpPasswrd = document.getElementById('inpPasswrd');
+        let btnLogin = document.getElementById('btnLogin');
+        let txtResult = document.getElementById('txtResult');
+
+       
+    
+        btnLogin.addEventListener('click', async function(evt) {
+
+            let url = "http://localhost:3000/auth";
+
+            console.log(url);
+
+            let updata =  {
+                email: inpEmail.value,
+                passwrd: inpPasswrd.value
+            }
+            
+            let cfg = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(updata)
+            }
+
+           try {
+                var resp = await fetch(url, cfg);
+                var data = await resp.json();
+                console.log(data)
+                if(resp.status > 202) {
+                    throw(data);
+                };
+
+                console.log(data);
+                //txtResult.innerHTML = data.email + " is logged in!";
+                sessionStorage.setItem("logindata", JSON.stringify(data));
+                window.location.href = "travelcreate.html";
+            }
+            catch (err) {
+                console.log(err);
+            }
+       
+                
+        });
+
+</script>
+
+</html>
