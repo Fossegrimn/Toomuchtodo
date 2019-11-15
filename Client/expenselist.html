@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenselist</title>
+</head>
+
+<body>
+
+    <input type="text" id="inpDescr" placeholder="Description">
+    <br><br>
+    <button id="btnCreate">Create expense</button>
+    <button id="btnBack">Back to create list</button>
+    <h3 id="txtResult">Result...</h3>
+    <div id="container"></div>
+
+</body>
+
+<script>
+//Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
+    let url = "http://localhost:3000/expenses";
+    let container = document.getElementById('container');
+    let txtTravel = document.getElementById('txtTravel');
+    let btnBack = document.getElementById('btnBack');
+    let trvID = sessionStorage.getItem("travelid");
+    let inpDescr = document.getElementById('inpDescr');
+    let btnCreate = document.getElementById('btnCreate');
+    let txtResult = document.getElementById('txtResult');
+
+        btnCreate.addEventListener('click', async function(evt) {
+
+            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+            let token = logindata.token;
+
+            let updata =  {
+                descr: inpDescr.value,
+                travelid: trvID
+            }
+            
+            let cfg = {
+                method: "POST",
+                headers: {
+                    "authorization": token,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updata)
+            }
+            window.location.href = "expenselist.html";
+
+            try {
+                var resp = await fetch(url, cfg);
+                var data = await resp.json();
+
+                if (resp.status > 202) {
+                    throw(data);
+                };
+
+                txtResult.innerHTML = data.msg + " for " + inpDescr.value;
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+
+btnBack.addEventListener('click', async function(evt) {
+    window.location.href = "travelcreate.html";
+});
+
+    listExpenses();
+    // ---------------------------------------    
+    async function listExpenses() {
+
+        try {
+
+            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+            let token = logindata.token;
+
+            let cfg = {
+                method: "GET",
+                headers: {"authorization": token}
+            };
+
+            var resp = await fetch(url + "?travelid=" + trvID, cfg);
+            var data = await resp.json();
+
+            if (resp.status > 202) {
+                throw(data);
+            };
+
+            container.innerHTML = ""; //delete previous content
+
+            for (let value of data) {
+                let html = `
+                    <h3>${value.description}</h3>
+                    <hr>
+                `;
+                let div = document.createElement("div");
+                div.innerHTML = html;
+
+                let delBtn = document.createElement("button");
+                delBtn.innerHTML = "Delete";
+                delBtn.addEventListener('click', function (evt) {
+                    deleteExpense(value.id);
+                });
+                div.insertBefore(delBtn, div.lastElementChild);
+                container.appendChild(div);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    
+    //---------------------
+    async function deleteExpense(id) {
+
+        let updata = { expenseID: id };
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
+        let cfg = {
+            method: "DELETE",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }
+
+        try {
+            let resp = await fetch(url, cfg);
+
+            if (resp.status > 202) {
+                throw(data);
+            };
+
+            listExpenses();
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+</script>
+
+</html>
