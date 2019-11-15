@@ -17,19 +17,44 @@ let logindata;
 // middleware ------------------------------------
 app.use(cors()); //allow all CORS requests
 app.use(express.json()); //for extracting json in the request-body
-app.use('/', express.static('Client')); //for serving client files
+app.use('/', express.static('client')); //for serving client files
 app.use('/travel', protectEndpoints);
 app.use('/expenses', protectEndpoints);
+
+function protectEndpoints(req, res, next){
+    
+    token = req.headers['authorization'];
+    //token = req.query.token;
+    
+
+    if (token) {
+        try {
+            
+            logindata = jwt.verify(token, secret);
+            
+            next();
+        }
+        catch (err) {
+            res.status(403).json({msg: "Not a valig token"})
+
+        }
+    }
+    else {
+        res.status(403).json({ msg: "No token"});
+    }
+}
 
 // ----------------------TRAVEL----------------------
 
 // endpoint - travel GET ----------------------------
 app.get('/travel', async function (req, res) {
-    let logindata = req.query;
+    
 
     let sql = 'SELECT * FROM travel WHERE userid = $1';
-    let values = [logindata.userid];
+
     
+    let values = [logindata.userid];
+    console.log(logindata);
     try {
         let result = await pool.query(sql, values);
         res.status(200).json(result.rows); //send response   
@@ -226,30 +251,7 @@ app.post('/auth', async function (req, res) {
 
 
 //function used for protectiong endpoints----------
-function protectEndpoints(req, res, next){
-    
-    token = req.headers['authorization'];
-    //token = req.query.token;
-    console.log(token);
-    
 
-    if (token) {
-        try {
-            console.log(token);
-            
-            logindata = jwt.verify(token, secret);
-            
-            next();
-        }
-        catch (err) {
-            res.status(403).json({msg: "Not a valig token"})
-
-        }
-    }
-    else {
-        res.status(403).json({ msg: "No token"});
-    }
-}
 
 // start server -----------------------------------
 var port = process.env.PORT || 3000;

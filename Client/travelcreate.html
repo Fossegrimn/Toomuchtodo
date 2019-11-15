@@ -42,17 +42,18 @@
                 method: "GET",
                 headers: {"authorization": token}
             };
-            console.log("this far");
             
             var resp = await fetch(url, cfg);
             var data = await resp.json();
-
-            console.log("this far");
+            
             if (resp.status > 202) {
                 throw(data);
             };
+            console.log(data);
             container.innerHTML = ""; //delete previous content
+            
             for (let value of data){
+                console.log("hi");
                 let date = new Date(value.date).toDateString();
                 let html = `
                     <h3>Travel to: ${value.destination}</h3>
@@ -62,7 +63,6 @@
                 `;
                 let div = document.createElement("div");
                 div.innerHTML = html;
-                containter.appendChild(div);
                 //Dette er det som vises til listene
 
                 //Lager en delete knapp som
@@ -157,11 +157,10 @@
                 },
                 body: JSON.stringify(updata)
             }
-
+            console.log(updata);
             try {
                 var resp = await fetch(url, cfg);
                 var data = await resp.json();
-
                 if (resp.status > 202) {
                     throw(data) 
                 };
