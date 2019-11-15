@@ -12,7 +12,7 @@
     <input type="text" id="inpDescr" placeholder="Description">
     <br><br>
     <button id="btnCreate">Create item</button>
-    <button id="btnBack">Back to create list</button>
+    <button id="btnBack">Back to lists</button>
     <h3 id="txtResult">Result...</h3>
     <div id="container"></div>
 
@@ -93,7 +93,7 @@ btnBack.addEventListener('click', async function(evt) {
 
             for (let value of data) {
                 let html = `
-                    <h3>${value.description}</h3>
+                    <h3><input type="checkbox" id="checkedItems">&nbsp;${value.description}</h3>
                     <hr>
                 `;
                 let div = document.createElement("div");

@@ -13,7 +13,7 @@
         <input type="date" id="inpDate">
         <input type="text" id="inpDescr" placeholder="Description">
         <br><br>
-        <button id="btnCreate">Create travel</button>
+        <button id="btnCreate">Create list</button>
         <button id="btnLogOut">Log out</button>
         <h3 id="txtResult">Result...</h3>
         <div id="container"></div>
@@ -64,6 +64,13 @@
                 div.innerHTML = html;
                 //Dette er det som vises til listene
 
+                //Lager ern knapp for å kunne oppdatere listene
+                let updateBtn = document.createElement("button");
+                updateBtn.innerHTML = "Update List";
+                updateBtn.addEventListener('click', function (evt) {
+                    `<input type="text" id="inpName" placeholder="List Name">`
+                });
+
                 //Lager ern knapp for å kunne se listene
                 let lstEntBtn = document.createElement("button");
                 lstEntBtn.innerHTML = "Enter List";
@@ -76,11 +83,11 @@
                 let delBtn = document.createElement("button");
                 delBtn.innerHTML = "Delete";
                 delBtn.addEventListener('click', function (evt) {
-                    deleteTravel(value.id);
+                    deleteList(value.id);
                 });
 
-                //div.insertBefore(addExpsBtn, div.lastElementChild);
                 div.insertBefore(lstEntBtn, div.lastElementChild);
+                div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
@@ -91,7 +98,7 @@
     }
     
     //---------------------
-    async function deleteTravel(id) {
+    async function deleteList(id) {
 
         let updata = {listsid: id};
 

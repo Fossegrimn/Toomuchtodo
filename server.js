@@ -115,6 +115,8 @@ app.delete('/lists', async function (req, res) {
     }
 });
 
+//endpoint - lists UPDATE ---------------------------------
+
 //--------------------items-------------------------
 
 // endpoint - items POST ---------------------------
