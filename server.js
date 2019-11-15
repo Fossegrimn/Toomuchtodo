@@ -1,11 +1,10 @@
-//--------------------------- Version 1.1 ---------------------------------------
+//--------------------------- Version 1.2 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
 const app = express(); //server-app
 const bcrypt = require('bcrypt'); //Hashtagger haha, passordet
 const pg = require('pg');
-const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const secret = "jhgkjhkj";
 
@@ -21,7 +20,7 @@ app.use(cors()); //allow all CORS requests
 app.use(express.json()); //for extracting json in the request-body
 app.use('/', express.static('client')); //for serving client files
 app.use('/lists', protectEndpoints);
-app.use('/expenses', protectEndpoints);
+app.use('/items', protectEndpoints);
 
 function protectEndpoints(req, res, next){
     
@@ -72,8 +71,8 @@ app.post('/lists', async function (req, res) {
    
     let updata = req.body; //the data sent from the client
     
-    let sql = "INSERT INTO lists (id, destination, date, description, userid) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *";
-    let values = [updata.dest, updata.date, updata.descr, updata.userid];
+    let sql = "INSERT INTO lists (id, name, date, description, userid) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *";
+    let values = [updata.name, updata.date, updata.descr, updata.userid];
 
 
     try {
@@ -99,7 +98,7 @@ app.delete('/lists', async function (req, res) {
     let updata = req.body; //the data sent from the client
 
     let sql = 'DELETE FROM lists WHERE id = $1 RETURNING *';
-    let values = [updata.travelID];
+    let values = [updata.listsid];
 
     try {
         let result = await pool.query(sql, values);
@@ -116,14 +115,14 @@ app.delete('/lists', async function (req, res) {
     }
 });
 
-//--------------------EXPENSE-------------------------
+//--------------------items-------------------------
 
-// endpoint - expense POST ---------------------------
-app.post('/expenses', async function (req, res) {
+// endpoint - items POST ---------------------------
+app.post('/items', async function (req, res) {
     let updata = req.body; //the data sent from the clinet
 
-    let sql = 'INSERT INTO expenses (id, description, travelid) VALUES(DEFAULT, $1, $2) RETURNING *';
-    let values = [updata.descr, updata.travelid];
+    let sql = 'INSERT INTO items (id, description, listsid) VALUES(DEFAULT, $1, $2) RETURNING *';
+    let values = [updata.descr, updata.listsid];
 
     try {
         let result = await pool.query(sql, values);
@@ -140,13 +139,13 @@ app.post('/expenses', async function (req, res) {
     }
 });
 
-// endpoint - expenses GET ----------------------------
-app.get('/expenses', async function (req, res) {
+// endpoint - items GET ----------------------------
+app.get('/items', async function (req, res) {
 
-    let travelid = req.query.travelid; // the data sent from the client
+    let listsid = req.query.listsid; // the data sent from the client
     
-    let sql = 'SELECT * FROM expenses WHERE travelid= $1';
-    let values = [travelid];
+    let sql = 'SELECT * FROM items WHERE listsid= $1';
+    let values = [listsid];
 
     try {
         let result = await pool.query(sql, values);
@@ -157,12 +156,12 @@ app.get('/expenses', async function (req, res) {
     }
 });
 
-//endpoint - expenses DELETE ---------------------------
-app.delete('/expenses', async function (req, res) {
+//endpoint - items DELETE ---------------------------
+app.delete('/items', async function (req, res) {
     
     let updata = req.body; //the data sent from the client 
 
-    let sql = 'DELETE FROM expenses WHERE id = $1 RETURNING *';
+    let sql = 'DELETE FROM items WHERE id = $1 RETURNING *';
     let values = [updata.expenseID];
 
     try {

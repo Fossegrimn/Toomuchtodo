@@ -9,7 +9,7 @@
 
 <body>
 
-        <input type="text" id="inpDest" placeholder="List Name">
+        <input type="text" id="inpName" placeholder="List Name">
         <input type="date" id="inpDate">
         <input type="text" id="inpDescr" placeholder="Description">
         <br><br>
@@ -24,15 +24,17 @@
     //Html ark for en side hvor du kan adde reiser, trenger en knapp for å komme til denne siden
         let url = "http://localhost:3000/lists";
         let container = document.getElementById('container');
-        let inpDest = document.getElementById('inpDest');
+
+        let inpName = document.getElementById('inpName');
         let inpDate = document.getElementById('inpDate');
         let inpDescr = document.getElementById('inpDescr');
-        let btnCreate = document.getElementById('btnCreate');
-        let txtResult = document.getElementById('txtResult');
-        let btnLogOut = document.getElementById('btnLogOut');
 
-        listTravels();
-        async function listTravels() {
+        let btnCreate = document.getElementById('btnCreate');
+        let btnLogOut = document.getElementById('btnLogOut');
+        let txtResult = document.getElementById('txtResult');
+
+        listLists();
+        async function listLists() {
         try {
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;
@@ -53,7 +55,7 @@
             for (let value of data){
                 let date = new Date(value.date).toDateString();
                 let html = `
-                    <h3>${value.destination}</h3>
+                    <h3>${value.name}</h3>
                     <p>${date}</p>
                     <p>${value.description}</p>
                     <hr>
@@ -63,11 +65,11 @@
                 //Dette er det som vises til listene
 
                 //Lager ern knapp for å kunne se listene
-                let lstExpsBtn = document.createElement("button");
-                lstExpsBtn.innerHTML = "List expense";
-                lstExpsBtn.addEventListener('click', function (evt) {
-                    sessionStorage.setItem("travelid", value.id);
-                    location.href = "expenselist.html";
+                let lstEntBtn = document.createElement("button");
+                lstEntBtn.innerHTML = "Enter List";
+                lstEntBtn.addEventListener('click', function (evt) {
+                sessionStorage.setItem("listsid", value.id);
+                location.href = "enterlists.html";
                 });
 
                 //Lager en delete knapp som
@@ -78,7 +80,7 @@
                 });
 
                 //div.insertBefore(addExpsBtn, div.lastElementChild);
-                div.insertBefore(lstExpsBtn, div.lastElementChild);
+                div.insertBefore(lstEntBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
@@ -91,7 +93,7 @@
     //---------------------
     async function deleteTravel(id) {
 
-        let updata = {travelID: id};
+        let updata = {listsid: id};
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
@@ -112,7 +114,7 @@
                 throw(data)
             };
 
-            listTravels();
+            listLists();
         }
         catch (err) {
             console.log(err);
@@ -125,14 +127,13 @@
 
         btnCreate.addEventListener('click', async function(evt) {
 
-
             let url = "http://localhost:3000/lists";
 
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;
 
             let updata =  {
-                dest: inpDest.value,
+                name: inpName.value,
                 date: inpDate.value,
                 descr: inpDescr.value,
                 userid: logindata.userid
@@ -146,7 +147,7 @@
                 },
                 body: JSON.stringify(updata)
             }
-            window.location.href = "travelcreate.html";
+            window.location.href = "createlists.html";
             console.log(updata);
             try {
                 var resp = await fetch(url, cfg);

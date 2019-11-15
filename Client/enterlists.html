@@ -11,7 +11,7 @@
 
     <input type="text" id="inpDescr" placeholder="Description">
     <br><br>
-    <button id="btnCreate">Create expense</button>
+    <button id="btnCreate">Create item</button>
     <button id="btnBack">Back to create list</button>
     <h3 id="txtResult">Result...</h3>
     <div id="container"></div>
@@ -20,14 +20,14 @@
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
-    let url = "http://localhost:3000/expenses";
+    let url = "http://localhost:3000/items";
     let container = document.getElementById('container');
-    let txtTravel = document.getElementById('txtTravel');
-    let btnBack = document.getElementById('btnBack');
-    let trvID = sessionStorage.getItem("travelid");
+
     let inpDescr = document.getElementById('inpDescr');
+    let btnBack = document.getElementById('btnBack');
     let btnCreate = document.getElementById('btnCreate');
     let txtResult = document.getElementById('txtResult');
+    let listsid = sessionStorage.getItem("listsid");
 
         btnCreate.addEventListener('click', async function(evt) {
 
@@ -36,7 +36,7 @@
 
             let updata =  {
                 descr: inpDescr.value,
-                travelid: trvID
+                listsid: listsid
             }
             
             let cfg = {
@@ -47,7 +47,7 @@
                 },
                 body: JSON.stringify(updata)
             }
-            window.location.href = "expenselist.html";
+            window.location.href = "enterlists.html";
 
             try {
                 var resp = await fetch(url, cfg);
@@ -65,12 +65,12 @@
         });
 
 btnBack.addEventListener('click', async function(evt) {
-    window.location.href = "travelcreate.html";
+    window.location.href = "createlists.html";
 });
 
-    listExpenses();
+    listItems();
     // ---------------------------------------    
-    async function listExpenses() {
+    async function listItems() {
 
         try {
 
@@ -82,7 +82,7 @@ btnBack.addEventListener('click', async function(evt) {
                 headers: {"authorization": token}
             };
 
-            var resp = await fetch(url + "?travelid=" + trvID, cfg);
+            var resp = await fetch(url + "?listsid=" + listsid, cfg);
             var data = await resp.json();
 
             if (resp.status > 202) {
@@ -102,7 +102,7 @@ btnBack.addEventListener('click', async function(evt) {
                 let delBtn = document.createElement("button");
                 delBtn.innerHTML = "Delete";
                 delBtn.addEventListener('click', function (evt) {
-                    deleteExpense(value.id);
+                    deleteItems(value.id);
                 });
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
@@ -114,7 +114,7 @@ btnBack.addEventListener('click', async function(evt) {
     }
     
     //---------------------
-    async function deleteExpense(id) {
+    async function deleteItems(id) {
 
         let updata = { expenseID: id };
 
@@ -137,7 +137,7 @@ btnBack.addEventListener('click', async function(evt) {
                 throw(data);
             };
 
-            listExpenses();
+            listItems();
         }
         catch (err) {
             console.log(err);
