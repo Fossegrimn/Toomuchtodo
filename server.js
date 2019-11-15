@@ -49,12 +49,12 @@ function protectEndpoints(req, res, next){
 // endpoint - travel GET ----------------------------
 app.get('/travel', async function (req, res) {
     
-
     let sql = 'SELECT * FROM travel WHERE userid = $1';
 
-    
     let values = [logindata.userid];
+
     console.log(logindata);
+
     try {
         let result = await pool.query(sql, values);
         res.status(200).json(result.rows); //send response   
@@ -70,8 +70,8 @@ app.post('/travel', async function (req, res) {
    
     let updata = req.body; //the data sent from the client
     
-    let sql = "INSERT INTO travel (id, destination, date, km, description, userid) VALUES(DEFAULT, $1, $2, $3, $4, $5) RETURNING *";
-    let values = [updata.dest, updata.date, updata.km, updata.descr, updata.userid];
+    let sql = "INSERT INTO travel (id, destination, date, description, userid) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *";
+    let values = [updata.dest, updata.date, updata.descr, updata.userid];
 
 
     try {
@@ -120,8 +120,8 @@ app.delete('/travel', async function (req, res) {
 app.post('/expenses', async function (req, res) {
     let updata = req.body; //the data sent from the clinet
 
-    let sql = 'INSERT INTO expenses (id, description, amount, travelid) VALUES(DEFAULT, $1, $2, $3) RETURNING *';
-    let values = [updata.descr, updata.amount, updata.travelid];
+    let sql = 'INSERT INTO expenses (id, description, travelid) VALUES(DEFAULT, $1, $2) RETURNING *';
+    let values = [updata.descr, updata.travelid];
 
     try {
         let result = await pool.query(sql, values);

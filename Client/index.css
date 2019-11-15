@@ -4,12 +4,12 @@
 }
 
 body {
-    background-image: url("../Client/images/back_2.jpg");
+    background-image: url("images/back_2.jpg");
     text-align: center;
 }
 
 .firstSideBox #logo {
-    margin-right: 30px;
+    margin-right: 31px;
 }
 .firstSideBox #SignupP {
     font-size: x-small;
