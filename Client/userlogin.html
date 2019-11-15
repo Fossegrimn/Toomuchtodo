@@ -58,6 +58,8 @@
                 if(resp.status > 202) {
                     throw(data);
                 };
+
+                console.log(data);
                 //txtResult.innerHTML = data.email + " is logged in!";
                 sessionStorage.setItem("logindata", JSON.stringify(data));
                 window.location.href = "travelcreate.html";
