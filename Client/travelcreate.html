@@ -22,7 +22,7 @@
     
     <script>
     //Html ark for en side hvor du kan adde reiser, trenger en knapp for å komme til denne siden
-        let url = "http://localhost:3000/travel";
+        let url = "http://localhost:3000/lists";
         let container = document.getElementById('container');
         let inpDest = document.getElementById('inpDest');
         let inpDate = document.getElementById('inpDate');
@@ -126,7 +126,7 @@
         btnCreate.addEventListener('click', async function(evt) {
 
 
-            let url = "http://localhost:3000/travel";
+            let url = "http://localhost:3000/lists";
 
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;

@@ -1,3 +1,5 @@
+//--------------------------- Version 1.1 ---------------------------------------
+
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
 const app = express(); //server-app
@@ -18,7 +20,7 @@ let logindata;
 app.use(cors()); //allow all CORS requests
 app.use(express.json()); //for extracting json in the request-body
 app.use('/', express.static('client')); //for serving client files
-app.use('/travel', protectEndpoints);
+app.use('/lists', protectEndpoints);
 app.use('/expenses', protectEndpoints);
 
 function protectEndpoints(req, res, next){
@@ -44,12 +46,12 @@ function protectEndpoints(req, res, next){
     }
 }
 
-// ----------------------TRAVEL----------------------
+// ----------------------lists----------------------
 
-// endpoint - travel GET ----------------------------
-app.get('/travel', async function (req, res) {
+// endpoint - lists GET ----------------------------
+app.get('/lists', async function (req, res) {
     
-    let sql = 'SELECT * FROM travel WHERE userid = $1';
+    let sql = 'SELECT * FROM lists WHERE userid = $1';
 
     let values = [logindata.userid];
 
@@ -65,12 +67,12 @@ app.get('/travel', async function (req, res) {
     }
 });
 
-// endpoint - travel POST ---------------------------
-app.post('/travel', async function (req, res) {
+// endpoint - lists POST ---------------------------
+app.post('/lists', async function (req, res) {
    
     let updata = req.body; //the data sent from the client
     
-    let sql = "INSERT INTO travel (id, destination, date, description, userid) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *";
+    let sql = "INSERT INTO lists (id, destination, date, description, userid) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *";
     let values = [updata.dest, updata.date, updata.descr, updata.userid];
 
 
@@ -91,12 +93,12 @@ app.post('/travel', async function (req, res) {
    
 });
 
-//endpint - travels DELETE ---------------------------
-app.delete('/travel', async function (req, res) {
+//endpint - lists DELETE ---------------------------
+app.delete('/lists', async function (req, res) {
     
     let updata = req.body; //the data sent from the client
 
-    let sql = 'DELETE FROM travel WHERE id = $1 RETURNING *';
+    let sql = 'DELETE FROM lists WHERE id = $1 RETURNING *';
     let values = [updata.travelID];
 
     try {
