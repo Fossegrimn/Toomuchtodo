@@ -1,9 +1,10 @@
+//--------------------------- Version 1.2 ---------------------------------------
+
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
 const app = express(); //server-app
 const bcrypt = require('bcrypt'); //Hashtagger haha, passordet
 const pg = require('pg');
-const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const secret = "jhgkjhkj";
 
@@ -11,40 +12,67 @@ const dbURI = "postgres://mrculhchcipczd:fc7107e2a5205045f559d12c831331516f7418d
 const connstring  = process.env.DATABASE_URL || dbURI;
 const pool = new pg.Pool({ connectionString: connstring });
 
-let logindats;
+let token;
+let logindata;
 
 // middleware ------------------------------------
 app.use(cors()); //allow all CORS requests
 app.use(express.json()); //for extracting json in the request-body
-app.use('/', express.static('Client')); //for serving client files
-app.use('/travels', protectEndpoints);
-app.use('/expenses', protectEndpoints);
+app.use('/', express.static('client')); //for serving client files
+app.use('/lists', protectEndpoints);
+app.use('/items', protectEndpoints);
 
-
-
-// ----------------------TRAVEL----------------------
-
-// endpoint - travel GET ----------------------------
-app.get('/travel', async function (req, res) {
+function protectEndpoints(req, res, next){
     
-    let sql = 'SELECT * FROM travel WHERE userid = §1';
+    token = req.headers['authorization'];
+    //token = req.query.token;
+    
+
+    if (token) {
+        try {
+            
+            logindata = jwt.verify(token, secret);
+            
+            next();
+        }
+        catch (err) {
+            res.status(403).json({msg: "Not a valig token"})
+
+        }
+    }
+    else {
+        res.status(403).json({ msg: "No token"});
+    }
+}
+
+// ----------------------lists----------------------
+
+// endpoint - lists GET ----------------------------
+app.get('/lists', async function (req, res) {
+    
+    let sql = 'SELECT * FROM lists WHERE userid = $1';
+
     let values = [logindata.userid];
+
+    console.log(logindata);
+
     try {
         let result = await pool.query(sql, values);
         res.status(200).json(result.rows); //send response   
     }  
     catch(err) {
+        console.log(err);
         res.status(500).json({error: err});
     }
 });
 
-// endpoint - travel POST ---------------------------
-app.post('/travel', async function (req, res) {
+// endpoint - lists POST ---------------------------
+app.post('/lists', async function (req, res) {
    
     let updata = req.body; //the data sent from the client
     
-    let sql = "INSERT INTO travel (id, destination, date, km, description, userid) VALUES(DEFAULT, $1, $2, $3, $4, $5) RETURNING *";
-    let values = [updata.dest, updata.date, updata.km, updata.descr, updata.userid];
+    let sql = "INSERT INTO lists (id, name, date, description, userid) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *";
+    let values = [updata.name, updata.date, updata.descr, updata.userid];
 
 
     try {
@@ -64,13 +92,13 @@ app.post('/travel', async function (req, res) {
    
 });
 
-//endpint - travels DELETE ---------------------------
-app.delete('/travel', async function (req, res) {
+//endpint - lists DELETE ---------------------------
+app.delete('/lists', async function (req, res) {
     
     let updata = req.body; //the data sent from the client
 
-    let sql = 'DELETE FROM travel WHERE id = $1 RETURNING *';
-    let values = [updata.travelID];
+    let sql = 'DELETE FROM lists WHERE id = $1 RETURNING *';
+    let values = [updata.listsid];
 
     try {
         let result = await pool.query(sql, values);
@@ -87,14 +115,14 @@ app.delete('/travel', async function (req, res) {
     }
 });
 
-//--------------------EXPENSE-------------------------
+//--------------------items-------------------------
 
-// endpoint - expense POST ---------------------------
-app.post('/expenses', async function (req, res) {
+// endpoint - items POST ---------------------------
+app.post('/items', async function (req, res) {
     let updata = req.body; //the data sent from the clinet
 
-    let sql = 'INSERT INTO expenses (id, description, amount, travelid) VALUES(DEFAULT, $1, $2, $3) RETURNING *';
-    let values = [updata.descr, updata.amount, updata.travelid];
+    let sql = 'INSERT INTO items (id, description, listsid) VALUES(DEFAULT, $1, $2) RETURNING *';
+    let values = [updata.descr, updata.listsid];
 
     try {
         let result = await pool.query(sql, values);
@@ -111,13 +139,13 @@ app.post('/expenses', async function (req, res) {
     }
 });
 
-// endpoint - expenses GET ----------------------------
-app.get('/expenses', async function (req, res) {
+// endpoint - items GET ----------------------------
+app.get('/items', async function (req, res) {
 
-    let travelid = req.query.travelid; // the data sent from the client
+    let listsid = req.query.listsid; // the data sent from the client
     
-    let sql = 'SELECT * FROM expenses WHERE travelid= $1';
-    let values = [travelid];
+    let sql = 'SELECT * FROM items WHERE listsid= $1';
+    let values = [listsid];
 
     try {
         let result = await pool.query(sql, values);
@@ -128,12 +156,12 @@ app.get('/expenses', async function (req, res) {
     }
 });
 
-//endpoint - expenses DELETE ---------------------------
-app.delete('/expenses', async function (req, res) {
+//endpoint - items DELETE ---------------------------
+app.delete('/items', async function (req, res) {
     
     let updata = req.body; //the data sent from the client 
 
-    let sql = 'DELETE FROM expenses WHERE id = $1 RETURNING *';
+    let sql = 'DELETE FROM items WHERE id = $1 RETURNING *';
     let values = [updata.expenseID];
 
     try {
@@ -208,7 +236,7 @@ app.post('/auth', async function (req, res) {
 
             if (check == true) {
                 let payload = {userid: result.rows[0].id};
-                let tok = jwt.sign(payload, secret, {expiresIn: "12"}); //create token
+                let tok = jwt.sign(payload, secret, {expiresIn: "12h"}); //create token
                 res.status(200).json({email: result.rows[0].email, userid: result.rows[0].id, token: tok});
             }
             else {
@@ -224,23 +252,7 @@ app.post('/auth', async function (req, res) {
 
 
 //function used for protectiong endpoints----------
-function protectEndpoints(req, res, next){
-    
-    let token = req.headers['authorization'];
 
-    if (token) {
-        try {
-            logindata = jwt.verify(token, secret);
-            next();
-        }
-        catch (err) {
-            res.status(403).json({msg: "Not a valig token"})
-        }
-    }
-    else {
-        res.status(403).json({ msg: "No token"});
-    }
-}
 
 // start server -----------------------------------
 var port = process.env.PORT || 3000;

@@ -9,21 +9,68 @@
 
 <body>
 
+    <input type="text" id="inpDescr" placeholder="Description">
+    <br><br>
+    <button id="btnCreate">Create item</button>
+    <button id="btnBack">Back to create list</button>
+    <h3 id="txtResult">Result...</h3>
     <div id="container"></div>
 
 </body>
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
-    let url = "http://localhost:3000/expenses";
+    let url = "http://localhost:3000/items";
     let container = document.getElementById('container');
-    let txtTravel = document.getElementById('txtTravel');
 
-    let trvID = sessionStorage.getItem("travelid");
+    let inpDescr = document.getElementById('inpDescr');
+    let btnBack = document.getElementById('btnBack');
+    let btnCreate = document.getElementById('btnCreate');
+    let txtResult = document.getElementById('txtResult');
+    let listsid = sessionStorage.getItem("listsid");
 
-    listExpenses();
+        btnCreate.addEventListener('click', async function(evt) {
+
+            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+            let token = logindata.token;
+
+            let updata =  {
+                descr: inpDescr.value,
+                listsid: listsid
+            }
+            
+            let cfg = {
+                method: "POST",
+                headers: {
+                    "authorization": token,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updata)
+            }
+            window.location.href = "enterlists.html";
+
+            try {
+                var resp = await fetch(url, cfg);
+                var data = await resp.json();
+
+                if (resp.status > 202) {
+                    throw(data);
+                };
+
+                txtResult.innerHTML = data.msg + " for " + inpDescr.value;
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+
+btnBack.addEventListener('click', async function(evt) {
+    window.location.href = "createlists.html";
+});
+
+    listItems();
     // ---------------------------------------    
-    async function listExpenses() {
+    async function listItems() {
 
         try {
 
@@ -35,7 +82,7 @@
                 headers: {"authorization": token}
             };
 
-            var resp = await fetch(url + "?travelid=" + trvID, cfg);
+            var resp = await fetch(url + "?listsid=" + listsid, cfg);
             var data = await resp.json();
 
             if (resp.status > 202) {
@@ -46,8 +93,7 @@
 
             for (let value of data) {
                 let html = `
-                    <h3>Travel to: ${value.description}</h3>
-                    <p>kr ${value.amount},-</p>
+                    <h3>${value.description}</h3>
                     <hr>
                 `;
                 let div = document.createElement("div");
@@ -56,7 +102,7 @@
                 let delBtn = document.createElement("button");
                 delBtn.innerHTML = "Delete";
                 delBtn.addEventListener('click', function (evt) {
-                    deleteExpense(value.id);
+                    deleteItems(value.id);
                 });
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
@@ -68,7 +114,7 @@
     }
     
     //---------------------
-    async function deleteExpense(id) {
+    async function deleteItems(id) {
 
         let updata = { expenseID: id };
 
@@ -91,7 +137,7 @@
                 throw(data);
             };
 
-            listExpenses();
+            listItems();
         }
         catch (err) {
             console.log(err);

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travelcreate</title>
+</head>
+
+<body>
+
+        <input type="text" id="inpName" placeholder="List Name">
+        <input type="date" id="inpDate">
+        <input type="text" id="inpDescr" placeholder="Description">
+        <br><br>
+        <button id="btnCreate">Create travel</button>
+        <button id="btnLogOut">Log out</button>
+        <h3 id="txtResult">Result...</h3>
+        <div id="container"></div>
+
+    </body>
+    
+    <script>
+    //Html ark for en side hvor du kan adde reiser, trenger en knapp for å komme til denne siden
+        let url = "http://localhost:3000/lists";
+        let container = document.getElementById('container');
+
+        let inpName = document.getElementById('inpName');
+        let inpDate = document.getElementById('inpDate');
+        let inpDescr = document.getElementById('inpDescr');
+
+        let btnCreate = document.getElementById('btnCreate');
+        let btnLogOut = document.getElementById('btnLogOut');
+        let txtResult = document.getElementById('txtResult');
+
+        listLists();
+        async function listLists() {
+        try {
+            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+            let token = logindata.token;
+            let cfg = {
+                method: "GET",
+                headers: {"authorization": token}
+            };
+            
+            var resp = await fetch(url, cfg);
+            var data = await resp.json();
+            
+            if (resp.status > 202) {
+                throw(data);
+            };
+            console.log(data);
+            container.innerHTML = ""; //delete previous content
+            
+            for (let value of data){
+                let date = new Date(value.date).toDateString();
+                let html = `
+                    <h3>${value.name}</h3>
+                    <p>${date}</p>
+                    <p>${value.description}</p>
+                    <hr>
+                `;
+                let div = document.createElement("div");
+                div.innerHTML = html;
+                //Dette er det som vises til listene
+
+                //Lager ern knapp for å kunne se listene
+                let lstEntBtn = document.createElement("button");
+                lstEntBtn.innerHTML = "Enter List";
+                lstEntBtn.addEventListener('click', function (evt) {
+                sessionStorage.setItem("listsid", value.id);
+                location.href = "enterlists.html";
+                });
+
+                //Lager en delete knapp som
+                let delBtn = document.createElement("button");
+                delBtn.innerHTML = "Delete";
+                delBtn.addEventListener('click', function (evt) {
+                    deleteTravel(value.id);
+                });
+
+                //div.insertBefore(addExpsBtn, div.lastElementChild);
+                div.insertBefore(lstEntBtn, div.lastElementChild);
+                div.insertBefore(delBtn, div.lastElementChild);
+                container.appendChild(div);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    
+    //---------------------
+    async function deleteTravel(id) {
+
+        let updata = {listsid: id};
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
+        let cfg = {
+            method: "DELETE",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }
+
+        try {
+            let resp = await fetch(url, cfg);
+
+            if (resp.status > 200) {
+                throw(data)
+            };
+
+            listLists();
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+        //Sends you back to login
+        btnLogOut.addEventListener('click', async function(evt) {
+            window.location.href = "userlogin.html";
+        });
+
+        btnCreate.addEventListener('click', async function(evt) {
+
+            let url = "http://localhost:3000/lists";
+
+            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+            let token = logindata.token;
+
+            let updata =  {
+                name: inpName.value,
+                date: inpDate.value,
+                descr: inpDescr.value,
+                userid: logindata.userid
+            }
+            
+            let cfg = {
+                method: "POST",
+                headers: {
+                    "authorization": token,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updata)
+            }
+            window.location.href = "createlists.html";
+            console.log(updata);
+            try {
+                var resp = await fetch(url, cfg);
+                var data = await resp.json();
+                if (resp.status > 202) {
+                    throw(data) 
+                };
+
+                txtResult.innerHTML = data.msg;
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+
+</script>
+
+</html>
