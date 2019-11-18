@@ -18,6 +18,7 @@
 <body>
     
     <div id="firstSideBox">
+        <!--<input type="text" id="updateName" placeholder="Update Name">-->
         <input type="text" id="inpName" placeholder="List Name">
         <input type="date" id="inpDate">
         <input type="text" id="inpDescr" placeholder="Description">
@@ -41,6 +42,7 @@
         let inpDate = document.getElementById('inpDate');
         let inpDescr = document.getElementById('inpDescr');
 
+        let btnSettings = document.getElementById('btnSettings');
         let btnCreate = document.getElementById('btnCreate');
         let btnLogOut = document.getElementById('btnLogOut');
         let txtResult = document.getElementById('txtResult');
@@ -78,15 +80,12 @@
 
                 //Lager ern knapp for å kunne oppdatere listene
                 let updateBtn = document.createElement("button");
-                updateBtn.innerHTML = "Update List";
-                updateBtn.addEventListener('click', function (evt) {
-                    console.log("button pressed");
-                    alert("cahnging name");
-                    let html =`
-                    <h3>Hello</h3>
-                    `;
-                    let div = document.createElement("div");
-                    div.innerHTML = html;
+                updateBtn.innerHTML = "Change name";
+                updateBtn.addEventListener('click', async function (evt) {
+                    let updateName = prompt("New list name:");
+                    if (updateName != null){
+                        updateList(updateName, value.id);                        
+                    }
                 });
 
                 //Lager ern knapp for å kunne se listene
@@ -101,7 +100,9 @@
                 let delBtn = document.createElement("button");
                 delBtn.innerHTML = "Delete";
                 delBtn.addEventListener('click', function (evt) {
-                    deleteList(value.id);
+                    if (confirm("Are you sure you want to delete this list?")){
+                        deleteList(value.id);
+                    };
                 });
 
                 div.insertBefore(lstEntBtn, div.lastElementChild);
@@ -150,6 +151,10 @@
             window.location.href = "index.html";
         });
 
+        btnSettings.addEventListener('click', async function(evt) {
+            window.location.href = "usersettings.html";
+        });
+
         btnCreate.addEventListener('click', async function(evt) {
 
             let url = "http://localhost:8080/lists";
@@ -190,6 +195,43 @@
                 console.log(err);
             }
         });
+
+//----------------------------------------------------------------------------
+
+    async function updateList(newname, lstid) {
+
+        console.log("--------", newname);
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
+        let updata =    {
+            name: newname,
+            id: lstid
+        }
+
+        let cfg = {
+            method: "PUT",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }  
+        console.log(updata);
+        try {
+            let resp = await fetch(url, cfg);
+
+            if (resp.status > 200) {
+                throw(resp)
+            };
+
+            listLists();
+        }
+        catch (err) {
+            console.log(err);
+        }
+        }
 
 </script>
 
