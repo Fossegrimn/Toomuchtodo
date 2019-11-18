@@ -25,7 +25,6 @@ app.use('/items', protectEndpoints);
 function protectEndpoints(req, res, next){
     
     token = req.headers['authorization'];
-    //token = req.query.token;
     
 
     if (token) {
@@ -79,10 +78,10 @@ app.post('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "Insert OK"}); //send respons
+            res.status(200).json({msg: "List created"}); //send respons
         }
         else {
-            throw "Insert failed";
+            throw "Failed creating list";
         }
     }  
     catch(err) {
@@ -104,10 +103,10 @@ app.delete('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "Delete OK"}); //send respons
+            res.status(200).json({msg: "List deleted"}); //send respons
         }
         else {
-            throw "Delete failed";
+            throw "Failed deleting list";
         }
     }
     catch {
@@ -116,6 +115,8 @@ app.delete('/lists', async function (req, res) {
 });
 
 //endpoint - lists UPDATE ---------------------------------
+
+
 
 //--------------------items-------------------------
 
@@ -130,10 +131,10 @@ app.post('/items', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "Insert Good"}); //send respons
+            res.status(200).json({msg: "Item added"}); //send respons
         }
         else {
-            throw "Insert failed";
+            throw "Failed to add item";
         }
     }
     catch(err) {
@@ -170,10 +171,10 @@ app.delete('/items', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "Delete OK"}); //send respons
+            res.status(200).json({msg: "Item deleted"}); //send respons
         }
         else {
-            throw "Delete failed";
+            throw "Failed to delete item";
         }
     }
     catch {
@@ -257,8 +258,8 @@ app.post('/auth', async function (req, res) {
 
 
 // start server -----------------------------------
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 app.listen(port, function () {
-    console.log('Server listening on port 3000!');
+    console.log('Server listening on port 8080!');
 });
 
