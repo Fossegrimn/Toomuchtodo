@@ -10,34 +10,26 @@
 
     <header id="header">
         <img class="pic" src="images/logo_2.png" width="225px" height="80px">
-        <button class="btnLogOut">Log out</button>
-        
-        <button class="btnLogOut">Settings</button>
-    
+        <button id="btnLogOut" class="headerBtns">Log out</button>
+        <button id="btnSettings" class="headerBtns">Settings</button>
     </header>
 <body>
     
     <div id="firstSideBox">
+        <br>
         <input type="text" id="inpName" placeholder="List Name">
         <input type="date" id="inpDate">
         <input type="text" id="inpDescr" placeholder="Description">
-<<<<<<< HEAD
         <button id="btnCreate">Create list</button>
         <h3 id="txtResult"></h3>
-=======
-        <br><br>
-        <button id="btnCreate">Create list</button>
-        <button id="btnLogOut">Log out</button>
-        <h3 id="txtResult">Result...</h3>
->>>>>>> 8460ca8ddb193d6299f4a9f11b52817b5fc3b613
-        <div id="container"></div>
+        <div id="container" class="scrollable"></div>
     </div>
 
     </body>
     
     <script>
     //Html ark for en side hvor du kan adde reiser, trenger en knapp for å komme til denne siden
-        let url = "http://localhost:3000/lists";
+        let url = "http://localhost:8080/lists";
         let container = document.getElementById('container');
 
         let inpName = document.getElementById('inpName');
@@ -71,8 +63,8 @@
                 let date = new Date(value.date).toDateString();
                 let html = `
                     <h3>${value.name}</h3>
-                    <p>${date}</p>
-                    <p>${value.description}</p>
+                    <p id="date">Date: ${date}</p>
+                    <p id="descr">${value.description}</p>
                     <hr>
                 `;
                 let div = document.createElement("div");
@@ -83,15 +75,21 @@
                 let updateBtn = document.createElement("button");
                 updateBtn.innerHTML = "Update List";
                 updateBtn.addEventListener('click', function (evt) {
-                    `<input type="text" id="inpName" placeholder="List Name">`
+                    console.log("button pressed");
+                    alert("cahnging name");
+                    let html =`
+                    <h3>Hello</h3>
+                    `;
+                    let div = document.createElement("div");
+                    div.innerHTML = html;
                 });
 
                 //Lager ern knapp for å kunne se listene
                 let lstEntBtn = document.createElement("button");
                 lstEntBtn.innerHTML = "Enter List";
                 lstEntBtn.addEventListener('click', function (evt) {
-                sessionStorage.setItem("listsid", value.id);
-                location.href = "enterlists.html";
+                    sessionStorage.setItem("listsid", value.id);
+                    location.href = "enterlists.html";
                 });
 
                 //Lager en delete knapp som
@@ -149,7 +147,7 @@
 
         btnCreate.addEventListener('click', async function(evt) {
 
-            let url = "http://localhost:3000/lists";
+            let url = "http://localhost:8080/lists";
 
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;

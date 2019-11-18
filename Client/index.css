@@ -94,4 +94,8 @@ body {
         width: 70%;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+.btnCreate:hover {
+    background-color: rgb(85, 111, 171);
+    opacity: 1
+}
 .btnLogin:hover {opacity: 1}

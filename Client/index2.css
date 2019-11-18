@@ -40,7 +40,9 @@ body {
 
 #inpName {
     width: 30%;
+    height: 5.5%;
     padding: 12px 20px;
+    padding-top: 1%;
     margin: 8px 0;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -61,8 +63,10 @@ body {
 }
 
 #inpDescr {
-    width: 15%;
+    width: 20%;
+    height: 5.5%;
     padding: 12px 20px;
+    padding-top: 1%;
     margin: 8px 0;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -82,23 +86,26 @@ body {
     outline: none;
 }
 
-#btnLogin {
+.headerBtns {
         background-color: rgb(4, 43, 94);
         border: none;
         color: white;
-        padding: 16px 32px;
+        padding: 10px 10px;
         text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
+        font-size: 12px;
+        margin: 30px 10px;
         opacity: 0.6;
         transition: 0.3s;
         display: inline-block;
         text-decoration: none;
         cursor: pointer;
         border-radius: 5px;
-        width: 70%;
+        width: 8%;
+        float: right;
 }
-.btnLogin:hover {
+
+.headerBtns:hover {
+    background-color: rgb(4, 43, 135);
     opacity: 1
 }
 
@@ -106,25 +113,28 @@ body {
     background-color: rgb(14, 39, 71);
     border: none;
     color: rgb(245, 245, 245);
-    padding: 11px;
+    padding: 12px;
+    padding-top: 1%;
+    margin-bottom: 1.5%;
     text-align: center;
     font-size: 12px;
     margin-right: 12px;
-    padding-bottom: 15px;
+    margin-top: 12px;
     opacity: 0.6;
     transition: 0.3s;
     display: inline-block;
     text-decoration: none;
     cursor: pointer;
-    border-radius: 0px;
+    border-radius: 5px;
     width: 20%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     cursor: pointer;
 }
-.btnLogin:hover {
-    background-color: rgb(4, 43, 135);
-    opacity: 1
+.btnCreate:hover {
+    background-color: rgb(85, 111, 171);
+    opacity: 1;
 }
+
 
 .btnLogOut {
     background-color: rgb(53, 80, 116);
@@ -147,7 +157,7 @@ body {
     
 }
 .btnLogOut:hover {
-    background-color: rgb(85, 111, 171);
+    background-color: rgb(84, 111, 171);
     opacity: 1
 }
 
@@ -175,13 +185,32 @@ body {
     opacity: 1
 }
 
-#container {
-    background-color: white;
-    border: 1px black;
-    padding: 20px;
-    margin: 40px;
-    border-radius: 10px;
- }
+#btnBack2 {
+    background-color: rgb(14, 39, 71);
+    border: none;
+    color: rgb(245, 245, 245);
+    padding: 12px;
+    padding-top: 1%;
+    margin-bottom: 1.5%;
+    text-align: center;
+    font-size: 12px;
+    margin-right: 12px;
+    margin-top: 12px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 20%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+}
+.btnBack2:hover {
+    background-color: rgb(4, 43, 135);
+    opacity: 1
+}
+
 
 #header {
     background-color: white;
@@ -190,3 +219,44 @@ body {
     
 }
 
+.scrollable {
+    min-height: 200px;
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+/*Container*/
+
+#container {
+    background-color: rgb(255, 255, 255);
+    border: 1px black;
+    padding: 20px;
+    margin: 40px;
+    border-radius: 10px;
+    text-align: left;
+ }
+
+ #container h3 {
+     font-family: Verdana, Geneva, Tahoma, sans-serif;
+     font-size: x-large;
+     margin-top: auto;
+     word-wrap: break-word;
+ }
+
+ #container #date {
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: small;
+ }
+
+ #container #descr {
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: medium;
+
+ }
+
+ #container hr {
+    border: 8px solid rgb(237, 236, 236);
+    margin-left: -5%;
+    margin-right: -5%;
+
+ }

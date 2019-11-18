@@ -4,23 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index2.css">
     <title>Expenselist</title>
 </head>
 
 <body>
 
+    <div id="firstSideBox">
+        <br>
     <input type="text" id="inpDescr" placeholder="Description">
-    <br><br>
+    <br>
     <button id="btnCreate">Create item</button>
-    <button id="btnBack">Back to lists</button>
-    <h3 id="txtResult">Result...</h3>
+    <button id="btnBack2">Back to lists</button>
+    <h3 id="txtResult"></h3>
     <div id="container"></div>
+    </div>
 
 </body>
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
-    let url = "http://localhost:3000/items";
+    let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
 
     let inpDescr = document.getElementById('inpDescr');
@@ -64,7 +68,7 @@
             }
         });
 
-btnBack.addEventListener('click', async function(evt) {
+btnBack2.addEventListener('click', async function(evt) {
     window.location.href = "createlists.html";
 });
 
