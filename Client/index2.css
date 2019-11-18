@@ -102,6 +102,32 @@ body {
     opacity: 1
 }
 
+.btnLogin:hover {
+    background-color: rgb(4, 43, 135);
+    opacity: 1
+}
+
+#btnSettings {
+    background-color: rgb(4, 43, 94);
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 10%;
+    float: right;
+}
+.btnSettings:hover {
+opacity: 1
+}
+
 #btnCreate {
     background-color: rgb(14, 39, 71);
     border: none;
@@ -121,10 +147,7 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     cursor: pointer;
 }
-.btnLogin:hover {
-    background-color: rgb(4, 43, 135);
-    opacity: 1
-}
+
 
 .btnLogOut {
     background-color: rgb(53, 80, 116);
@@ -176,7 +199,7 @@ body {
 }
 
 #container {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     border: 1px black;
     padding: 20px;
     margin: 40px;
@@ -190,3 +213,8 @@ body {
     
 }
 
+.scrollable {
+    min-height: 200px;
+    max-height: 600px;
+    overflow-y: scroll;
+}

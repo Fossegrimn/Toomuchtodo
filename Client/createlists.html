@@ -10,9 +10,9 @@
 
     <header id="header">
         <img class="pic" src="images/logo_2.png" width="225px" height="80px">
-        <button class="btnLogOut">Log out</button>
+        <button id="btnLogOut" class="btnLogOut">Log out</button>
         
-        <button class="btnLogOut">Settings</button>
+        <button id="btnSettings" class="btnSettings">Settings</button>
     
     </header>
 <body>
@@ -21,16 +21,13 @@
         <input type="text" id="inpName" placeholder="List Name">
         <input type="date" id="inpDate">
         <input type="text" id="inpDescr" placeholder="Description">
-<<<<<<< HEAD
         <button id="btnCreate">Create list</button>
         <h3 id="txtResult"></h3>
-=======
+
         <br><br>
-        <button id="btnCreate">Create list</button>
-        <button id="btnLogOut">Log out</button>
-        <h3 id="txtResult">Result...</h3>
->>>>>>> 8460ca8ddb193d6299f4a9f11b52817b5fc3b613
-        <div id="container"></div>
+        <h3 id="txtResult"></h3>
+
+        <div id="container" class="scrollable"></div>
     </div>
 
     </body>
@@ -84,6 +81,7 @@
                 updateBtn.innerHTML = "Update List";
                 updateBtn.addEventListener('click', function (evt) {
                     console.log("button pressed");
+                    alert("cahnging name");
                     let html =`
                     <h3>Hello</h3>
                     `;
