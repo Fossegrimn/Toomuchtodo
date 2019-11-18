@@ -4,23 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index2.css">
     <title>Expenselist</title>
 </head>
 
 <body>
 
+    <div id="firstSideBox">
+        <br>
     <input type="text" id="inpDescr" placeholder="Description">
-    <br><br>
+    <br>
     <button id="btnCreate">Create item</button>
-    <button id="btnBack">Back to lists</button>
-    <h3 id="txtResult">Result...</h3>
+    <button id="btnBack2">Back to lists</button>
+    <h3 id="txtResult"></h3>
     <div id="container"></div>
+    </div>
 
 </body>
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
-    let url = "http://localhost:3000/items";
+    let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
 
     let inpDescr = document.getElementById('inpDescr');
@@ -47,7 +51,10 @@
                 },
                 body: JSON.stringify(updata)
             }
-            window.location.href = "enterlists.html";
+            setTimeout(function () {
+                window.location.href = "enterlists.html"; //will redirect to your blog page (an ex: blog.html)
+            }, 500); //will call the function after 0.5 secs.
+            
 
             try {
                 var resp = await fetch(url, cfg);
@@ -64,7 +71,7 @@
             }
         });
 
-btnBack.addEventListener('click', async function(evt) {
+btnBack2.addEventListener('click', async function(evt) {
     window.location.href = "createlists.html";
 });
 
@@ -104,6 +111,19 @@ btnBack.addEventListener('click', async function(evt) {
                 delBtn.addEventListener('click', function (evt) {
                     deleteItems(value.id);
                 });
+
+                let updateBtn = document.createElement("button");
+                updateBtn.innerHTML = "Change name";
+                updateBtn.addEventListener('click', async function (evt) {
+                    
+                    let updateItemName = prompt("New item name:");
+
+                    if (updateItemName != null){
+                        updateList(updateItemName, value.id);                        
+                    }
+                });
+
+                div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
@@ -143,6 +163,39 @@ btnBack.addEventListener('click', async function(evt) {
             console.log(err);
         }
     }
+
+    async function updateList(newitemname, itemid) {
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
+        let updata =    {
+            name: newitemname,
+            id: itemid
+        }
+
+        let cfg = {
+            method: "PUT",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }  
+        console.log(updata);
+        try {
+            let resp = await fetch(url, cfg);
+
+            if (resp.status > 200) {
+                throw(resp)
+            };
+
+            listItems();
+        }
+        catch (err) {
+            console.log(err);
+        }
+        }
 </script>
 
 </html>

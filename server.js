@@ -1,4 +1,4 @@
-//--------------------------- Version 1.4 ---------------------------------------
+//--------------------------- Version 2.0 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -25,7 +25,6 @@ app.use('/items', protectEndpoints);
 function protectEndpoints(req, res, next){
     
     token = req.headers['authorization'];
-    //token = req.query.token;
     
 
     if (token) {
@@ -79,10 +78,10 @@ app.post('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "Insert OK"}); //send respons
+            res.status(200).json({msg: "List created"}); //send respons
         }
         else {
-            throw "Insert failed";
+            throw "Failed creating list";
         }
     }  
     catch(err) {
@@ -104,10 +103,10 @@ app.delete('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "Delete OK"}); //send respons
+            res.status(200).json({msg: "List deleted"}); //send respons
         }
         else {
-            throw "Delete failed";
+            throw "Failed deleting list";
         }
     }
     catch {
@@ -116,6 +115,24 @@ app.delete('/lists', async function (req, res) {
 });
 
 //endpoint - lists UPDATE ---------------------------------
+app.put('/lists', async function (req, res) {
+
+    let updata = req.body;
+
+    let sql = 'UPDATE lists SET name = $2 WHERE id = $1';
+    let values = [updata.id, updata.name];
+
+    try {
+        await pool.query(sql, values);
+
+            res.status(200).json({msg: "List deleted"}); //send respons
+    }
+    catch (err){
+        res.status(500).json(err); //send error respons
+        console.log(err);
+    }
+});
+
 
 //--------------------items-------------------------
 
@@ -130,10 +147,10 @@ app.post('/items', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "Insert Good"}); //send respons
+            res.status(200).json({msg: "Item added"}); //send respons
         }
         else {
-            throw "Insert failed";
+            throw "Failed to add item";
         }
     }
     catch(err) {
@@ -146,7 +163,7 @@ app.get('/items', async function (req, res) {
 
     let listsid = req.query.listsid; // the data sent from the client
     
-    let sql = 'SELECT * FROM items WHERE listsid= $1';
+    let sql = 'SELECT * FROM items WHERE listsid = $1';
     let values = [listsid];
 
     try {
@@ -170,14 +187,33 @@ app.delete('/items', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "Delete OK"}); //send respons
+            res.status(200).json({msg: "Item deleted"}); //send respons
         }
         else {
-            throw "Delete failed";
+            throw "Failed to delete item";
         }
     }
     catch {
         res.status(500).json ({error: err}); //send error respons
+    }
+});
+
+//endpoint - items UPDATE ---------------------------------
+app.put('/items', async function (req, res) {
+
+    let updata = req.body;
+
+    let sql = 'UPDATE items SET description = $2 WHERE id = $1';
+    let values = [updata.id, updata.name];
+
+    try {
+        await pool.query(sql, values);
+
+            res.status(200).json({msg: "List deleted"}); //send respons
+    }
+    catch (err){
+        res.status(500).json(err); //send error respons
+        console.log(err);
     }
 });
 
@@ -200,6 +236,30 @@ app.post('/users', async function (req, res) {
     let values = [updata.email, hash];
     
 
+    try {
+        let result = await pool.query(sql, values);
+
+        if (result.rows.length > 0) {
+            res.status(200).json({msg: "Congratulation"}); //send respons
+        }
+        else {
+            throw "Insert failed";
+        }
+    }
+    catch(err) {
+        res.status(500).json({error: err}); //send error respons
+        console.log(err)
+    }
+});
+
+//endpoint - users PUT ---------------------------
+app.put('/users', async function (req, res) {
+
+    let updata = req.body; //the data from the client
+
+    let sql = 'UPDATE users SET (email, pswhash) = $2, $3 WHERE id = $1';
+    let values = [updata.id, updata.email, updata.psw];
+    
     try {
         let result = await pool.query(sql, values);
 
@@ -257,8 +317,8 @@ app.post('/auth', async function (req, res) {
 
 
 // start server -----------------------------------
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 app.listen(port, function () {
-    console.log('Server listening on port 3000!');
+    console.log('Server listening on port 8080!');
 });
 
