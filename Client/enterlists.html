@@ -47,7 +47,10 @@
                 },
                 body: JSON.stringify(updata)
             }
-            window.location.href = "enterlists.html";
+            setTimeout(function () {
+                window.location.href = "enterlists.html"; //will redirect to your blog page (an ex: blog.html)
+            }, 500); //will call the function after 0.5 secs.
+            
 
             try {
                 var resp = await fetch(url, cfg);
