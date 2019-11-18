@@ -1,4 +1,4 @@
-//--------------------------- Version 1.4 ---------------------------------------
+//--------------------------- Version 2.0 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -115,7 +115,23 @@ app.delete('/lists', async function (req, res) {
 });
 
 //endpoint - lists UPDATE ---------------------------------
+app.put('/lists', async function (req, res) {
 
+    let updata = req.body;
+
+    let sql = 'UPDATE lists SET name = $2 WHERE id = $1';
+    let values = [updata.id, updata.name];
+
+    try {
+        await pool.query(sql, values);
+
+            res.status(200).json({msg: "List deleted"}); //send respons
+    }
+    catch (err){
+        res.status(500).json(err); //send error respons
+        console.log(err);
+    }
+});
 
 
 //--------------------items-------------------------
@@ -147,7 +163,7 @@ app.get('/items', async function (req, res) {
 
     let listsid = req.query.listsid; // the data sent from the client
     
-    let sql = 'SELECT * FROM items WHERE listsid= $1';
+    let sql = 'SELECT * FROM items WHERE listsid = $1';
     let values = [listsid];
 
     try {
@@ -182,6 +198,25 @@ app.delete('/items', async function (req, res) {
     }
 });
 
+//endpoint - items UPDATE ---------------------------------
+app.put('/items', async function (req, res) {
+
+    let updata = req.body;
+
+    let sql = 'UPDATE items SET description = $2 WHERE id = $1';
+    let values = [updata.id, updata.name];
+
+    try {
+        await pool.query(sql, values);
+
+            res.status(200).json({msg: "List deleted"}); //send respons
+    }
+    catch (err){
+        res.status(500).json(err); //send error respons
+        console.log(err);
+    }
+});
+
 
 
 //----------------------USERS----------------------
@@ -201,6 +236,30 @@ app.post('/users', async function (req, res) {
     let values = [updata.email, hash];
     
 
+    try {
+        let result = await pool.query(sql, values);
+
+        if (result.rows.length > 0) {
+            res.status(200).json({msg: "Congratulation"}); //send respons
+        }
+        else {
+            throw "Insert failed";
+        }
+    }
+    catch(err) {
+        res.status(500).json({error: err}); //send error respons
+        console.log(err)
+    }
+});
+
+//endpoint - users PUT ---------------------------
+app.put('/users', async function (req, res) {
+
+    let updata = req.body; //the data from the client
+
+    let sql = 'UPDATE users SET (email, pswhash) = $2, $3 WHERE id = $1';
+    let values = [updata.id, updata.email, updata.psw];
+    
     try {
         let result = await pool.query(sql, values);
 

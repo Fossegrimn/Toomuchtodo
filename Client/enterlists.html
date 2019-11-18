@@ -51,7 +51,10 @@
                 },
                 body: JSON.stringify(updata)
             }
-            window.location.href = "enterlists.html";
+            setTimeout(function () {
+                window.location.href = "enterlists.html"; //will redirect to your blog page (an ex: blog.html)
+            }, 500); //will call the function after 0.5 secs.
+            
 
             try {
                 var resp = await fetch(url, cfg);
@@ -108,6 +111,19 @@ btnBack2.addEventListener('click', async function(evt) {
                 delBtn.addEventListener('click', function (evt) {
                     deleteItems(value.id);
                 });
+
+                let updateBtn = document.createElement("button");
+                updateBtn.innerHTML = "Change name";
+                updateBtn.addEventListener('click', async function (evt) {
+                    
+                    let updateItemName = prompt("New item name:");
+
+                    if (updateItemName != null){
+                        updateList(updateItemName, value.id);                        
+                    }
+                });
+
+                div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
@@ -147,6 +163,39 @@ btnBack2.addEventListener('click', async function(evt) {
             console.log(err);
         }
     }
+
+    async function updateList(newitemname, itemid) {
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
+        let updata =    {
+            name: newitemname,
+            id: itemid
+        }
+
+        let cfg = {
+            method: "PUT",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }  
+        console.log(updata);
+        try {
+            let resp = await fetch(url, cfg);
+
+            if (resp.status > 200) {
+                throw(resp)
+            };
+
+            listItems();
+        }
+        catch (err) {
+            console.log(err);
+        }
+        }
 </script>
 
 </html>

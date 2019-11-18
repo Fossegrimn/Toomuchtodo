@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Settings</title>
+</head>
+
+<body>
+    <div class="firstSideBox">
+        <img class="logo" src="/images/logo_3.png" width="300px" height="100px">
+        <br><br>
+        <h2 id="SignUphead">User settings</h2>
+        <button id="btnUpdEmail">Update Email</button>
+        <button id="btnUpdPsw">Update Password</button>
+        <br>
+        <button id="btnCreate">Create user</button>
+        <h3 id="txtResult"> </h3>
+        <p id="goToLogin">Go to <a href="userlogin.html">Login page</a> to use your new acount</p>
+    </div>
+    </body>
+    
+    <script>
+        //Html ark for å lage bruker
+        let btnUpdEmail = document.getElementById('btnUpdEmail');
+        let btnUpdPsw = document.getElementById('btnUpdPsw');
+        let btnBack = document.getElementById('btnBack');
+        let txtResult = document.getElementById('txtResult');
+        let url = "http://localhost:8080/usersettings";
+        /*btnBack.addEventListener('click', async function(evt) {
+                window.location.href = "index.html";
+            });*/
+    btnUpdEmail.addEventListener('click', async function (evt) {
+            let updateUserEmail = prompt("Type your new email:");
+            if (updateUserEmail != null){
+                updateEmail(updateUserEmail);                   
+            }
+        });
+
+            
+
+    async function updateEmail(newname) {
+
+        console.log("--------", newname);
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
+        let updata =    {
+            email: newname,
+        }
+
+        let cfg = {
+            method: "PUT",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }  
+        console.log(updata);
+        try {
+            let resp = await fetch(url, cfg);
+
+            if (resp.status > 200) {
+                throw(resp)
+            };
+
+            listLists();
+        }
+        catch (err) {
+            console.log(err);
+        }
+        }
+        
+
+</script>
+
+</html>
