@@ -1,4 +1,4 @@
-//--------------------------- Version 2.0 ---------------------------------------
+//--------------------------- Version 2.1 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -209,7 +209,7 @@ app.put('/items', async function (req, res) {
     try {
         await pool.query(sql, values);
 
-            res.status(200).json({msg: "List deleted"}); //send respons
+            //res.status(200).json({msg: "List deleted"}); //send respons
     }
     catch (err){
         res.status(500).json(err); //send error respons
@@ -252,29 +252,37 @@ app.post('/users', async function (req, res) {
     }
 });
 
+
+
+
+
+
+
 //endpoint - users PUT ---------------------------
 app.put('/users', async function (req, res) {
 
     let updata = req.body; //the data from the client
+    let hash = bcrypt.hashSync(updata.pswhash, 10);
 
-    let sql = 'UPDATE users SET (email, pswhash) = $2, $3 WHERE id = $1';
-    let values = [updata.id, updata.email, updata.psw];
-    
+    console.log("logindata server:", logindata);
+
+    let sql = 'UPDATE users SET email = $2, pswhash = $3 WHERE id = $1 RETURNING *';
+    let values = [logindata.userid, updata.email, hash];
     try {
-        let result = await pool.query(sql, values);
-
-        if (result.rows.length > 0) {
-            res.status(200).json({msg: "Congratulation"}); //send respons
-        }
-        else {
-            throw "Insert failed";
-        }
+        await pool.query(sql, values);
     }
     catch(err) {
         res.status(500).json({error: err}); //send error respons
         console.log(err)
     }
 });
+
+
+
+
+
+
+
 
 
 // endpoint - auth (login) POST -------------------
