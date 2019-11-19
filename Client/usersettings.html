@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="settings.css">
     <title>Settings</title>
 </head>
 
@@ -19,22 +19,39 @@
         </header>
         
     <div class="firstSideBox">
+<<<<<<< HEAD
+        <a href ="createlists.html">
+        <img class="logo" src="/images/logo_3.png" width="300px" height="100px">
+        </a>
+        <br><br><br>
+        <img id="icon" src="/images/icon.png" width="40px" height="40px">
+        <h2 id="SignUphead">User settings</h2>
+        <input type="email" id="updateUserEmail" placeholder="Update E-mail">
+        <br>
+=======
         <br>
         <img id="icon" src="/images/icon.png" width="40px" height="30px">
         <br>
         <h2 id="SignUphead">User settings</h2>
-        <input type="email" id="updateUserEmail" placeholder="Update E-mail">
+        <input type="text" id="updateUsername" placeholder="Update Username">
+>>>>>>> 9784dcbcbd008f8a0e0ee26881844a1e74522cba
         <input type="password" id="updateUserPasswrd" placeholder="Update Password">
+        <br>
         <button id="btnUpdUser">Update user</button>
+<<<<<<< HEAD
         <h3 id="txtResult"> </h3>
+        <p id="goToLogin">Go <a href="createlists.html">Back to lists</a> </p>
+=======
+        <h3 id="txtResult"></h3>
         <p id="goToLogin">Go to <a href="createlists.html">Login page</a> to use your new acount</p>
+>>>>>>> 9784dcbcbd008f8a0e0ee26881844a1e74522cba
     </div>
     </body>
     
     <script>
         //Html ark for å lage bruker
         let btnUpdUser = document.getElementById('btnUpdUser');
-        let updateUserEmail = document.getElementById('updateUserEmail');
+        let updateUsername = document.getElementById('updateUsername');
         let updateUserPasswrd = document.getElementById('updateUserPasswrd');
         let btnBack = document.getElementById('btnBack');
         let txtResult = document.getElementById('txtResult');
@@ -52,7 +69,7 @@
         let token = logindata.token;
 
         let updata =    {
-            email: updateUserEmail.value,
+            username: updateUsername.value,
             pswhash: updateUserPasswrd.value
         }
 
@@ -67,6 +84,8 @@
         console.log("updata:", updata);
         try {
             let resp = await fetch(url, cfg);
+            var data = await resp.json();
+            txtResult.innerHTML = data.msg;
 
             if (resp.status > 200) {
                 throw(resp)

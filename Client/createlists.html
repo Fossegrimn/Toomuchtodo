@@ -8,7 +8,7 @@
     <title>Travelcreate</title>
 </head>
 
-    <header id="header">
+    <header class="header">
         <img class="pic" src="images/logo_2.png" width="225px" height="80px">
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnSettings" class="headerBtns">Settings</button>
@@ -18,10 +18,6 @@
     <div id="firstSideBox">
 
         <br>
-<<<<<<< HEAD
-=======
-
->>>>>>> 6a7dc0a0764924031377ff61adff8e5a3efa970d
         <!--<input type="text" id="updateName" placeholder="Update Name">-->
         <input type="text" id="inpName" placeholder="List Name">
 
@@ -77,6 +73,7 @@
 
                 //Lager ern knapp for å kunne oppdatere listene
                 let updateBtn = document.createElement("button");
+                updateBtn.setAttribute("id", "button2");
                 updateBtn.innerHTML = "Change name";
                 updateBtn.addEventListener('click', async function (evt) {
                     let updateName = prompt("New list name:");
@@ -87,6 +84,7 @@
 
                 //Lager ern knapp for å kunne se listene
                 let lstEntBtn = document.createElement("button");
+                lstEntBtn.setAttribute("id", "button1");
                 lstEntBtn.innerHTML = "Enter List";
                 lstEntBtn.addEventListener('click', function (evt) {
                     sessionStorage.setItem("listsid", value.id);
@@ -95,6 +93,7 @@
 
                 //Lager en delete knapp som
                 let delBtn = document.createElement("button");
+                delBtn.setAttribute("id", "button3");
                 delBtn.innerHTML = "Delete";
                 delBtn.addEventListener('click', function (evt) {
                     if (confirm("Are you sure you want to delete this list?")){
