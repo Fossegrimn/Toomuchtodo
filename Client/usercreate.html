@@ -13,18 +13,18 @@
         <img class="logo" src="/images/logo_3.png" width="300px" height="100px">
         <br><br>
         <h2 id="SignUphead"> Sign up here! </h2>
-        <input type="email" id="inpEmail" placeholder="E-mail">
+        <input type="text" id="inpUsername" placeholder="Username">
         <input type="password" id="inpPasswrd" placeholder="Password">
         <br>
         <button id="btnCreate">Create user</button>
         <h3 id="txtResult"> </h3>
-        <p id="goToLogin">Go to <a href="userlogin.html">Login page</a> to use your new acount</p>
+        <p id="goToLogin">Go to <a href="index.html">Login page</a> to use your new acount</p>
     </div>
     </body>
     
     <script>
         //Html ark for å lage bruker
-        let inpEmail = document.getElementById('inpEmail');
+        let inpUsername = document.getElementById('inpUsername');
         let inpPasswrd = document.getElementById('inpPasswrd');
         let btnCreate = document.getElementById('btnCreate');
         let txtResult = document.getElementById('txtResult');
@@ -38,7 +38,7 @@
             let url = "http://localhost:8080/users";
 
             let updata =  {
-                email: inpEmail.value,
+                username: inpUsername.value,
                 passwrd: inpPasswrd.value
             }
             

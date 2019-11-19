@@ -14,7 +14,7 @@
         <img id="icon" src="/images/icon.png" width="40px" height="30px">
         <br>
         <h2 id="SignUphead">User settings</h2>
-        <input type="email" id="updateUserEmail" placeholder="Update E-mail">
+        <input type="text" id="updateUsername" placeholder="Update Username">
         <input type="password" id="updateUserPasswrd" placeholder="Update Password">
         <button id="btnUpdUser">Update user</button>
         <h3 id="txtResult"></h3>
@@ -25,7 +25,7 @@
     <script>
         //Html ark for å lage bruker
         let btnUpdUser = document.getElementById('btnUpdUser');
-        let updateUserEmail = document.getElementById('updateUserEmail');
+        let updateUsername = document.getElementById('updateUsername');
         let updateUserPasswrd = document.getElementById('updateUserPasswrd');
         let btnBack = document.getElementById('btnBack');
         let txtResult = document.getElementById('txtResult');
@@ -43,7 +43,7 @@
         let token = logindata.token;
 
         let updata =    {
-            email: updateUserEmail.value,
+            username: updateUsername.value,
             pswhash: updateUserPasswrd.value
         }
 
