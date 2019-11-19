@@ -1,4 +1,4 @@
-//--------------------------- Version 2.4 ---------------------------------------
+//--------------------------- Version 2.5 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -266,8 +266,8 @@ app.put('/users', async function (req, res) {
 
     console.log("logindata server:", logindata);
 
-    let values;
     let sql;
+    let values;
     let sql1 = 'UPDATE users SET email = $2, pswhash = $3 WHERE id = $1 RETURNING *';
     let sql2 = 'UPDATE users SET email = $2 WHERE id = $1 RETURNING *';
     let sql3 = 'UPDATE users SET pswhash = $2 WHERE id = $1 RETURNING *';
@@ -276,26 +276,53 @@ app.put('/users', async function (req, res) {
     let values3 = [logindata.userid, hash];
 
     if (updata.email != "" && updata.pswhash != "") {
+        console.log("update email and password")
         sql = sql1;
         values = values1;
+        try {
+            await pool.query(sql, values);
+        }
+        catch(err) {
+            console.log("user aldready exists");
+            res.status(500).json({error: err}); //send error respons
+            console.log(err)
+        }
     } else if (updata.email != "") {
         console.log("update email")
         sql = sql2;
         values = values2;
+        try {
+            await pool.query(sql, values);
+        }
+        catch(err) {
+            console.log("user aldready exists");
+            res.status(500).json({error: err}); //send error respons
+            console.log(err)
+        }
     } else if (updata.pswhash != "") {
         console.log("update password")
         sql = sql3;
         values = values3;
+        try {
+            await pool.query(sql, values);
+        }
+        catch(err) {
+            console.log("user aldready exists");
+            res.status(500).json({error: err}); //send error respons
+            console.log(err)
+        }
+    } else if (updata.email == "" && updata.pswhash == "") {
+        console.log("nothing to update");
     };
 
-    try {
+    /*try {
         await pool.query(sql, values);
     }
     catch(err) {
         console.log("user aldready exists");
         res.status(500).json({error: err}); //send error respons
         console.log(err)
-    }
+    }*/
 });
 
 
