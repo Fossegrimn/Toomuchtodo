@@ -1,4 +1,4 @@
-//--------------------------- Version 2.6 ---------------------------------------
+//--------------------------- Version 2.7 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
