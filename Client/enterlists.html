@@ -18,7 +18,7 @@
 
     <div id="firstSideBox">
         <br>
-    <input type="text" id="inpDescr" placeholder="Description">
+    <input type="text" id="inpName" placeholder="Name">
     <br>
     <button id="btnCreate">Create item</button>
     <button id="btnBack2">Back to lists</button>
@@ -33,13 +33,24 @@
     let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
 
+<<<<<<< HEAD
     let btnSettings = document.getElementById('btnSettings');
     let inpDescr = document.getElementById('inpDescr');
+=======
+    let inpName = document.getElementById('inpName');
+>>>>>>> 9784dcbcbd008f8a0e0ee26881844a1e74522cba
     let btnBack = document.getElementById('btnBack');
     let btnCreate = document.getElementById('btnCreate');
     let txtResult = document.getElementById('txtResult');
+    let checkbox = document.getElementById("checkbox");
     let listsid = sessionStorage.getItem("listsid");
+<<<<<<< HEAD
     let btnLogOut = document.getElementById('btnLogOut');
+=======
+    
+
+    
+>>>>>>> 9784dcbcbd008f8a0e0ee26881844a1e74522cba
 
         btnCreate.addEventListener('click', async function(evt) {
 
@@ -47,7 +58,7 @@
             let token = logindata.token;
 
             let updata =  {
-                descr: inpDescr.value,
+                name: inpName.value,
                 listsid: listsid
             }
             
@@ -60,7 +71,7 @@
                 body: JSON.stringify(updata)
             }
             setTimeout(function () {
-                window.location.href = "enterlists.html"; //will redirect to your blog page (an ex: blog.html)
+                listItems();
             }, 500); //will call the function after 0.5 secs.
             
 
@@ -72,7 +83,7 @@
                     throw(data);
                 };
 
-                txtResult.innerHTML = data.msg + " for " + inpDescr.value;
+                txtResult.innerHTML = data.msg + " for " + inpName.value;
             }
             catch (err) {
                 console.log(err);
@@ -89,6 +100,7 @@
 btnBack2.addEventListener('click', async function(evt) {
     window.location.href = "createlists.html";
 });
+    let checkBoxid;
 
     listItems();
     // ---------------------------------------    
@@ -115,7 +127,7 @@ btnBack2.addEventListener('click', async function(evt) {
 
             for (let value of data) {
                 let html = `
-                    <h3><input type="checkbox" id="checkedItems">&nbsp;${value.description}</h3>
+                    <h3>${value.name}</h3>
                     <hr>
                 `;
                 let div = document.createElement("div");
@@ -123,21 +135,29 @@ btnBack2.addEventListener('click', async function(evt) {
 
                 let delBtn = document.createElement("button");
                 delBtn.innerHTML = "Delete";
+                delBtn.style.cursor = "pointer";
                 delBtn.addEventListener('click', function (evt) {
                     deleteItems(value.id);
                 });
 
                 let updateBtn = document.createElement("button");
                 updateBtn.innerHTML = "Change name";
+                updateBtn.style.cursor = "pointer";
                 updateBtn.addEventListener('click', async function (evt) {
-                    
                     let updateItemName = prompt("New item name:");
-
                     if (updateItemName != null){
-                        updateList(updateItemName, value.id);                        
+                        updateItem(updateItemName, value.id);
+                        listItems();                        
                     }
                 });
+                let checkBox = document.createElement("input");
+                    checkBox.type = "checkbox";
+                    checkBox.style.cursor = "pointer";
+                    checkBox.onclick = check;
+                    checkBox.checked = false;
+                    checkBoxid = value.id;
 
+                div.insertBefore(checkBox, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
@@ -147,6 +167,13 @@ btnBack2.addEventListener('click', async function(evt) {
             console.log(err);
         }
     }
+
+    async function check(){
+                console.log("checkcheck");
+                console.log(checkBoxid);
+
+            }
+
     
     //---------------------
     async function deleteItems(id) {
@@ -179,7 +206,7 @@ btnBack2.addEventListener('click', async function(evt) {
         }
     }
 
-    async function updateList(newitemname, itemid) {
+    async function updateItem(newitemname, itemid) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
