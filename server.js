@@ -1,4 +1,4 @@
-//--------------------------- Version 2.0 ---------------------------------------
+//--------------------------- Version 2.7 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -70,8 +70,8 @@ app.post('/lists', async function (req, res) {
    
     let updata = req.body; //the data sent from the client
     
-    let sql = "INSERT INTO lists (id, name, date, description, userid) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *";
-    let values = [updata.name, updata.date, updata.descr, updata.userid];
+    let sql = "INSERT INTO lists (id, name, description, userid) VALUES(DEFAULT, $1, $2, $3) RETURNING *";
+    let values = [updata.name, updata.descr, updata.userid];
 
 
     try {
@@ -140,8 +140,8 @@ app.put('/lists', async function (req, res) {
 app.post('/items', async function (req, res) {
     let updata = req.body; //the data sent from the clinet
 
-    let sql = 'INSERT INTO items (id, description, listsid) VALUES(DEFAULT, $1, $2) RETURNING *';
-    let values = [updata.descr, updata.listsid];
+    let sql = 'INSERT INTO items (id, name, listsid) VALUES(DEFAULT, $1, $2) RETURNING *';
+    let values = [updata.name, updata.listsid];
 
     try {
         let result = await pool.query(sql, values);
@@ -203,13 +203,13 @@ app.put('/items', async function (req, res) {
 
     let updata = req.body;
 
-    let sql = 'UPDATE items SET description = $2 WHERE id = $1';
+    let sql = 'UPDATE items SET name = $2 WHERE id = $1';
     let values = [updata.id, updata.name];
 
     try {
         await pool.query(sql, values);
 
-            res.status(200).json({msg: "List deleted"}); //send respons
+            //res.status(200).json({msg: "List deleted"}); //send respons
     }
     catch (err){
         res.status(500).json(err); //send error respons
@@ -230,51 +230,112 @@ app.post('/users', async function (req, res) {
     let hash = bcrypt.hashSync(updata.passwrd, 10);
 
     
-    let sql = 'INSERT INTO users (id, email, pswhash) VALUES(DEFAULT, $1, $2) RETURNING *';
+    let sql = 'INSERT INTO users (id, username, pswhash) VALUES(DEFAULT, $1, $2) RETURNING *';
     //let values = ["jsdlfjk@uia.no", "gdfgdfgdf"];
 
-    let values = [updata.email, hash];
+    let values = [updata.username, hash];
     
 
     try {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "Congratulation"}); //send respons
+            res.status(200).json({msg: "User created"}); //send respons
         }
         else {
             throw "Insert failed";
         }
     }
     catch(err) {
+        res.status(200).json({msg: "Something went wrong"}); //send respons
         res.status(500).json({error: err}); //send error respons
         console.log(err)
     }
 });
+
+
+
+
+
+
 
 //endpoint - users PUT ---------------------------
 app.put('/users', async function (req, res) {
 
     let updata = req.body; //the data from the client
+    let hash = bcrypt.hashSync(updata.pswhash, 10);
 
-    let sql = 'UPDATE users SET (email, pswhash) = $2, $3 WHERE id = $1';
-    let values = [updata.id, updata.email, updata.psw];
-    
-    try {
-        let result = await pool.query(sql, values);
+    console.log("logindata server:", logindata);
 
-        if (result.rows.length > 0) {
-            res.status(200).json({msg: "Congratulation"}); //send respons
+    let sql;
+    let values;
+    let sql1 = 'UPDATE users SET username = $2, pswhash = $3 WHERE id = $1 RETURNING *';
+    let sql2 = 'UPDATE users SET username = $2 WHERE id = $1 RETURNING *';
+    let sql3 = 'UPDATE users SET pswhash = $2 WHERE id = $1 RETURNING *';
+    let values1 = [logindata.userid, updata.username, hash];
+    let values2 = [logindata.userid, updata.username];
+    let values3 = [logindata.userid, hash];
+
+    if (updata.username != "" && updata.pswhash != "") {
+        console.log("update username and password")
+        sql = sql1;
+        values = values1;
+        res.status(200).json({msg: "Username and password updated!"});
+        try {
+            await pool.query(sql, values);
         }
-        else {
-            throw "Insert failed";
+        catch(err) {
+            console.log("user aldready exists");
+            res.status(500).json({error: err}); //send error respons
+            console.log(err)
         }
+    } else if (updata.username != "") {
+        console.log("update username")
+        sql = sql2;
+        values = values2;
+        res.status(200).json({msg: "Username updated!"});
+        try {
+            await pool.query(sql, values);
+        }
+        catch(err) {
+            console.log("user aldready exists");
+            res.status(500).json({error: err}); //send error respons
+            console.log(err)
+        }
+    } else if (updata.pswhash != "") {
+        console.log("update password")
+        sql = sql3;
+        values = values3;
+        res.status(200).json({msg: "Password updated!"});
+        try {
+            await pool.query(sql, values);
+        }
+        catch(err) {
+            console.log("user aldready exists");
+            res.status(500).json({error: err}); //send error respons
+            console.log(err)
+        }
+    } else if (updata.username == "" && updata.pswhash == "") {
+        console.log("nothing to update");
+        res.status(200).json({msg: "Input fields empty!"});
+    };
+
+    /*try {
+        await pool.query(sql, values);
     }
     catch(err) {
+        console.log("user aldready exists");
         res.status(500).json({error: err}); //send error respons
         console.log(err)
-    }
+    }*/
 });
+
+
+
+
+
+
+
 
 
 // endpoint - auth (login) POST -------------------
@@ -283,8 +344,8 @@ app.post('/auth', async function (req, res) {
     let updata = req.body; //the data sent from the client
 
     //get the user from the database
-    let sql = 'SELECT * FROM users WHERE email = $1';
-    let values = [updata.email];    
+    let sql = 'SELECT * FROM users WHERE username = $1';
+    let values = [updata.username];    
 
     try {
         let result = await pool.query(sql, values);        
@@ -299,10 +360,10 @@ app.post('/auth', async function (req, res) {
             if (check == true) {
                 let payload = {userid: result.rows[0].id};
                 let tok = jwt.sign(payload, secret, {expiresIn: "12h"}); //create token
-                res.status(200).json({email: result.rows[0].email, userid: result.rows[0].id, token: tok});
+                res.status(200).json({username: result.rows[0].username, userid: result.rows[0].id, token: tok});
             }
             else {
-                res.status(400).json({msg: "Wrong password"});
+                res.status(400).json({msg: "Wrong username or password"});
             }
         }
     }

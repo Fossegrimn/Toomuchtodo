@@ -16,13 +16,11 @@
 <body>
     
     <div id="firstSideBox">
-<<<<<<< HEAD
+
         <br>
-=======
         <!--<input type="text" id="updateName" placeholder="Update Name">-->
->>>>>>> 97a5eabddb5254b8e9d7d205ebcf492f19e2185b
         <input type="text" id="inpName" placeholder="List Name">
-        <input type="date" id="inpDate">
+
         <input type="text" id="inpDescr" placeholder="Description">
         <button id="btnCreate">Create list</button>
         <h3 id="txtResult"></h3>
@@ -37,7 +35,6 @@
         let container = document.getElementById('container');
 
         let inpName = document.getElementById('inpName');
-        let inpDate = document.getElementById('inpDate');
         let inpDescr = document.getElementById('inpDescr');
 
         let btnSettings = document.getElementById('btnSettings');
@@ -65,10 +62,8 @@
             container.innerHTML = ""; //delete previous content
             
             for (let value of data){
-                let date = new Date(value.date).toDateString();
                 let html = `
                     <h3>${value.name}</h3>
-                    <p id="date">Date: ${date}</p>
                     <p id="descr">${value.description}</p>
                     <hr>
                 `;
@@ -162,7 +157,6 @@
 
             let updata =  {
                 name: inpName.value,
-                date: inpDate.value,
                 descr: inpDescr.value,
                 userid: logindata.userid
             }

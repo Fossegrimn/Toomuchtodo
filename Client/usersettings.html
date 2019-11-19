@@ -10,46 +10,41 @@
 
 <body>
     <div class="firstSideBox">
-        <img class="logo" src="/images/logo_3.png" width="300px" height="100px">
-        <br><br>
-        <h2 id="SignUphead">User settings</h2>
-        <button id="btnUpdEmail">Update Email</button>
-        <button id="btnUpdPsw">Update Password</button>
         <br>
-        <button id="btnCreate">Create user</button>
-        <h3 id="txtResult"> </h3>
-        <p id="goToLogin">Go to <a href="userlogin.html">Login page</a> to use your new acount</p>
+        <img id="icon" src="/images/icon.png" width="40px" height="30px">
+        <br>
+        <h2 id="SignUphead">User settings</h2>
+        <input type="text" id="updateUsername" placeholder="Update Username">
+        <input type="password" id="updateUserPasswrd" placeholder="Update Password">
+        <button id="btnUpdUser">Update user</button>
+        <h3 id="txtResult"></h3>
+        <p id="goToLogin">Go to <a href="createlists.html">Login page</a> to use your new acount</p>
     </div>
     </body>
     
     <script>
         //Html ark for å lage bruker
-        let btnUpdEmail = document.getElementById('btnUpdEmail');
-        let btnUpdPsw = document.getElementById('btnUpdPsw');
+        let btnUpdUser = document.getElementById('btnUpdUser');
+        let updateUsername = document.getElementById('updateUsername');
+        let updateUserPasswrd = document.getElementById('updateUserPasswrd');
         let btnBack = document.getElementById('btnBack');
         let txtResult = document.getElementById('txtResult');
-        let url = "http://localhost:8080/usersettings";
+        let url = "http://localhost:8080/users";
         /*btnBack.addEventListener('click', async function(evt) {
                 window.location.href = "index.html";
             });*/
-    btnUpdEmail.addEventListener('click', async function (evt) {
-            let updateUserEmail = prompt("Type your new email:");
-            if (updateUserEmail != null){
-                updateEmail(updateUserEmail);                   
-            }
+    btnUpdUser.addEventListener('click', async function (evt) {
+            updateUser();
         });
 
-            
-
-    async function updateEmail(newname) {
-
-        console.log("--------", newname);
+    async function updateUser() {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
 
         let updata =    {
-            email: newname,
+            username: updateUsername.value,
+            pswhash: updateUserPasswrd.value
         }
 
         let cfg = {
@@ -60,21 +55,22 @@
             },
             body: JSON.stringify(updata)
         }  
-        console.log(updata);
+        console.log("updata:", updata);
         try {
             let resp = await fetch(url, cfg);
+            var data = await resp.json();
+            txtResult.innerHTML = data.msg;
 
             if (resp.status > 200) {
                 throw(resp)
             };
 
-            listLists();
+            //listLists();
         }
         catch (err) {
             console.log(err);
         }
         }
-        
 
 </script>
 

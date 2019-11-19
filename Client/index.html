@@ -12,7 +12,7 @@
     <div class="firstSideBox">
         <img class="logo" src="images/logo_3.png" width="300px" height="100px">
         <br><br><br>
-        <input type="email" id="inpEmail" placeholder="E-mail"> <br>
+        <input type="text" id="inpUsername" placeholder="Username"> <br>
         <input type="password" id="inpPasswrd" placeholder="Password">
         <br>
         <button id="btnLogin">Login</button>
@@ -28,7 +28,7 @@
     <script>
         //Html ark for å logge inn
     
-        let inpEmail = document.getElementById('inpEmail');
+        let inpUsername = document.getElementById('inpUsername');
         let inpPasswrd = document.getElementById('inpPasswrd');
         let btnLogin = document.getElementById('btnLogin');
         let txtResult = document.getElementById('txtResult');
@@ -42,7 +42,7 @@
             console.log(url);
 
             let updata =  {
-                email: inpEmail.value,
+                username: inpUsername.value,
                 passwrd: inpPasswrd.value
             }
             
@@ -55,15 +55,18 @@
            try {
                 var resp = await fetch(url, cfg);
                 var data = await resp.json();
+                txtResult.innerHTML = data.msg;
                 console.log(data)
                 if(resp.status > 202) {
                     throw(data);
                 };
 
                 console.log(data);
-                //txtResult.innerHTML = data.email + " is logged in!";
+                txtResult.innerHTML = data.username + " is logged in!";
                 sessionStorage.setItem("logindata", JSON.stringify(data));
-                window.location.href = "createlists.html";
+                setTimeout(function () {
+                window.location.href = "createlists.html"; //will redirect to your blog page (an ex: blog.html)
+            }, 1250); //will call the function after 1.25 secs.
             }
             catch (err) {
                 console.log(err);
