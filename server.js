@@ -1,4 +1,4 @@
-//--------------------------- Version 2.3 ---------------------------------------
+//--------------------------- Version 2.4 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -292,6 +292,7 @@ app.put('/users', async function (req, res) {
         await pool.query(sql, values);
     }
     catch(err) {
+        console.log("user aldready exists");
         res.status(500).json({error: err}); //send error respons
         console.log(err)
     }
