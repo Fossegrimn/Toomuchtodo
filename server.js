@@ -1,4 +1,4 @@
-//--------------------------- Version 2.0 ---------------------------------------
+//--------------------------- Version 2.5 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -70,8 +70,8 @@ app.post('/lists', async function (req, res) {
    
     let updata = req.body; //the data sent from the client
     
-    let sql = "INSERT INTO lists (id, name, date, description, userid) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *";
-    let values = [updata.name, updata.date, updata.descr, updata.userid];
+    let sql = "INSERT INTO lists (id, name, description, userid) VALUES(DEFAULT, $1, $2, $3) RETURNING *";
+    let values = [updata.name, updata.descr, updata.userid];
 
 
     try {
@@ -209,7 +209,7 @@ app.put('/items', async function (req, res) {
     try {
         await pool.query(sql, values);
 
-            res.status(200).json({msg: "List deleted"}); //send respons
+            //res.status(200).json({msg: "List deleted"}); //send respons
     }
     catch (err){
         res.status(500).json(err); //send error respons
@@ -252,29 +252,85 @@ app.post('/users', async function (req, res) {
     }
 });
 
+
+
+
+
+
+
 //endpoint - users PUT ---------------------------
 app.put('/users', async function (req, res) {
 
     let updata = req.body; //the data from the client
+    let hash = bcrypt.hashSync(updata.pswhash, 10);
 
-    let sql = 'UPDATE users SET (email, pswhash) = $2, $3 WHERE id = $1';
-    let values = [updata.id, updata.email, updata.psw];
-    
-    try {
-        let result = await pool.query(sql, values);
+    console.log("logindata server:", logindata);
 
-        if (result.rows.length > 0) {
-            res.status(200).json({msg: "Congratulation"}); //send respons
+    let sql;
+    let values;
+    let sql1 = 'UPDATE users SET email = $2, pswhash = $3 WHERE id = $1 RETURNING *';
+    let sql2 = 'UPDATE users SET email = $2 WHERE id = $1 RETURNING *';
+    let sql3 = 'UPDATE users SET pswhash = $2 WHERE id = $1 RETURNING *';
+    let values1 = [logindata.userid, updata.email, hash];
+    let values2 = [logindata.userid, updata.email];
+    let values3 = [logindata.userid, hash];
+
+    if (updata.email != "" && updata.pswhash != "") {
+        console.log("update email and password")
+        sql = sql1;
+        values = values1;
+        try {
+            await pool.query(sql, values);
         }
-        else {
-            throw "Insert failed";
+        catch(err) {
+            console.log("user aldready exists");
+            res.status(500).json({error: err}); //send error respons
+            console.log(err)
         }
+    } else if (updata.email != "") {
+        console.log("update email")
+        sql = sql2;
+        values = values2;
+        try {
+            await pool.query(sql, values);
+        }
+        catch(err) {
+            console.log("user aldready exists");
+            res.status(500).json({error: err}); //send error respons
+            console.log(err)
+        }
+    } else if (updata.pswhash != "") {
+        console.log("update password")
+        sql = sql3;
+        values = values3;
+        try {
+            await pool.query(sql, values);
+        }
+        catch(err) {
+            console.log("user aldready exists");
+            res.status(500).json({error: err}); //send error respons
+            console.log(err)
+        }
+    } else if (updata.email == "" && updata.pswhash == "") {
+        console.log("nothing to update");
+    };
+
+    /*try {
+        await pool.query(sql, values);
     }
     catch(err) {
+        console.log("user aldready exists");
         res.status(500).json({error: err}); //send error respons
         console.log(err)
-    }
+    }*/
 });
+
+
+
+
+
+
+
 
 
 // endpoint - auth (login) POST -------------------
