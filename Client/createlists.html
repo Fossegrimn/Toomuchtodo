@@ -18,7 +18,6 @@
     <div id="firstSideBox">
 
         <br>
-        <!--<input type="text" id="updateName" placeholder="Update Name">-->
         <input type="text" id="inpName" placeholder="List Name">
 
         <input type="text" id="inpDescr" placeholder="Description">
@@ -173,7 +172,7 @@
                 body: JSON.stringify(updata)
             }
             setTimeout(function () {
-                window.location.href = "createlists.html"; //will redirect to your blog page (an ex: blog.html)
+                listLists();
             }, 500); //will call the function after 0.5 secs.
             
             console.log(updata);

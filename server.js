@@ -22,28 +22,6 @@ app.use('/', express.static('client')); //for serving client files
 app.use('/lists', protectEndpoints);
 app.use('/items', protectEndpoints);
 
-function protectEndpoints(req, res, next){
-    
-    token = req.headers['authorization'];
-    
-
-    if (token) {
-        try {
-            
-            logindata = jwt.verify(token, secret);
-            
-            next();
-        }
-        catch (err) {
-            res.status(403).json({msg: "Not a valig token"})
-
-        }
-    }
-    else {
-        res.status(403).json({ msg: "No token"});
-    }
-}
-
 // ----------------------lists----------------------
 
 // endpoint - lists GET ----------------------------
@@ -72,7 +50,6 @@ app.post('/lists', async function (req, res) {
     
     let sql = "INSERT INTO lists (id, name, description, userid) VALUES(DEFAULT, $1, $2, $3) RETURNING *";
     let values = [updata.name, updata.descr, updata.userid];
-
 
     try {
         let result = await pool.query(sql, values);
@@ -132,7 +109,6 @@ app.put('/lists', async function (req, res) {
         console.log(err);
     }
 });
-
 
 //--------------------items-------------------------
 
@@ -208,16 +184,13 @@ app.put('/items', async function (req, res) {
 
     try {
         await pool.query(sql, values);
-
-            //res.status(200).json({msg: "List deleted"}); //send respons
+            res.status(200).json({msg: "Item updated"}); //send respons
     }
     catch (err){
         res.status(500).json(err); //send error respons
         console.log(err);
     }
 });
-
-
 
 //----------------------USERS----------------------
 
@@ -229,12 +202,9 @@ app.post('/users', async function (req, res) {
     //hashing the password befor it is stored in the DB
     let hash = bcrypt.hashSync(updata.passwrd, 10);
 
-    
     let sql = 'INSERT INTO users (id, username, pswhash) VALUES(DEFAULT, $1, $2) RETURNING *';
-    //let values = ["jsdlfjk@uia.no", "gdfgdfgdf"];
 
     let values = [updata.username, hash];
-    
 
     try {
         let result = await pool.query(sql, values);
@@ -253,12 +223,6 @@ app.post('/users', async function (req, res) {
     }
 });
 
-
-
-
-
-
-
 //endpoint - users PUT ---------------------------
 app.put('/users', async function (req, res) {
 
@@ -267,8 +231,6 @@ app.put('/users', async function (req, res) {
 
     console.log("logindata server:", logindata);
 
-    let sql;
-    let values;
     let sql1 = 'UPDATE users SET username = $2, pswhash = $3 WHERE id = $1 RETURNING *';
     let sql2 = 'UPDATE users SET username = $2 WHERE id = $1 RETURNING *';
     let sql3 = 'UPDATE users SET pswhash = $2 WHERE id = $1 RETURNING *';
@@ -278,65 +240,42 @@ app.put('/users', async function (req, res) {
 
     if (updata.username != "" && updata.pswhash != "") {
         console.log("update username and password")
-        sql = sql1;
-        values = values1;
         res.status(200).json({msg: "Username and password updated!"});
-        try {
-            await pool.query(sql, values);
-        }
-        catch(err) {
-            console.log("user aldready exists");
-            res.status(500).json({error: err}); //send error respons
-            console.log(err)
-        }
+            try {
+                await pool.query(sql1, values1);
+            }
+            catch(err) {
+                console.log("user aldready exists");
+                res.status(500).json({error: err}); //send error respons
+                console.log(err)
+            }
     } else if (updata.username != "") {
         console.log("update username")
-        sql = sql2;
-        values = values2;
         res.status(200).json({msg: "Username updated!"});
-        try {
-            await pool.query(sql, values);
-        }
-        catch(err) {
-            console.log("user aldready exists");
-            res.status(500).json({error: err}); //send error respons
-            console.log(err)
-        }
+            try {
+                await pool.query(sql2, values2);
+            }
+            catch(err) {
+                console.log("user aldready exists");
+                res.status(500).json({error: err}); //send error respons
+                console.log(err)
+            }
     } else if (updata.pswhash != "") {
         console.log("update password")
-        sql = sql3;
-        values = values3;
         res.status(200).json({msg: "Password updated!"});
-        try {
-            await pool.query(sql, values);
-        }
-        catch(err) {
-            console.log("user aldready exists");
-            res.status(500).json({error: err}); //send error respons
-            console.log(err)
-        }
+            try {
+                await pool.query(sql3, values3);
+            }
+            catch(err) {
+                console.log("user aldready exists");
+                res.status(500).json({error: err}); //send error respons
+                console.log(err)
+            }
     } else if (updata.username == "" && updata.pswhash == "") {
         console.log("nothing to update");
         res.status(200).json({msg: "Input fields empty!"});
     };
-
-    /*try {
-        await pool.query(sql, values);
-    }
-    catch(err) {
-        console.log("user aldready exists");
-        res.status(500).json({error: err}); //send error respons
-        console.log(err)
-    }*/
 });
-
-
-
-
-
-
-
-
 
 // endpoint - auth (login) POST -------------------
 app.post('/auth', async function (req, res) {
@@ -373,9 +312,28 @@ app.post('/auth', async function (req, res) {
     }
 });
 
-
 //function used for protectiong endpoints----------
+function protectEndpoints(req, res, next){
+    
+    token = req.headers['authorization'];
+    
 
+    if (token) {
+        try {
+            
+            logindata = jwt.verify(token, secret);
+            
+            next();
+        }
+        catch (err) {
+            res.status(403).json({msg: "Not a valig token"})
+
+        }
+    }
+    else {
+        res.status(403).json({ msg: "No token"});
+    }
+}
 
 // start server -----------------------------------
 var port = process.env.PORT || 8080;

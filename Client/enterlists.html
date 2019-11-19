@@ -21,7 +21,7 @@
     <input type="text" id="inpName" placeholder="Name">
     <br>
     <button id="btnCreate">Create item</button>
-    <button id="btnBack2">Back to lists</button>
+    <button id="btnBack">Back to lists</button>
     <h3 id="txtResult"></h3>
     <div id="container" class="scrollable"></div>
     </div>
@@ -87,9 +87,9 @@
             window.location.href = "usersettings.html";
         });
 
-btnBack2.addEventListener('click', async function(evt) {
-    window.location.href = "createlists.html";
-});
+        btnBack.addEventListener('click', async function(evt) {
+            window.location.href = "createlists.html";
+        });
     let checkBoxid;
 
     listItems();
@@ -118,6 +118,7 @@ btnBack2.addEventListener('click', async function(evt) {
             for (let value of data) {
                 let html = `
                     <h3>${value.name}</h3>
+                    <h3>${value.id}</h3>
                     <hr>
                 `;
                 let div = document.createElement("div");
