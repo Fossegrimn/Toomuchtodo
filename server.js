@@ -266,8 +266,28 @@ app.put('/users', async function (req, res) {
 
     console.log("logindata server:", logindata);
 
-    let sql = 'UPDATE users SET email = $2, pswhash = $3 WHERE id = $1 RETURNING *';
-    let values = [logindata.userid, updata.email, hash];
+    let values;
+    let sql;
+    let sql1 = 'UPDATE users SET email = $2, pswhash = $3 WHERE id = $1 RETURNING *';
+    let sql2 = 'UPDATE users SET email = $2 WHERE id = $1 RETURNING *';
+    let sql3 = 'UPDATE users SET pswhash = $2 WHERE id = $1 RETURNING *';
+    let values1 = [logindata.userid, updata.email, hash];
+    let values2 = [logindata.userid, updata.email];
+    let values3 = [logindata.userid, hash];
+
+    if (updata.email != "" && updata.pswhash != "") {
+        sql = sql1;
+        values = values1;
+    } else if (updata.email != "") {
+        console.log("update email")
+        sql = sql2;
+        values = values2;
+    } else if (updata.pswhash != "") {
+        console.log("update password")
+        sql = sql3;
+        values = values3;
+    };
+
     try {
         await pool.query(sql, values);
     }

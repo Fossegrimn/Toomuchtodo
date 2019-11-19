@@ -14,7 +14,7 @@
         <br><br>
         <h2 id="SignUphead">User settings</h2>
         <input type="email" id="updateUserEmail" placeholder="Update E-mail">
-        <input type="password" id="updateUserPasswrd" placeholder="Password">
+        <input type="password" id="updateUserPasswrd" placeholder="Update Password">
         <button id="btnUpdUser">Update user</button>
         <h3 id="txtResult"> </h3>
         <p id="goToLogin">Go to <a href="createlists.html">Login page</a> to use your new acount</p>
@@ -33,7 +33,7 @@
                 window.location.href = "index.html";
             });*/
     btnUpdUser.addEventListener('click', async function (evt) {
-                updateUser();
+            updateUser();    
         });
 
     async function updateUser() {
