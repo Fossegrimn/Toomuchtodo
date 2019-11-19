@@ -4,8 +4,10 @@
 }
 
 body {
-    background-image: url("images/back_2.jpg");
+    background: url("images/back_2.jpg")no-repeat center center fixed;
+    background-size: cover;
     text-align: center;
+    display: grid;
 }
 
 .firstSideBox #logo {
@@ -27,6 +29,12 @@ body {
     border-radius: 25px;
     min-width: 450px;
     max-width: 1000px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "namE" "dS" "cL"
+                            "cDiv";
+
 }
 
 .pic {    
@@ -49,6 +57,7 @@ body {
     -webkit-transition: 0.5s;
     transition: 0.5s;
     outline: none;
+    grid-area: namE;
 }
 
 #inpDate {
@@ -73,6 +82,7 @@ body {
     -webkit-transition: 0.5s;
     transition: 0.5s;
     outline: none;
+    grid-area: dS;
 }
 
 #inpDescr2 {
@@ -129,6 +139,7 @@ body {
     width: 20%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     cursor: pointer;
+    grid-area: cL;
 }
 .btnCreate:hover {
     background-color: rgb(85, 111, 171);
@@ -212,7 +223,7 @@ body {
 }
 
 
-#header {
+.header {
     background-color: white;
     border-radius: 12px;
     min-width: 300px;
@@ -258,5 +269,54 @@ body {
     border: 8px solid rgb(237, 236, 236);
     margin-left: -5%;
     margin-right: -5%;
+
+ }
+
+ #button1 {
+    border-radius: 50%;
+    background-color: #fda483;
+    border: none;
+  color: white;
+  padding: 10px;
+  width: 70px;
+    height: 70px;
+  text-align: center;
+  text-decoration: none;
+  font-size: small;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 200px;
+  cursor: pointer;
+  float: right;
+  
+ }
+
+ #button2 {
+    border-radius: 50%;
+    background-color: #9bb4f7a6;
+    border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+
+ }
+
+ #button3 {
+    border-radius: 50%;
+    background-color: #9bb4f7a6;
+    border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 
  }
