@@ -1,4 +1,4 @@
-//--------------------------- Version 2.1 ---------------------------------------
+//--------------------------- Version 2.3 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -70,8 +70,8 @@ app.post('/lists', async function (req, res) {
    
     let updata = req.body; //the data sent from the client
     
-    let sql = "INSERT INTO lists (id, name, date, description, userid) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *";
-    let values = [updata.name, updata.date, updata.descr, updata.userid];
+    let sql = "INSERT INTO lists (id, name, description, userid) VALUES(DEFAULT, $1, $2, $3) RETURNING *";
+    let values = [updata.name, updata.descr, updata.userid];
 
 
     try {
