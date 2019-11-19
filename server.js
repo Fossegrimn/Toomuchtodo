@@ -1,4 +1,4 @@
-//--------------------------- Version 2.5 ---------------------------------------
+//--------------------------- Version 2.6 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -279,6 +279,7 @@ app.put('/users', async function (req, res) {
         console.log("update email and password")
         sql = sql1;
         values = values1;
+        res.status(200).json({msg: "Username and password updated!"});
         try {
             await pool.query(sql, values);
         }
@@ -291,6 +292,7 @@ app.put('/users', async function (req, res) {
         console.log("update email")
         sql = sql2;
         values = values2;
+        res.status(200).json({msg: "Username updated!"});
         try {
             await pool.query(sql, values);
         }
@@ -303,6 +305,7 @@ app.put('/users', async function (req, res) {
         console.log("update password")
         sql = sql3;
         values = values3;
+        res.status(200).json({msg: "Password updated!"});
         try {
             await pool.query(sql, values);
         }
@@ -313,6 +316,7 @@ app.put('/users', async function (req, res) {
         }
     } else if (updata.email == "" && updata.pswhash == "") {
         console.log("nothing to update");
+        res.status(200).json({msg: "Input fields empty!"});
     };
 
     /*try {

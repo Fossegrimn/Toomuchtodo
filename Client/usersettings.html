@@ -16,7 +16,7 @@
         <input type="email" id="updateUserEmail" placeholder="Update E-mail">
         <input type="password" id="updateUserPasswrd" placeholder="Update Password">
         <button id="btnUpdUser">Update user</button>
-        <h3 id="txtResult"> </h3>
+        <h3 id="txtResult"></h3>
         <p id="goToLogin">Go to <a href="createlists.html">Login page</a> to use your new acount</p>
     </div>
     </body>
@@ -57,6 +57,8 @@
         console.log("updata:", updata);
         try {
             let resp = await fetch(url, cfg);
+            var data = await resp.json();
+            txtResult.innerHTML = data.msg;
 
             if (resp.status > 200) {
                 throw(resp)
