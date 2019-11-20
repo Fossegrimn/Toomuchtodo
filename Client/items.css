@@ -1,0 +1,262 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("images/back_2.jpg");
+    text-align: center;
+}
+
+.firstSideBox #logo {
+    margin-right: 30px;
+}
+.firstSideBox #SignupP {
+    font-size: x-small;
+}
+
+#firstSideBox {
+    background-color: rgb(237, 236, 236);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    height: 800px;
+    padding-top: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-color: grey;
+    border-radius: 25px;
+    min-width: 450px;
+    max-width: 1000px;
+}
+
+.pic {    
+    padding: 2px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+    margin-top: 10px;
+    margin-right: 60%;
+
+}
+
+#inpName {
+    width: 30%;
+    height: 5.5%;
+    padding: 12px 20px;
+    padding-top: 1%;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+#inpDate {
+    width: 15%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+#inpDescr {
+    width: 20%;
+    height: 5.5%;
+    padding: 12px 20px;
+    padding-top: 1%;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+#inpDescr2 {
+    width: 20%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+.headerBtns {
+        background-color: rgb(4, 43, 94);
+        border: none;
+        color: white;
+        padding: 10px 10px;
+        text-align: center;
+        font-size: 12px;
+        margin: 30px 10px;
+        opacity: 0.6;
+        transition: 0.3s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 5px;
+        width: 8%;
+        float: right;
+}
+
+.headerBtns:hover {
+    background-color: rgb(4, 43, 135);
+    opacity: 1
+}
+
+#btnCreate {
+    background-color: rgb(14, 39, 71);
+    border: none;
+    color: rgb(245, 245, 245);
+    padding: 12px;
+    padding-top: 1%;
+    margin-bottom: 1.5%;
+    text-align: center;
+    font-size: 12px;
+    margin-right: 12px;
+    margin-top: 12px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 20%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+}
+.btnCreate:hover {
+    background-color: rgb(85, 111, 171);
+    opacity: 1;
+}
+
+
+.btnLogOut {
+    background-color: rgb(53, 80, 116);
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    margin: 25px -10px;
+    margin-right: 30px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 8%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    float: right;
+    
+}
+.btnLogOut:hover {
+    background-color: rgb(84, 111, 171);
+    opacity: 1
+}
+
+#btnBack {
+    background-color: rgb(4, 43, 94);
+    border: none;
+    color: rgb(251, 211, 201);
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    margin: 4px 2px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 20%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+    float: right;
+}
+.btnBack:hover {
+    background-color: rgb(4, 43, 135);
+    opacity: 1
+}
+
+#btnBack2 {
+    background-color: rgb(14, 39, 71);
+    border: none;
+    color: rgb(245, 245, 245);
+    padding: 12px;
+    padding-top: 1%;
+    margin-bottom: 1.5%;
+    text-align: center;
+    font-size: 12px;
+    margin-right: 12px;
+    margin-top: 12px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 20%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+}
+.btnBack2:hover {
+    background-color: rgb(4, 43, 135);
+    opacity: 1
+}
+
+
+.header {
+    background-color: white;
+    border-radius: 12px;
+    min-width: 300px;
+    
+}
+
+.scrollable {
+    min-height: 200px;
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+/*Container*/
+
+#container {
+    background-color: rgb(255, 255, 255);
+    border: 1px black;
+    padding: 20px;
+    margin: 40px;
+    border-radius: 10px;
+    text-align: left;
+ }
+
+ #container h3 {
+     font-family: Verdana, Geneva, Tahoma, sans-serif;
+     font-size: x-large;
+     margin-top: auto;
+     word-wrap: break-word;
+ }
+
+ #container #date {
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: small;
+ }
+
+ #container #descr {
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: medium;
+
+ }
+
+ #container hr {
+    border: 8px solid rgb(237, 236, 236);
+    margin-left: -5%;
+    margin-right: -5%;
+
+ }

@@ -4,21 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="settings.css">
     <title>Settings</title>
 </head>
 
 <body>
     <div class="firstSideBox">
-        <br>
-        <img id="icon" src="/images/icon.png" width="40px" height="30px">
-        <br>
+        <a href ="createlists.html">
+        <img class="logo" src="/images/logo_3.png" width="300px" height="100px">
+        </a>
+        <br><br><br>
+        <img id="icon" src="/images/icon.png" width="40px" height="40px">
         <h2 id="SignUphead">User settings</h2>
         <input type="text" id="updateUsername" placeholder="Update Username">
+        <br>
         <input type="password" id="updateUserPasswrd" placeholder="Update Password">
+        <br>
         <button id="btnUpdUser">Update user</button>
-        <h3 id="txtResult"></h3>
-        <p id="goToLogin">Go to <a href="createlists.html">Login page</a> to use your new acount</p>
+        <p id="txtResult"></p>
+        <p id="goToLogin">Go <a href="createlists.html">Back to lists</a> </p>
     </div>
     </body>
     
@@ -27,12 +31,9 @@
         let btnUpdUser = document.getElementById('btnUpdUser');
         let updateUsername = document.getElementById('updateUsername');
         let updateUserPasswrd = document.getElementById('updateUserPasswrd');
-        let btnBack = document.getElementById('btnBack');
         let txtResult = document.getElementById('txtResult');
         let url = "http://localhost:8080/users";
-        /*btnBack.addEventListener('click', async function(evt) {
-                window.location.href = "index.html";
-            });*/
+
     btnUpdUser.addEventListener('click', async function (evt) {
             updateUser();
         });
@@ -64,8 +65,6 @@
             if (resp.status > 200) {
                 throw(resp)
             };
-
-            //listLists();
         }
         catch (err) {
             console.log(err);
