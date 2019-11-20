@@ -5,19 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="items.css">
-    <title>Expenselist</title>
+    
 </head>
 
     <header class="header">
         <img class="pic" src="images/logo_2.png" width="225px" height="80px">
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnSettings" class="headerBtns">Settings</button>
+        
     </header>
 
 <body>
-
+        
     <div id="firstSideBox">
         <br>
+        <h1 id="listName"></h1>
     <input type="text" id="inpName" placeholder="Name">
     <br>
     <button id="btnCreate">Create item</button>
@@ -33,6 +35,7 @@
     let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
 
+    let listName = document.getElementById("listName");
     let btnSettings = document.getElementById('btnSettings');
     let inpDescr = document.getElementById('inpDescr');
     let btnBack = document.getElementById('btnBack');
@@ -90,14 +93,12 @@
         btnBack.addEventListener('click', async function(evt) {
             window.location.href = "createlists.html";
         });
-    let checkBoxid;
 
     listItems();
     // ---------------------------------------    
     async function listItems() {
 
         try {
-
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;
 
@@ -108,6 +109,7 @@
 
             var resp = await fetch(url + "?listsid=" + listsid, cfg);
             var data = await resp.json();
+            listName.innerHTML = listsid;
 
             if (resp.status > 202) {
                 throw(data);
@@ -118,7 +120,6 @@
             for (let value of data) {
                 let html = `
                     <h3>${value.name}</h3>
-                    <h3>${value.id}</h3>
                     <hr>
                 `;
                 let div = document.createElement("div");
@@ -141,13 +142,20 @@
                         listItems();                        
                     }
                 });
-                let checkBox = document.createElement("input");
-                    checkBox.type = "checkbox";
-                    checkBox.style.cursor = "pointer";
-                    checkBox.onclick = check;
-                    checkBox.checked = false;
-                    checkBoxid = value.id;
 
+
+                let checkBox = document.createElement("input");
+                checkBox.type = "checkbox";
+                checkBox.style.cursor = "pointer";
+                checkBox.checked = false;
+                checkBox.addEventListener("click", function() {
+                    console.log(value.id);
+                    console.log(checkBox.checked);
+                    console.log(value.name);
+                    checkItem(value.id, checkBox.checked, value.name);
+                });
+                
+                    
                 div.insertBefore(checkBox, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
@@ -159,12 +167,38 @@
         }
     }
 
-    async function check(){
-                console.log("checkcheck");
-                console.log(checkBoxid);
+    async function checkItem(itemid, checkValue, itemname) {
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
 
-            }
+        let updata =    {
+            checked: checkValue,
+            id: itemid,
+            name: itemname
+        }
 
+        let cfg = {
+            method: "PUT",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }  
+        console.log(updata);
+        try {
+            let resp = await fetch(url, cfg);
+
+            if (resp.status > 200) {
+                throw(resp)
+            };
+
+            listItems();
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
     
     //---------------------
     async function deleteItems(id) {

@@ -1,4 +1,4 @@
-//--------------------------- Version 2.8 ---------------------------------------
+//--------------------------- Version 2.9 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -191,6 +191,24 @@ app.put('/items', async function (req, res) {
         console.log(err);
     }
 });
+
+//endpoint - items CHECK ---------------------------------
+app.put('/items', async function (req, res) {
+
+    let updata = req.body;
+    let sql = 'UPDATE items SET checked = $2 WHERE id = $1 RETURNING *';
+    let values = [updata.id, updata.checked];
+
+    try {
+        await pool.query(sql, values);
+            res.status(200).json({msg: "Item updated"}); //send respons
+    }
+    catch (err){
+        res.status(500).json(err); //send error respons
+        console.log(err);
+    }
+});
+
 
 //----------------------USERS----------------------
 
