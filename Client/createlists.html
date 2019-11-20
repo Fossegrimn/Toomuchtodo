@@ -11,6 +11,7 @@
     <header class="header">
         <img class="pic" src="images/logo_2.png" width="225px" height="80px">
         <button id="btnLogOut" class="headerBtns">Log out</button>
+        <button id="btnShare" class="headerBtns">Shared Lists</button>
         <button id="btnSettings" class="headerBtns">Settings</button>
     </header>
 <body>
@@ -36,6 +37,7 @@
         let inpName = document.getElementById('inpName');
         let inpDescr = document.getElementById('inpDescr');
 
+        let btnShare = document.getElementById('btnShare');
         let btnSettings = document.getElementById('btnSettings');
         let btnCreate = document.getElementById('btnCreate');
         let btnLogOut = document.getElementById('btnLogOut');
@@ -70,6 +72,15 @@
                 div.innerHTML = html;
                 //Dette er det som vises til listene
 
+                //Lager ern knapp for å kunne se listene
+                let lstEntBtn = document.createElement("button");
+                lstEntBtn.setAttribute("id", "button1");
+                lstEntBtn.innerHTML = "Enter List";
+                lstEntBtn.addEventListener('click', function (evt) {
+                    sessionStorage.setItem("listsid", value.id);
+                    location.href = "enterlists.html";
+                });
+
                 //Lager ern knapp for å kunne oppdatere listene
                 let updateBtn = document.createElement("button");
                 updateBtn.setAttribute("id", "button2");
@@ -79,15 +90,6 @@
                     if (updateName != null){
                         updateList(updateName, value.id);                        
                     }
-                });
-
-                //Lager ern knapp for å kunne se listene
-                let lstEntBtn = document.createElement("button");
-                lstEntBtn.setAttribute("id", "button1");
-                lstEntBtn.innerHTML = "Enter List";
-                lstEntBtn.addEventListener('click', function (evt) {
-                    sessionStorage.setItem("listsid", value.id);
-                    location.href = "enterlists.html";
                 });
 
                 //Lager en delete knapp som
@@ -100,8 +102,24 @@
                     };
                 });
 
+                //Share knapp
+                let shared = false;
+                let shrBtn = document.createElement("button");
+                shrBtn.setAttribute("id", "button4");
+                shrBtn.innerHTML = "Share";
+                shrBtn.addEventListener('click', function (evt) {
+                    if (confirm("Are you sure you want to share this list?")){
+                        shared = true;
+                        shareList(value.id, value.name, shared);
+                    } else {
+                        shared = false;
+                        shareList(value.id, value.name, shared);
+                    }
+                });
+                
                 div.insertBefore(lstEntBtn, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
+                div.insertBefore(shrBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
@@ -111,10 +129,45 @@
         }
     }
     
+async function shareList(listid, listname, status) {
+
+    let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+    let token = logindata.token;
+
+        let updata =    {
+            id: listid,
+            name: listname,
+            shared: status
+        }
+
+        let cfg = {
+            method: "PUT",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }  
+        console.log(updata);
+        try {
+            let resp = await fetch(url, cfg);
+            var data = await resp.json();
+            if (resp.status > 200) {
+                throw(resp)
+            };
+        }
+        catch (err) {
+            console.log(err);
+        }
+}
+
+
+
     //---------------------
     async function deleteList(id) {
 
-        let updata = {listsid: id};
+        let updata = {
+            listsid: id};
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
@@ -148,6 +201,10 @@
 
         btnSettings.addEventListener('click', async function(evt) {
             window.location.href = "usersettings.html";
+        });
+
+        btnShare.addEventListener('click', async function(evt) {
+            window.location.href = "sharedlists.html";
         });
 
         btnCreate.addEventListener('click', async function(evt) {

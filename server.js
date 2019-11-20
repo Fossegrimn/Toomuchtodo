@@ -1,4 +1,4 @@
-//--------------------------- Version 3.0 ---------------------------------------
+//--------------------------- Version 3.1 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -6,7 +6,7 @@ const app = express(); //server-app
 const bcrypt = require('bcrypt'); //Hashtagger haha, passordet
 const pg = require('pg');
 const jwt = require('jsonwebtoken');
-const secret = "jhgkjhkj";
+const secret = "n9}rPL$v'v2wm,55hZX<~u:";
 
 const dbURI = "postgres://mrculhchcipczd:fc7107e2a5205045f559d12c831331516f7418db9a359b8732f92c1087aa0c79@ec2-54-217-235-87.eu-west-1.compute.amazonaws.com:5432/d5ltmt8lskihj" + "?ssl=true";
 const connstring  = process.env.DATABASE_URL || dbURI;
@@ -28,8 +28,10 @@ app.use('/items', protectEndpoints);
 app.get('/lists', async function (req, res) {
     
     let sql = 'SELECT * FROM lists WHERE userid = $1';
-
+    //let sql2 = 'SELECT * FROM lists WHERE shared = $1';
     let values = [logindata.userid];
+    //let values2 = [shared];
+
 
     console.log(logindata);
 
@@ -96,13 +98,13 @@ app.put('/lists', async function (req, res) {
 
     let updata = req.body;
 
-    let sql = 'UPDATE lists SET name = $2 WHERE id = $1';
-    let values = [updata.id, updata.name];
+    let sql = 'UPDATE lists SET name = $2, shared = $3 WHERE id = $1';
+    let values = [updata.id, updata.name, updata.shared];
 
     try {
         await pool.query(sql, values);
 
-            res.status(200).json({msg: "List deleted"}); //send respons
+            res.status(200).json({msg: "List updated"}); //send respons
     }
     catch (err){
         res.status(500).json(err); //send error respons
