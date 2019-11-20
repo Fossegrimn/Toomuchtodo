@@ -1,4 +1,4 @@
-//--------------------------- Version 2.9 ---------------------------------------
+//--------------------------- Version 3.0 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -157,7 +157,7 @@ app.delete('/items', async function (req, res) {
     let updata = req.body; //the data sent from the client 
 
     let sql = 'DELETE FROM items WHERE id = $1 RETURNING *';
-    let values = [updata.expenseID];
+    let values = [updata.itemid];
 
     try {
         let result = await pool.query(sql, values);
@@ -176,29 +176,12 @@ app.delete('/items', async function (req, res) {
 
 //endpoint - items UPDATE ---------------------------------
 app.put('/items', async function (req, res) {
-
+    
     let updata = req.body;
 
-    let sql = 'UPDATE items SET name = $2 WHERE id = $1';
-    let values = [updata.id, updata.name];
-
-    try {
-        await pool.query(sql, values);
-            res.status(200).json({msg: "Item updated"}); //send respons
-    }
-    catch (err){
-        res.status(500).json(err); //send error respons
-        console.log(err);
-    }
-});
-
-//endpoint - items CHECK ---------------------------------
-app.put('/items', async function (req, res) {
-
-    let updata = req.body;
-    let sql = 'UPDATE items SET checked = $2 WHERE id = $1 RETURNING *';
-    let values = [updata.id, updata.checked];
-
+    let sql = 'UPDATE items SET name = $2, checked = $3 WHERE id = $1 RETURNING *';
+    let values = [updata.id, updata.name, updata.checked];
+    
     try {
         await pool.query(sql, values);
             res.status(200).json({msg: "Item updated"}); //send respons

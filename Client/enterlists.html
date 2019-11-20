@@ -94,6 +94,8 @@
             window.location.href = "createlists.html";
         });
 
+        
+
     listItems();
     // ---------------------------------------    
     async function listItems() {
@@ -109,7 +111,7 @@
 
             var resp = await fetch(url + "?listsid=" + listsid, cfg);
             var data = await resp.json();
-            listName.innerHTML = listsid;
+            
 
             if (resp.status > 202) {
                 throw(data);
@@ -142,20 +144,18 @@
                         listItems();                        
                     }
                 });
-
-
+                
                 let checkBox = document.createElement("input");
                 checkBox.type = "checkbox";
                 checkBox.style.cursor = "pointer";
-                checkBox.checked = false;
+                checkBox.checked = value.checked;
                 checkBox.addEventListener("click", function() {
                     console.log(value.id);
                     console.log(checkBox.checked);
                     console.log(value.name);
                     checkItem(value.id, checkBox.checked, value.name);
                 });
-                
-                    
+                   
                 div.insertBefore(checkBox, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
@@ -167,12 +167,12 @@
         }
     }
 
-    async function checkItem(itemid, checkValue, itemname) {
+    async function checkItem(itemid, checkvalue, itemname) {
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
 
         let updata =    {
-            checked: checkValue,
+            checked: checkvalue,
             id: itemid,
             name: itemname
         }
@@ -188,12 +188,13 @@
         console.log(updata);
         try {
             let resp = await fetch(url, cfg);
-
+            var data = await resp.json();
+            listName.innerHTML = data.msg;
             if (resp.status > 200) {
                 throw(resp)
             };
 
-            listItems();
+            //listItems();
         }
         catch (err) {
             console.log(err);
@@ -203,7 +204,9 @@
     //---------------------
     async function deleteItems(id) {
 
-        let updata = { expenseID: id };
+        let updata = { 
+            itemid: id 
+        };
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
@@ -219,7 +222,6 @@
 
         try {
             let resp = await fetch(url, cfg);
-
             if (resp.status > 202) {
                 throw(data);
             };
@@ -252,7 +254,8 @@
         console.log(updata);
         try {
             let resp = await fetch(url, cfg);
-
+            var data = await resp.json();
+            listName.innerHTML = data.msg;
             if (resp.status > 200) {
                 throw(resp)
             };
