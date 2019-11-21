@@ -82,7 +82,7 @@
                 updateBtn.addEventListener('click', async function (evt) {
                     let updateName = prompt("New list name:");
                     if (updateName != null){
-                        updateList(updateName, value.id);                        
+                        updateList(updateName, value.id, shared);                        
                     }
                 });
 
@@ -154,6 +154,7 @@ async function shareList(listid, listname, status) {
         try {
             let resp = await fetch(url, cfg);
             var data = await resp.json();
+
             if (resp.status > 200) {
                 throw(resp)
             };
@@ -251,16 +252,15 @@ async function shareList(listid, listname, status) {
 
 //----------------------------------------------------------------------------
 
-    async function updateList(newname, listid) {
-
-        console.log("--------", newname);
+    async function updateList(newname, listid, status) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
 
         let updata =    {
             name: newname,
-            id: listid
+            id: listid,
+            shared: status
         }
         
 
@@ -279,7 +279,6 @@ async function shareList(listid, listname, status) {
             if (resp.status > 200) {
                 throw(resp)
             };
-
             listLists();
         }
         catch (err) {

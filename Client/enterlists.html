@@ -22,12 +22,25 @@
         
     <div id="enterBox">
         <br>
+<<<<<<< HEAD
             <h1 id="listName"></h1>
             <input type="text" id="inpName" placeholder="Name">
         <br>
             <button id="btnCreate">Create item</button>
             <h3 id="txtResult"></h3>
         <div id="container" class="scrollable"></div>
+=======
+        <h1 id="listName"></h1>
+    <input type="text" id="inpName" placeholder="Name">
+    <input type="search" id="inpTag" placeholder="Search tags">
+
+    <br>
+    <button id="btnCreate">Create item</button>
+    <button id="btnBack">Back to lists</button>
+    <button id="btnTag">Search tags</button>
+    <h3 id="txtResult"></h3>
+    <div id="container" class="scrollable"></div>
+>>>>>>> 258b9c9fc196b9c17ea01282c279e59f35b3127d
     </div>
 
 </body>
@@ -52,6 +65,12 @@
     let listsid = sessionStorage.getItem("listsid");
 
     let btnLogOut = document.getElementById('btnLogOut');
+    let btnTag = document.getElementById('btnTag');
+    let inpTag = document.getElementById('inpTag');
+
+    btnTag.addEventListener('click', async function(evt) {
+            console.log(inpTag.value);
+        });
 
 
         btnCreate.addEventListener('click', async function(evt) {
@@ -103,6 +122,8 @@
         btnBack.addEventListener('click', async function(evt) {
             window.location.href = "createlists.html";
         });
+
+        
 
         
 

@@ -1,4 +1,4 @@
-//--------------------------- Version 3.2 ---------------------------------------
+//--------------------------- Version 3.5 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -301,7 +301,7 @@ app.delete('/users', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "List deleted"}); //send respons
+            res.status(200).json({msg: "User deleted"}); //send respons
         }
         else {
             throw "Failed deleting list";
