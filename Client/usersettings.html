@@ -21,6 +21,7 @@
         <input type="password" id="updateUserPasswrd" placeholder="Update Password">
         <br>
         <button id="btnUpdUser">Update user</button>
+        <button id="btnDeleteUser">DELETE USER</button>
         <p id="txtResult"></p>
         <p id="goToLogin">Go <a href="createlists.html">Back to lists</a> </p>
     </div>
@@ -33,6 +34,23 @@
         let updateUserPasswrd = document.getElementById('updateUserPasswrd');
         let txtResult = document.getElementById('txtResult');
         let url = "http://localhost:8080/users";
+        let btnDeleteUser = document.getElementById("btnDeleteUser");
+        let logindata = sessionStorage.getItem("logindata");
+
+    btnDeleteUser.addEventListener('click', async function (evt) {
+            let userDelete = confirm("Are you sure you want to delete this user?");
+            if (userDelete != null){
+                let userDelete2 = confirm("Are you really sure? This action cannot be undone!");
+                if (userDelete2 != null){ 
+                    deleteUser();
+                    console.log(logindata);             
+            } else {
+                conosloe.log("nothing");
+                    }
+        }
+    });
+
+
 
     btnUpdUser.addEventListener('click', async function (evt) {
             updateUser();
@@ -69,7 +87,48 @@
         catch (err) {
             console.log(err);
         }
+    }
+
+//--------------------------------------------------------
+
+    async function deleteUser() {
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
+        let updata = {
+            id: logindata.userid
+        };
+
+        let cfg = {
+            method: "DELETE",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
         }
+        
+
+        try {
+            let resp = await fetch(url, cfg);
+
+            setTimeout(function () {
+                window.location.href = "index.html";
+            }, 1500); //will call the function after 0.5 secs.
+            
+            if (resp.status > 200) {
+                throw(data)
+            };
+            
+           
+        }
+        catch (err) {
+            console.log(err);
+        }
+        }
+
+
 
 </script>
 

@@ -32,12 +32,14 @@
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
+
+    let emptyTag = "";
+
     let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
 
     let listName = document.getElementById("listName");
     let btnSettings = document.getElementById('btnSettings');
-    let inpDescr = document.getElementById('inpDescr');
     let btnBack = document.getElementById('btnBack');
     let btnCreate = document.getElementById('btnCreate');
     let txtResult = document.getElementById('txtResult');
@@ -52,7 +54,8 @@
 
             let updata =  {
                 name: inpName.value,
-                listsid: listsid
+                listsid: listsid,
+                tag: emptyTag
             }
             
             let cfg = {
@@ -97,7 +100,7 @@
         
 
     listItems();
-    // ---------------------------------------    
+    // ---------------------------------------  
     async function listItems() {
 
         try {
@@ -122,6 +125,7 @@
             for (let value of data) {
                 let html = `
                     <h3>${value.name}</h3>
+                    <p>${value.tag}</p>
                     <hr>
                 `;
                 let div = document.createElement("div");
@@ -140,8 +144,17 @@
                 updateBtn.addEventListener('click', async function (evt) {
                     let updateItemName = prompt("New item name:");
                     if (updateItemName != null){
-                        updateItem(updateItemName, value.id);
-                        listItems();                        
+                        updateItem(value.id, updateItemName, value.tag, checkBox.checked);                       
+                    }
+                });
+
+                let tagBtn = document.createElement("button");
+                tagBtn.innerHTML = "Add tag";
+                tagBtn.style.cursor = "pointer";
+                tagBtn.addEventListener('click', async function (evt) {
+                    let addItemTag = prompt("Add a tag:");
+                    if (addItemTag != null){
+                        updateItem(value.id, value.name, addItemTag, checkBox.checked);                  
                     }
                 });
                 
@@ -153,48 +166,15 @@
                     console.log(value.id);
                     console.log(checkBox.checked);
                     console.log(value.name);
-                    checkItem(value.id, checkBox.checked, value.name);
+                    updateItem(value.id, value.name, value.tag, checkBox.checked);
                 });
                    
                 div.insertBefore(checkBox, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
+                div.insertBefore(tagBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
-
-    async function checkItem(itemid, checkvalue, itemname) {
-        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
-        let token = logindata.token;
-
-        let updata =    {
-            checked: checkvalue,
-            id: itemid,
-            name: itemname
-        }
-
-        let cfg = {
-            method: "PUT",
-            headers: {
-                "authorization": token,
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify(updata)
-        }  
-        console.log(updata);
-        try {
-            let resp = await fetch(url, cfg);
-            var data = await resp.json();
-            listName.innerHTML = data.msg;
-            if (resp.status > 200) {
-                throw(resp)
-            };
-
-            //listItems();
         }
         catch (err) {
             console.log(err);
@@ -233,14 +213,16 @@
         }
     }
 
-    async function updateItem(newitemname, itemid) {
+    async function updateItem(itemid, newitemname, itemtag, checkvalue) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
 
         let updata =    {
+            id: itemid,
             name: newitemname,
-            id: itemid
+            tag: itemtag,
+            checked: checkvalue
         }
 
         let cfg = {
