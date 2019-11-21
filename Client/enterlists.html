@@ -5,23 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="items.css">
-    <title>Expenselist</title>
+    
 </head>
 
     <header class="header">
         <img class="pic" src="images/logo_2.png" width="225px" height="80px">
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnSettings" class="headerBtns">Settings</button>
+        
     </header>
 
 <body>
-
+        
     <div id="firstSideBox">
         <br>
+        <h1 id="listName"></h1>
     <input type="text" id="inpName" placeholder="Name">
     <br>
     <button id="btnCreate">Create item</button>
-    <button id="btnBack2">Back to lists</button>
+    <button id="btnBack">Back to lists</button>
     <h3 id="txtResult"></h3>
     <div id="container" class="scrollable"></div>
     </div>
@@ -30,6 +32,9 @@
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
+
+    let emptyTag = "";
+
     let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
 
@@ -54,7 +59,8 @@
 
             let updata =  {
                 name: inpName.value,
-                listsid: listsid
+                listsid: listsid,
+                tag: emptyTag
             }
             
             let cfg = {
@@ -92,17 +98,17 @@
             window.location.href = "usersettings.html";
         });
 
-btnBack2.addEventListener('click', async function(evt) {
-    window.location.href = "createlists.html";
-});
-    let checkBoxid;
+        btnBack.addEventListener('click', async function(evt) {
+            window.location.href = "createlists.html";
+        });
+
+        
 
     listItems();
-    // ---------------------------------------    
+    // ---------------------------------------  
     async function listItems() {
 
         try {
-
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;
 
@@ -113,6 +119,7 @@ btnBack2.addEventListener('click', async function(evt) {
 
             var resp = await fetch(url + "?listsid=" + listsid, cfg);
             var data = await resp.json();
+            
 
             if (resp.status > 202) {
                 throw(data);
@@ -123,6 +130,7 @@ btnBack2.addEventListener('click', async function(evt) {
             for (let value of data) {
                 let html = `
                     <h3>${value.name}</h3>
+                    <p>${value.tag}</p>
                     <hr>
                 `;
                 let div = document.createElement("div");
@@ -141,19 +149,34 @@ btnBack2.addEventListener('click', async function(evt) {
                 updateBtn.addEventListener('click', async function (evt) {
                     let updateItemName = prompt("New item name:");
                     if (updateItemName != null){
-                        updateItem(updateItemName, value.id);
-                        listItems();                        
+                        updateItem(value.id, updateItemName, value.tag, checkBox.checked);                       
                     }
                 });
-                let checkBox = document.createElement("input");
-                    checkBox.type = "checkbox";
-                    checkBox.style.cursor = "pointer";
-                    checkBox.onclick = check;
-                    checkBox.checked = false;
-                    checkBoxid = value.id;
 
+                let tagBtn = document.createElement("button");
+                tagBtn.innerHTML = "Add tag";
+                tagBtn.style.cursor = "pointer";
+                tagBtn.addEventListener('click', async function (evt) {
+                    let addItemTag = prompt("Add a tag:");
+                    if (addItemTag != null){
+                        updateItem(value.id, value.name, addItemTag, checkBox.checked);                  
+                    }
+                });
+                
+                let checkBox = document.createElement("input");
+                checkBox.type = "checkbox";
+                checkBox.style.cursor = "pointer";
+                checkBox.checked = value.checked;
+                checkBox.addEventListener("click", function() {
+                    console.log(value.id);
+                    console.log(checkBox.checked);
+                    console.log(value.name);
+                    updateItem(value.id, value.name, value.tag, checkBox.checked);
+                });
+                   
                 div.insertBefore(checkBox, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
+                div.insertBefore(tagBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
@@ -162,18 +185,13 @@ btnBack2.addEventListener('click', async function(evt) {
             console.log(err);
         }
     }
-
-    async function check(){
-                console.log("checkcheck");
-                console.log(checkBoxid);
-
-            }
-
     
     //---------------------
     async function deleteItems(id) {
 
-        let updata = { expenseID: id };
+        let updata = { 
+            itemid: id 
+        };
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
@@ -189,7 +207,6 @@ btnBack2.addEventListener('click', async function(evt) {
 
         try {
             let resp = await fetch(url, cfg);
-
             if (resp.status > 202) {
                 throw(data);
             };
@@ -201,14 +218,16 @@ btnBack2.addEventListener('click', async function(evt) {
         }
     }
 
-    async function updateItem(newitemname, itemid) {
+    async function updateItem(itemid, newitemname, itemtag, checkvalue) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
 
         let updata =    {
+            id: itemid,
             name: newitemname,
-            id: itemid
+            tag: itemtag,
+            checked: checkvalue
         }
 
         let cfg = {
@@ -222,7 +241,8 @@ btnBack2.addEventListener('click', async function(evt) {
         console.log(updata);
         try {
             let resp = await fetch(url, cfg);
-
+            var data = await resp.json();
+            listName.innerHTML = data.msg;
             if (resp.status > 200) {
                 throw(resp)
             };
