@@ -107,7 +107,7 @@
 
                 let shared = false;
                 let shrBtn = document.createElement("button");
-                shrBtn.setAttribute("id", "button4");
+                shrBtn.setAttribute("id", "btn4");
                 shrBtn.innerHTML = "Share";
                 shrBtn.addEventListener('click', function (evt) {
                     if (confirm("Are you sure you want to share this list?")){
@@ -262,6 +262,7 @@ async function shareList(listid, listname, status) {
             name: newname,
             id: listid
         }
+        
 
         let cfg = {
             method: "PUT",

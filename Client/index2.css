@@ -17,9 +17,9 @@ body {
     border-radius: 12px; 
     height: auto;
         display: grid;
-        grid-template-columns: 80% 10% 10%;
-        grid-template-rows: 2;
-        grid-template-areas: "logo button1 button2" 
+        grid-template-columns: 70% 10% 10% 10%;
+        grid-template-rows: 3;
+        grid-template-areas: "logo button0 button1 button2" 
 }
 
 .pic {    
@@ -96,6 +96,32 @@ body {
     font-size: 1.5vw;
     }
 }
+
+#btnShare {
+    background-color: rgb(53, 80, 116);
+    border: none;
+    color: white;
+    font-size: 1vw;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 75%;
+    min-width: 75%;
+    height: 45%;
+    min-height: 45%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 16%;
+        grid-area: button0;
+}
+#btnShare:hover {
+    background-color: rgb(84, 111, 171);
+    opacity: 1
+}
+
+
 
 
 /*------------------LISTE-------------------*/
@@ -257,7 +283,7 @@ body {
     margin-top: 8%;
 }
 
-#btn1, #btn2, #btn3 {
+#btn1, #btn2, #btn3, #btn4 {
     background:  rgb(83, 106, 136);
     opacity: 0.6;
     border: none;
@@ -272,7 +298,7 @@ body {
     padding: 5px;
 }
       
-#btn1:hover, #btn2:hover, #btn3:hover {
+#btn1:hover, #btn2:hover, #btn3:hover, #btn4:hover {
     background-color: rgb(84, 111, 171);
     opacity: 1
 }
