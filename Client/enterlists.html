@@ -41,13 +41,17 @@
     let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
 
-    let listName = document.getElementById("listName");
+
     let btnSettings = document.getElementById('btnSettings');
+    let inpDescr = document.getElementById('inpDescr');
+
+    let inpName = document.getElementById('inpName'); 
     let btnBack = document.getElementById('btnBack');
     let btnCreate = document.getElementById('btnCreate');
     let txtResult = document.getElementById('txtResult');
     let checkbox = document.getElementById("checkbox");
     let listsid = sessionStorage.getItem("listsid");
+
     let btnLogOut = document.getElementById('btnLogOut');
     let btnTag = document.getElementById('btnTag');
     let inpTag = document.getElementById('inpTag');
@@ -55,6 +59,7 @@
     btnTag.addEventListener('click', async function(evt) {
             console.log(inpTag.value);
         });
+
 
         btnCreate.addEventListener('click', async function(evt) {
 

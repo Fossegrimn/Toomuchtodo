@@ -4,25 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" href="index2.css">-->
+    <link rel="stylesheet" href="index2.css">
     <title>Travelcreate</title>
 </head>
 
+<body>
+
     <header class="header">
         <img class="pic" src="images/logo_2.png" width="225px" height="80px">
+       
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnShare" class="headerBtns">Shared Lists</button>
         <button id="btnSettings" class="headerBtns">Settings</button>
     </header>
-<body>
-    
-    <div id="firstSideBox">
 
+
+    <div id="listbox">
         <br>
-        <input type="text" id="inpName" placeholder="List Name">
-
-        <input type="text" id="inpDescr" placeholder="Description">
-        <button id="btnCreate">Create list</button>
+        <!--<input type="text" id="updateName" placeholder="Update Name">-->
+        <input type="text" id="inpName" class="listinput" placeholder=" List Name">
+        <input type="text" id="inpDescr" class="listinput" placeholder=" Description">
+        <button id="btnCreate" class="listinput">Create list</button>
         <h3 id="txtResult"></h3>
         <div id="container" class="scrollable"></div>
     </div>
@@ -72,29 +74,30 @@
                 div.innerHTML = html;
                 //Dette er det som vises til listene
 
-                //Lager ern knapp for å kunne se listene
+
+                //Lager ern knapp for å kunne oppdatere listene
+                let updateBtn = document.createElement("button");
+                updateBtn.setAttribute("id", "btn2");
+                updateBtn.innerHTML = "Change name";
+                updateBtn.addEventListener('click', async function (evt) {
+                    let updateName = prompt("New list name:");
+                    if (updateName != null){
+                        updateList(updateName, value.id, shared);                        
+                    }
+                });
+
+                //Lager en knapp for å kunne se listene
                 let lstEntBtn = document.createElement("button");
-                lstEntBtn.setAttribute("id", "button1");
+                lstEntBtn.setAttribute("id", "btn1");
                 lstEntBtn.innerHTML = "Enter List";
                 lstEntBtn.addEventListener('click', function (evt) {
                     sessionStorage.setItem("listsid", value.id);
                     location.href = "enterlists.html";
                 });
 
-                //Lager ern knapp for å kunne oppdatere listene
-                let updateBtn = document.createElement("button");
-                updateBtn.setAttribute("id", "button2");
-                updateBtn.innerHTML = "Change name";
-                updateBtn.addEventListener('click', async function (evt) {
-                    let updateName = prompt("New list name:");
-                    if (updateName != null){
-                        updateList(updateName, value.id);                        
-                    }
-                });
-
                 //Lager en delete knapp som
                 let delBtn = document.createElement("button");
-                delBtn.setAttribute("id", "button3");
+                delBtn.setAttribute("id", "btn3");
                 delBtn.innerHTML = "Delete";
                 delBtn.addEventListener('click', function (evt) {
                     if (confirm("Are you sure you want to delete this list?")){
@@ -102,10 +105,9 @@
                     };
                 });
 
-                //Share knapp
                 let shared = false;
                 let shrBtn = document.createElement("button");
-                shrBtn.setAttribute("id", "button4");
+                shrBtn.setAttribute("id", "btn4");
                 shrBtn.innerHTML = "Share";
                 shrBtn.addEventListener('click', function (evt) {
                     if (confirm("Are you sure you want to share this list?")){
@@ -116,7 +118,7 @@
                         shareList(value.id, value.name, shared);
                     }
                 });
-                
+
                 div.insertBefore(lstEntBtn, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(shrBtn, div.lastElementChild);
@@ -250,17 +252,17 @@ async function shareList(listid, listname, status) {
 
 //----------------------------------------------------------------------------
 
-    async function updateList(newname, listid) {
-
-        console.log("--------", newname);
+    async function updateList(newname, listid, status) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
 
         let updata =    {
             name: newname,
-            id: listid
+            id: listid,
+            shared: status
         }
+        
 
         let cfg = {
             method: "PUT",
@@ -277,6 +279,7 @@ async function shareList(listid, listname, status) {
             if (resp.status > 200) {
                 throw(resp)
             };
+            listLists();
         }
         catch (err) {
             console.log(err);
