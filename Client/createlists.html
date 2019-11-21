@@ -152,6 +152,7 @@ async function shareList(listid, listname, status) {
         try {
             let resp = await fetch(url, cfg);
             var data = await resp.json();
+
             if (resp.status > 200) {
                 throw(resp)
             };
@@ -276,8 +277,6 @@ async function shareList(listid, listname, status) {
             if (resp.status > 200) {
                 throw(resp)
             };
-
-            listLists();
         }
         catch (err) {
             console.log(err);
