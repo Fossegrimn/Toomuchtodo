@@ -1,5 +1,5 @@
 *{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     box-sizing: border-box;
 }
 
@@ -7,7 +7,9 @@ body {
     background: url("images/back_2.jpg") no-repeat center center fixed;
     background-size: cover;
     text-align: center;
+    display: grid;
 }
+
 
 /*----------------HEADER-------------*/
 
@@ -24,11 +26,12 @@ body {
 .pic {    
     width: 20%;
     height: auto;
-    min-height: 85%;
+    min-height: 90%;
     margin-left: 4%;
     margin-bottom: 1%;
         grid-area: logo;
 }
+ 
 
 #btnLogOut {
     background-color: rgb(53, 80, 116);
@@ -60,6 +63,7 @@ body {
         font-size: 1.5vw;
     }
 }
+
 
 #btnBack {
     background-color: rgb(53, 80, 116);
@@ -94,94 +98,107 @@ body {
     }
 }
 
+/*------------------LISTE-------------------*/
 
-
-
-/*-------------------Main BOX--------------------*/
-
-.settingsBox {
-    background-color: rgb(252, 252, 252);
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-    height: 500px;
-    padding-top: 20px;
+#listbox {
+    background-color: rgb(237, 236, 236);
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 60px;
+    height: 800px;
+    padding-top: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-color: grey;
     border-radius: 25px;
-    min-width: 300px;
-    max-width: 600px;
+    min-width: 45%;
+        display: grid;
+        grid-template-rows: 15% 85%;
+        grid-template-areas: "input1 input2 input3";
+        grid-gap: 5%;
 }
+
+
 @media only screen and (max-width: 600px) {
-    #settingsBox {
-        margin-top: 500px;
-    
+    #listbox {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 5%;
+        display: grid;
+        grid-template-rows: 3;
+        grid-gap: 2.5%;
+        grid-template-areas: 
+        "input1 input1 input1"
+        "input2 input2 input2"
+        "input3 input3 input3"
     }
 }
 
-
-#updateUsername {
-    width: 70%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 3px solid #ccc;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    outline: none;
-  }
-
-#updateUserPasswrd {
-    width: 70%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 3px solid #ccc;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    outline: none;
-  }
-
-#btnUpdUser {
-        background-color: rgb(4, 43, 94);
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
-        opacity: 0.6;
-        transition: 0.3s;
-        display: inline-block;
-        text-decoration: none;
-        cursor: pointer;
-        border-radius: 5px;
-        width: 70%;
-}
-#btnUpdUser:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
+#delteLister {
+    
 }
 
-#btnDeleteUser {
-    background-color: rgb(4, 43, 94);
+.scrollable {
+    height: 100%;
+    overflow: scroll;
+}
+
+/*---------------Container--------------*/
+
+#container {
+    background-color: rgb(252, 252, 252);
+    border: 1px black;
+    margin: 5%;
+    margin-top: -5%;
+    border-radius: 10px;
+        grid-area: 2 / 1 / span 1 / span 3;
+}
+
+ @media only screen and (max-width: 600px) {
+    #container {
+        background-color: rgb(254, 254, 254);
+        border: 1px black;
+        margin: 5%;
+        margin-top: -60%;
+        border-radius: 10px;
+            grid-area: 3 / 1 / span 2 / span 3;
+    }
+}
+
+#container h3 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: x-large;
+    text-decoration: underline;
+    margin-top: 5%;
+    word-wrap: break-word;
+}
+
+#container #descr {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+
+}
+
+#container hr {
+    border: 8px solid rgb(237, 236, 236);
+    margin-top: 8%;
+}
+
+#button1 {
+    background:  rgb(83, 106, 136);
+    opacity: 0.6;
     border: none;
     color: white;
-    padding: 16px 32px;
-    text-align: center;
-    font-size: 16px;
-    margin: 4px 2px;
-    opacity: 0.6;
     transition: 0.3s;
     display: inline-block;
     text-decoration: none;
     cursor: pointer;
-    border-radius: 5px;
-    width: 70%;
+    border-radius: 3px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0.25%;
+    padding: 5px;
 }
-#btnDeleteUser:hover {
-    background-color: rgb(158, 79, 65);
+      
+#button1:hover {
+    background-color: rgb(84, 111, 171);
     opacity: 1
 }
-
-
