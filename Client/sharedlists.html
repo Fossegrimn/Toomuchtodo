@@ -4,21 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" href="index2.css">-->
+    <link rel="stylesheet" href="shared.css">
     <title>Travelcreate</title>
 </head>
 
     <header class="header">
-        <img class="pic" src="images/logo_2.png" width="225px" height="80px">
+            <a href="createlists.html" class="pic">
+                    <img src="images/logo_2.png" width="225px" height="80px">
+            </a>
         <button id="btnLogOut" class="headerBtns">Log out</button>
-        <button id="btnBack" class="headerBtns">Back to lists</button>
+        <button id="btnBack" class="headerBtns">Back</button>
     </header>
 <body>
     
-    <div id="firstSideBox">
+    <div id="listbox">
 
-        <br>
         <h3 id="txtResult"></h3>
+        <h1 id="delteLister">DELTE LISTER</h1>
         <div id="container" class="scrollable"></div>
     </div>
 
@@ -41,6 +43,7 @@
         let txtResult = document.getElementById('txtResult');
 
         listSharedLists();
+        
         async function listSharedLists() {
         try {
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
