@@ -1,4 +1,4 @@
-//--------------------------- Version 3.0 ---------------------------------------
+//--------------------------- Version 3.2 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -6,7 +6,7 @@ const app = express(); //server-app
 const bcrypt = require('bcrypt'); //Hashtagger haha, passordet
 const pg = require('pg');
 const jwt = require('jsonwebtoken');
-const secret = "jhgkjhkj";
+const secret = "n9}rPL$v'v2wm,55hZX<~u:";
 
 const dbURI = "postgres://mrculhchcipczd:fc7107e2a5205045f559d12c831331516f7418db9a359b8732f92c1087aa0c79@ec2-54-217-235-87.eu-west-1.compute.amazonaws.com:5432/d5ltmt8lskihj" + "?ssl=true";
 const connstring  = process.env.DATABASE_URL || dbURI;
@@ -25,11 +25,27 @@ app.use('/items', protectEndpoints);
 // ----------------------lists----------------------
 
 // endpoint - lists GET ----------------------------
+app.get('/lists/shared', async function (req, res) {
+    
+    let sql = 'SELECT * FROM lists WHERE shared = true';
+
+    console.log(logindata);
+
+    try {
+        let result = await pool.query(sql);
+        res.status(200).json(result.rows); //send response   
+    }  
+    catch(err) {
+        console.log(err);
+        res.status(500).json({error: err});
+    }
+});
+
 app.get('/lists', async function (req, res) {
     
     let sql = 'SELECT * FROM lists WHERE userid = $1';
-
     let values = [logindata.userid];
+
 
     console.log(logindata);
 
@@ -96,13 +112,13 @@ app.put('/lists', async function (req, res) {
 
     let updata = req.body;
 
-    let sql = 'UPDATE lists SET name = $2 WHERE id = $1';
-    let values = [updata.id, updata.name];
+    let sql = 'UPDATE lists SET name = $2, shared = $3 WHERE id = $1';
+    let values = [updata.id, updata.name, updata.shared];
 
     try {
         await pool.query(sql, values);
 
-            res.status(200).json({msg: "List deleted"}); //send respons
+            res.status(200).json({msg: "List updated"}); //send respons
     }
     catch (err){
         res.status(500).json(err); //send error respons
@@ -116,8 +132,8 @@ app.put('/lists', async function (req, res) {
 app.post('/items', async function (req, res) {
     let updata = req.body; //the data sent from the clinet
 
-    let sql = 'INSERT INTO items (id, name, listsid) VALUES(DEFAULT, $1, $2) RETURNING *';
-    let values = [updata.name, updata.listsid];
+    let sql = 'INSERT INTO items (id, name, listsid, tag) VALUES(DEFAULT, $1, $2, $3) RETURNING *';
+    let values = [updata.name, updata.listsid, updata.tag];
 
     try {
         let result = await pool.query(sql, values);
@@ -179,8 +195,8 @@ app.put('/items', async function (req, res) {
     
     let updata = req.body;
 
-    let sql = 'UPDATE items SET name = $2, checked = $3 WHERE id = $1 RETURNING *';
-    let values = [updata.id, updata.name, updata.checked];
+    let sql = 'UPDATE items SET name = $2, checked = $3, tag = $4 WHERE id = $1 RETURNING *';
+    let values = [updata.id, updata.name, updata.checked, updata.tag];
     
     try {
         await pool.query(sql, values);
@@ -240,43 +256,65 @@ app.put('/users', async function (req, res) {
     let values3 = [logindata.userid, hash];
 
     if (updata.username != "" && updata.pswhash != "") {
-        console.log("update username and password")
-        res.status(200).json({msg: "Username and password updated!"});
             try {
                 await pool.query(sql1, values1);
+                res.status(200).json({msg: "Username and password updated!"});
             }
             catch(err) {
-                console.log("user aldready exists");
+                res.status(200).json({msg: "User aldready exists"});
                 res.status(500).json({error: err}); //send error respons
                 console.log(err)
             }
     } else if (updata.username != "") {
-        console.log("update username")
-        res.status(200).json({msg: "Username updated!"});
             try {
                 await pool.query(sql2, values2);
+                res.status(200).json({msg: "Username updated!"});
             }
             catch(err) {
-                console.log("user aldready exists");
+                res.status(200).json({msg: "User aldready exists"});
                 res.status(500).json({error: err}); //send error respons
                 console.log(err)
             }
     } else if (updata.pswhash != "") {
-        console.log("update password")
-        res.status(200).json({msg: "Password updated!"});
             try {
                 await pool.query(sql3, values3);
+                res.status(200).json({msg: "Password updated!"});
             }
             catch(err) {
-                console.log("user aldready exists");
                 res.status(500).json({error: err}); //send error respons
                 console.log(err)
             }
     } else if (updata.username == "" && updata.pswhash == "") {
-        console.log("nothing to update");
         res.status(200).json({msg: "Input fields empty!"});
     };
 });
+
+
+// endpoint - user DELETE -------------------
+app.delete('/users', async function (req, res) {
+    
+    let updata = req.body; //the data sent from the client
+    let sql = 'DELETE FROM users WHERE id = $1 RETURNING *';
+    let values = [updata.id];
+
+    try {
+        let result = await pool.query(sql, values);
+
+        if (result.rows.length > 0){
+            res.status(200).json({msg: "List deleted"}); //send respons
+        }
+        else {
+            throw "Failed deleting list";
+        }
+    }
+    catch {
+        console.log("error:", err);
+        res.status(500).json ({err}); //send error respons
+        
+    }
+});
+
+
 
 // endpoint - auth (login) POST -------------------
 app.post('/auth', async function (req, res) {

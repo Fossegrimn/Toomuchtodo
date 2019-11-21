@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="items.css">
+    
+</head>
+
+    <header class="header">
+        <img class="pic" src="images/logo_2.png" width="225px" height="80px">
+        <button id="btnLogOut" class="headerBtns">Log out</button>
+        <button id="btnSettings" class="headerBtns">Settings</button>
+        
+    </header>
+
+<body>
+        
+    <div id="firstSideBox">
+        <br>
+        <h1 id="listName"></h1>
+    <input type="text" id="inpName" placeholder="Name">
+    <br>
+    <button id="btnBack">Back to shared lists</button>
+    <h3 id="txtResult"></h3>
+    <div id="container" class="scrollable"></div>
+    </div>
+
+</body>
+
+<script>
+//Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
+
+    let emptyTag = "";
+
+    let url = "http://localhost:8080/items";
+    let container = document.getElementById('container');
+
+    let listName = document.getElementById("listName");
+    let btnSettings = document.getElementById('btnSettings');
+    let btnBack = document.getElementById('btnBack');
+    let txtResult = document.getElementById('txtResult');
+    let checkbox = document.getElementById("checkbox");
+    let listsid = sessionStorage.getItem("listsid");
+    let btnLogOut = document.getElementById('btnLogOut');
+
+        btnLogOut.addEventListener('click', async function(evt) {
+            window.location.href = "index.html";
+        });
+        btnSettings.addEventListener('click', async function(evt) {
+            window.location.href = "usersettings.html";
+        });
+
+        btnBack.addEventListener('click', async function(evt) {
+            window.location.href = "sharedlists.html";
+        });
+
+        
+
+    listItems();
+    // ---------------------------------------  
+    async function listItems() {
+
+        try {
+            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+            let token = logindata.token;
+
+            let cfg = {
+                method: "GET",
+                headers: {"authorization": token}
+            };
+
+            var resp = await fetch(url + "?listsid=" + listsid, cfg);
+            var data = await resp.json();
+            
+
+            if (resp.status > 202) {
+                throw(data);
+            };
+
+            container.innerHTML = ""; //delete previous content
+
+            for (let value of data) {
+                let html = `
+                    <h3>${value.name}</h3>
+                    <p>${value.tag}</p>
+                    <hr>
+                `;
+                let div = document.createElement("div");
+                div.innerHTML = html;
+                
+                let checkBox = document.createElement("input");
+                checkBox.type = "checkbox";
+                checkBox.style.cursor = "pointer";
+                checkBox.checked = value.checked;
+                checkBox.addEventListener("click", function() {
+                    console.log(value.id);
+                    console.log(checkBox.checked);
+                    console.log(value.name);
+                    updateItem(value.id, value.name, value.tag, checkBox.checked);
+                });
+                   
+                div.insertBefore(checkBox, div.lastElementChild);
+                container.appendChild(div);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    async function updateItem(itemid, newitemname, itemtag, checkvalue) {
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
+        let updata =    {
+            id: itemid,
+            name: newitemname,
+            tag: itemtag,
+            checked: checkvalue
+        }
+
+        let cfg = {
+            method: "PUT",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }  
+        console.log(updata);
+        try {
+            let resp = await fetch(url, cfg);
+            var data = await resp.json();
+            listName.innerHTML = data.msg;
+            if (resp.status > 200) {
+                throw(resp)
+            };
+
+            listItems();
+        }
+        catch (err) {
+            console.log(err);
+        }
+        }
+</script>
+
+</html>
