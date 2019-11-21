@@ -105,6 +105,20 @@
                     };
                 });
 
+                let shared = false;
+                let shrBtn = document.createElement("button");
+                shrBtn.setAttribute("id", "button4");
+                shrBtn.innerHTML = "Share";
+                shrBtn.addEventListener('click', function (evt) {
+                    if (confirm("Are you sure you want to share this list?")){
+                        shared = true;
+                        shareList(value.id, value.name, shared);
+                    } else {
+                        shared = false;
+                        shareList(value.id, value.name, shared);
+                    }
+                });
+
                 div.insertBefore(lstEntBtn, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(shrBtn, div.lastElementChild);
