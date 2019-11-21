@@ -12,27 +12,25 @@
 
 <body>
 
-        <header id="header">
-                <img class="pic" src="images/logo_2.png" width="225px" height="80px">
+        <header class="header">
+            <a href="createlists.html" class="pic">
+                <img src="images/logo_2.png" width="225px" height="80px">
+            </a>
                 <button id="btnLogOut" class="headerBtns">Log out</button>
-                <button id="btnSettings" class="headerBtns">Settings</button>
+                <button id="btnBack" class="headerBtns">Back</button>
         </header>
         
-    <div class="firstSideBox">
-        <a href ="createlists.html">
-        <img class="logo" src="/images/logo_3.png" width="300px" height="100px">
-        </a>
-        <br><br><br>
-        <img id="icon" src="/images/icon.png" width="40px" height="40px">
-        <h2 id="SignUphead">User settings</h2>
-        <input type="text" id="updateUsername" placeholder="Update Username">
+    <div class="settingsBox">
         <br>
-        <input type="password" id="updateUserPasswrd" placeholder="Update Password">
+            <img id="icon" src="/images/icon.png" width="40px" height="40px">
+            <h2 id="SignUphead">User settings</h2>
+            <input type="text" id="updateUsername" placeholder="Update Username">
         <br>
-        <button id="btnUpdUser">Update user</button>
-        <button id="btnDeleteUser">DELETE USER</button>
-        <p id="txtResult"></p>
-        <p id="goToLogin">Go <a href="createlists.html">Back to lists</a> </p>
+            <input type="password" id="updateUserPasswrd" placeholder="Update Password">
+        <br>
+            <button id="btnUpdUser">Update user</button>
+            <button id="btnDeleteUser">DELETE USER</button>
+            <p id="txtResult"></p>
     </div>
     </body>
     
@@ -45,6 +43,7 @@
         let url = "http://localhost:8080/users";
         let btnDeleteUser = document.getElementById("btnDeleteUser");
         let logindata = sessionStorage.getItem("logindata");
+        let btnBack = document.getElementById('btnBack');
 
     btnDeleteUser.addEventListener('click', async function (evt) {
             let userDelete = confirm("Are you sure you want to delete this user?");
@@ -98,6 +97,10 @@
         }
     }
 
+    btnBack.addEventListener('click', async function(evt) {
+            window.location.href = "createlists.html";
+        });
+
 //--------------------------------------------------------
 
     async function deleteUser() {
@@ -121,7 +124,8 @@
 
         try {
             let resp = await fetch(url, cfg);
-
+            var data = await resp.json();
+            txtResult.innerHTML = data.msg;
             setTimeout(function () {
                 window.location.href = "index.html";
             }, 1500); //will call the function after 0.5 secs.

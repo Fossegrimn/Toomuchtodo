@@ -30,7 +30,6 @@ body {
     margin-bottom: 1%;
         grid-area: logo;
 }
- 
 
 #btnLogOut {
     background-color: rgb(53, 80, 116);
@@ -46,7 +45,7 @@ body {
     width: 75%;
     height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 16%;    
+    margin-top: 15%;    
         grid-area: button2;     
 }
 #btnLogOut:hover {
@@ -62,7 +61,6 @@ body {
         font-size: 1.5vw;
     }
 }
-
 
 #btnSettings {
     background-color: rgb(53, 80, 116);
@@ -80,7 +78,7 @@ body {
     height: 45%;
     min-height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 16%;
+    margin-top: 15%;
         grid-area: button1;
 }
 #btnSettings:hover {
@@ -113,13 +111,23 @@ body {
     height: 45%;
     min-height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 16%;
+    margin-top: 15%;
         grid-area: button0;
 }
 #btnShare:hover {
     background-color: rgb(84, 111, 171);
     opacity: 1
 }
+
+@media only screen and (max-width: 600px) {
+    #btnShare {
+    width: 110%;
+    margin-left: -70%;
+    margin-top: 16%;
+    font-size: 1.5vw;
+    }
+}
+
 
 
 
@@ -138,6 +146,7 @@ body {
     border-radius: 25px;
     min-width: 45%;
         display: grid;
+        grid-template-rows: 3% 77% 20%;
         grid-template-areas: "input1 input2 input3";
         grid-gap: 5%;
 }
@@ -149,8 +158,7 @@ body {
     margin-right: 2%;
     margin-top: 5%;
         display: grid;
-        grid-template-rows: 3;
-        grid-gap: 2.5%;
+        grid-template-rows: 5% 5% 90%;
         grid-template-areas: 
         "input1 input1 input1"
         "input2 input2 input2"
@@ -175,8 +183,9 @@ body {
 @media only screen and (max-width: 600px) {
     #inpName {
         width: 75%;
-        height: 150%;
-        margin-left: 15%;
+        height: 50px;
+        margin-left: 12.5%;
+        margin-bottom: -20px;
     }
 }
 
@@ -195,8 +204,9 @@ body {
 @media only screen and (max-width: 600px) {
     #inpDescr {
         width: 75%;
-        height: 150%;
-        margin-left: 15%;
+        height: 50px;
+        margin-left: 12.5%;
+        margin-top: -20px;
     }
 }
 
@@ -204,8 +214,6 @@ body {
     background-color: rgb(14, 39, 71);
     border: none;
     color: rgb(245, 245, 245);
-    /*padding: 12px;
-    padding-top: 1.5%;*/
     opacity: 0.6;
     text-align: center;
     font-size: 12px;
@@ -229,6 +237,7 @@ body {
 @media only screen and (max-width: 600px) {
     #btnCreate {
         width: 35%;
+        margin-top: -7.5%;
         margin-left: 32%;
         height: 30px;
     }
@@ -248,7 +257,6 @@ body {
     background-color: rgb(252, 252, 252);
     border: 1px black;
     margin: 5%;
-    margin-top: -0.25%;
     border-radius: 10px;
         grid-area: 2 / 1 / span 1 / span 3;
 }
@@ -257,10 +265,10 @@ body {
     #container {
         background-color: rgb(254, 254, 254);
         border: 1px black;
+        max-height: 600px;
         margin: 5%;
-        margin-top: 8%;
         border-radius: 10px;
-            grid-area: 3 / 1 / span 2 / span 3;
+            grid-area: 3 / 1 / span 1 / span 3;
     }
 }
 
@@ -298,7 +306,11 @@ body {
     padding: 5px;
 }
       
-#btn1:hover, #btn2:hover, #btn3:hover, #btn4:hover {
+#btn1:hover, #btn2:hover, #btn4:hover {
     background-color: rgb(84, 111, 171);
     opacity: 1
+}
+
+#btn3:hover {
+    background-color: rgb(129, 46, 31);
 }
