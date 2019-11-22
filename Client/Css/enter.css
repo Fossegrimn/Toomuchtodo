@@ -188,10 +188,10 @@ body {
 
 @media only screen and (max-width: 600px) {
     #enterbox {
-    width: 80%;
     margin-left: 2%;
     margin-right: 2%;
     margin-top: 5%;
+    width: 100%;
         display: grid;
         grid-template-rows: 10% 10% 80%;
         grid-template-columns: 50% 50%;
@@ -219,7 +219,7 @@ body {
     #inpName {
         width: 73%;
         height: 50px;
-        margin-left: 15%;
+        margin-left: 25%;
         grid-area: input1;
     }
 }
@@ -251,9 +251,9 @@ body {
 
 @media only screen and (max-width: 600px) {
     #btnCreate {
-        width: 60%;
+        width: 73%;
         height: 50px;
-        margin-left: 20%;
+        margin-left: 25%;
         grid-area: input3;
     }
 }
@@ -276,7 +276,7 @@ body {
     #inpTag {
         width: 73%;
         height: 50px;
-        margin-left: 15%;
+        margin-left: 5%;
         grid-area: input2;
     }
 }
@@ -307,9 +307,10 @@ body {
 
 @media only screen and (max-width: 600px) {
     #btnTag {
-        width: 60%;
+        width: 73%;
         height: 50px;
-        margin-left: 20%;
+        margin-left: 5%;
+
         grid-area: input4;
     }
 }

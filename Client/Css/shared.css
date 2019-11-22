@@ -124,18 +124,14 @@ body {
     margin-right: 2%;
     margin-top: 5%;
         display: grid;
-        grid-template-rows: 3;
+        grid-template-rows: 2;
         grid-gap: 2.5%;
         grid-template-areas: 
         "input1 input1 input1"
         "input2 input2 input2"
-        "input3 input3 input3"
     }
 }
 
-#delteLister {
-    
-}
 
 .scrollable {
     height: 100%;
@@ -158,10 +154,8 @@ body {
     #container {
         background-color: rgb(254, 254, 254);
         border: 1px black;
-        margin: 5%;
-        margin-top: -60%;
         border-radius: 10px;
-            grid-area: 3 / 1 / span 2 / span 3;
+            grid-area: 2 / 1 / span 2 / span 3;
     }
 }
 

@@ -167,14 +167,14 @@ body {
 }
 
 #inpName {
-    width: 100%;
+    width: 80%;
     height: 50px;    
     box-sizing: border-box;
     border: 2px solid #ccc;
     -webkit-transition: 0.5s;
     transition: 0.5s;
     outline: none;
-    margin-left: 10%;
+    margin-left: 30%;
     font-size: small;
         grid-area: input1;
         /*grid-column: 1 / 0;*/
@@ -190,7 +190,7 @@ body {
 }
 
 #inpDescr {
-    width: 100%;
+    width: 80%;
     height: 50px;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -226,7 +226,7 @@ body {
     height: 50px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     cursor: pointer;
-    margin-left: -10%;
+    margin-left: -40%;
     grid-area: input3;
 }
 .btnCreate:hover {
@@ -266,7 +266,7 @@ body {
     #container {
         background-color: rgb(254, 254, 254);
         border: 1px black;
-        max-height: 600px;
+        max-height: 550px;
         margin: 5%;
         border-radius: 10px;
             grid-area: 3 / 1 / span 1 / span 3;
