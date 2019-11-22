@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" href="Css/enter.css">-->
+    <link rel="stylesheet" href="Css/entershared.css">
     
 </head>
 
@@ -14,12 +14,13 @@
             </a>
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnBack">Back</button>
+        <button id="btnSettings" class="headerBtns">Settings</button>
         
     </header>
 
 <body>
         
-    <div id="enterBox">
+    <div id="entersharedbox">
         <br>
         <h1 id="listName"></h1>
     <input type="search" id="inpTag" placeholder="Search tags">
@@ -69,6 +70,11 @@
         btnBack.addEventListener('click', async function(evt) {
             window.location.href = "sharedlists.html";
         });
+
+        btnSettings.addEventListener('click', async function(evt) {
+            window.location.href = "usersettings.html";
+        });
+
 
         
 
