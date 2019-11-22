@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Css/entershared.css">
+    <!--<link rel="stylesheet" href="Css/enter.css">-->
     
 </head>
 
@@ -13,18 +13,21 @@
                 <img src="Css/images/logo_2.png" width="225px" height="80px">
             </a>
         <button id="btnLogOut" class="headerBtns">Log out</button>
-        <button id="btnSettings" class="headerBtns">Settings</button>
         <button id="btnBack">Back</button>
         
     </header>
 
 <body>
         
-    <div id="sharedbox">
+    <div id="enterBox">
         <br>
         <h1 id="listName"></h1>
+    <input type="search" id="inpTag" placeholder="Search tags">
+
     <br>
-    <!--<h3 id="txtResult"></h3>-->
+    <button id="btnTag">Search tags</button>
+    <button id="btnAllItems">List all items</button>
+    <h3 id="txtResult"></h3>
     <div id="container" class="scrollable"></div>
     </div>
 
@@ -32,30 +35,42 @@
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
-
     let emptyTag = "";
 
     let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
 
-    let listName = document.getElementById("listName");
     let btnSettings = document.getElementById('btnSettings');
+
     let btnBack = document.getElementById('btnBack');
     let txtResult = document.getElementById('txtResult');
     let checkbox = document.getElementById("checkbox");
     let listsid = sessionStorage.getItem("listsid");
+
     let btnLogOut = document.getElementById('btnLogOut');
+    let btnTag = document.getElementById('btnTag');
+    let inpTag = document.getElementById('inpTag');
+    let btnAllItems = document.getElementById('btnAllItems');
+
+    btnTag.addEventListener('click', async function(evt) {
+            location.reload(); 
+        });
+
+    btnAllItems.addEventListener('click', async function(evt) {
+            inpTag.value = "";
+            location.reload(); 
+        });
+
 
         btnLogOut.addEventListener('click', async function(evt) {
             window.location.href = "index.html";
-        });
-        btnSettings.addEventListener('click', async function(evt) {
-            window.location.href = "usersettings.html";
         });
 
         btnBack.addEventListener('click', async function(evt) {
             window.location.href = "sharedlists.html";
         });
+
+        
 
         
 
@@ -72,9 +87,12 @@
                 headers: {"authorization": token}
             };
 
-            var resp = await fetch(url + "?listsid=" + listsid, cfg);
+            url = url + "?listsid=" + listsid + "&tag=" + inpTag.value;
+
+            var resp = await fetch(url, cfg);
             var data = await resp.json();
-            
+        
+            console.log(url);
 
             if (resp.status > 202) {
                 throw(data);
@@ -90,8 +108,10 @@
                 `;
                 let div = document.createElement("div");
                 div.innerHTML = html;
+
                 
                 let checkBox = document.createElement("input");
+                checkBox.setAttribute("id", "check");
                 checkBox.type = "checkbox";
                 checkBox.style.cursor = "pointer";
                 checkBox.checked = value.checked;
@@ -105,13 +125,50 @@
                 div.insertBefore(checkBox, div.lastElementChild);
                 container.appendChild(div);
             }
+            
+        }
+        
+
+        catch (err) {
+            console.log(err);
+        }
+
+
+    }
+
+    //---------------------
+    async function deleteItems(id) {
+
+        let updata = { 
+            itemid: id 
+        };
+
+        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+        let token = logindata.token;
+
+        let cfg = {
+            method: "DELETE",
+            headers: {
+                "authorization": token,
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(updata)
+        }
+
+        try {
+            let resp = await fetch(url, cfg);
+            if (resp.status > 202) {
+                throw(data);
+            };
+
+            location.reload();
         }
         catch (err) {
             console.log(err);
         }
     }
 
-    async function updateItem(itemid, newitemname, itemtag, checkvalue) {
+    async function updateItem(itemid, newitemname, itemtag, checkvalue, inpValue) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
@@ -120,7 +177,9 @@
             id: itemid,
             name: newitemname,
             tag: itemtag,
-            checked: checkvalue
+            checked: checkvalue,
+            importance: inpValue
+
         }
 
         let cfg = {
@@ -140,7 +199,7 @@
                 throw(resp)
             };
 
-            listItems();
+            location.reload();
         }
         catch (err) {
             console.log(err);
