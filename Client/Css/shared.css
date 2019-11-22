@@ -18,9 +18,9 @@ body {
     border-radius: 12px; 
     height: auto;
         display: grid;
-        grid-template-columns: 80% 10% 10%;
+        grid-template-columns: 70% 10% 10% 10%;
         grid-template-rows: 3;
-        grid-template-areas: "logo button1 button2" 
+        grid-template-areas: "logo button1 button2 button3" 
 }
 
 .pic {    
@@ -47,22 +47,21 @@ body {
     width: 75%;
     height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 15%;    
-        grid-area: button2;     
+    margin-top: 20px;    
+        grid-area: button3;     
 }
-#btnLogOut:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
-
-@media only screen and (max-width: 600px) {
-    #btnLogOut {
-        width: 110%;
-        margin-left: -30%;
-        margin-top: 16%;
-        font-size: 1.5vw;
+    #btnLogOut:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnLogOut {
+                width: 100%;
+                margin-left: -30%;
+                margin-top: 20px;
+                font-size: 1.5vw;
+            }
+        }
 
 
 #btnBack {
@@ -81,22 +80,54 @@ body {
     height: 45%;
     min-height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 15%;
+    margin-top: 20px;
         grid-area: button1;
 }
-#btnBack:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
-
-@media only screen and (max-width: 600px) {
-    #btnBack {
-    width: 110%;
-    margin-left: -50%;
-    margin-top: 16%;
-    font-size: 1.5vw;
+    #btnBack:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
+        @media only screen and (max-width: 600px) {
+            #btnBack {
+            width: 110%;
+            margin-left: -70%;
+            margin-top: 20px;
+            font-size: 1.5vw;
+            }
+        }
+
+
+#btnSettings {
+    background-color: rgb(53, 80, 116);
+    border: none;
+    color: white;
+    font-size: 1vw;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 75%;
+    min-width: 75%;
+    height: 45%;
+    min-height: 45%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 20px;
+        grid-area: button2;
 }
+    #btnSettings:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
+    }
+        @media only screen and (max-width: 600px) {
+            #btnSettings {
+            width: 110%;
+            margin-left: -50%;
+            margin-top: 20px;
+            font-size: 1.5vw;
+            }
+        }
 
 /*------------------LISTE-------------------*/
 
@@ -116,21 +147,19 @@ body {
         grid-template-areas: "input1 input2 input3";
         grid-gap: 5%;
 }
-
-
-@media only screen and (max-width: 600px) {
-    #listbox {
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-top: 5%;
-        display: grid;
-        grid-template-rows: 2;
-        grid-gap: 2.5%;
-        grid-template-areas: 
-        "input1 input1 input1"
-        "input2 input2 input2"
+    @media only screen and (max-width: 600px) {
+        #listbox {
+        margin-left: 2%;
+        margin-right: 2%;
+        margin-top: 5%;
+            display: grid;
+            grid-template-rows: 2;
+            grid-gap: 2.5%;
+            grid-template-areas: 
+            "input1 input1 input1"
+            "input2 input2 input2"
+        }
     }
-}
 
 
 .scrollable {
@@ -149,15 +178,15 @@ body {
     border-radius: 10px;
         grid-area: 2 / 1 / span 1 / span 3;
 }
-
- @media only screen and (max-width: 600px) {
-    #container {
-        background-color: rgb(254, 254, 254);
-        border: 1px black;
-        border-radius: 10px;
-            grid-area: 2 / 1 / span 2 / span 3;
+    @media only screen and (max-width: 600px) {
+        #container {
+            background-color: rgb(254, 254, 254);
+            border: 1px black;
+            border-radius: 10px;
+                grid-area: 2 / 1 / span 2 / span 3;
+        }
     }
-}
+
 
 #container h3 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -192,8 +221,7 @@ body {
     margin: 0.25%;
     padding: 5px;
 }
-      
-#button1:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
+    #button1:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
+    }

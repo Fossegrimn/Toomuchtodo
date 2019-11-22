@@ -48,19 +48,19 @@ body {
     margin-top: 15%;    
         grid-area: button2;     
 }
-#btnLogOut:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
-
-@media only screen and (max-width: 600px) {
-    #btnLogOut {
-        width: 110%;
-        margin-left: -30%;
-        margin-top: 16%;
-        font-size: 1.5vw;
+    #btnLogOut:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnLogOut {
+                width: 110%;
+                margin-left: -30%;
+                margin-top: 16%;
+                font-size: 1.5vw;
+            }
+        }
+
 
 #btnSettings {
     background-color: rgb(53, 80, 116);
@@ -81,19 +81,19 @@ body {
     margin-top: 15%;
         grid-area: button1;
 }
-#btnSettings:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
-
-@media only screen and (max-width: 600px) {
-    #btnSettings {
-    width: 110%;
-    margin-left: -50%;
-    margin-top: 16%;
-    font-size: 1.5vw;
+    #btnSettings:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnSettings {
+            width: 110%;
+            margin-left: -50%;
+            margin-top: 16%;
+            font-size: 1.5vw;
+            }
+        }
+
 
 #btnShare {
     background-color: rgb(53, 80, 116);
@@ -114,19 +114,18 @@ body {
     margin-top: 15%;
         grid-area: button0;
 }
-#btnShare:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
-
-@media only screen and (max-width: 600px) {
-    #btnShare {
-    width: 110%;
-    margin-left: -70%;
-    margin-top: 16%;
-    font-size: 1.5vw;
+    #btnShare:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnShare {
+            width: 110%;
+            margin-left: -70%;
+            margin-top: 16%;
+            font-size: 1.5vw;
+            }
+        }
 
 
 
@@ -150,21 +149,20 @@ body {
         grid-template-areas: "input1 input2 input3";
         grid-gap: 5%;
 }
-
-
-@media only screen and (max-width: 600px) {
-    #listbox {
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-top: 5%;
-        display: grid;
-        grid-template-rows: 5% 5% 90%;
-        grid-template-areas: 
-        "input1 input1 input1"
-        "input2 input2 input2"
-        "input3 input3 input3"
+    @media only screen and (max-width: 600px) {
+        #listbox {
+        margin-left: 2%;
+        margin-right: 2%;
+        margin-top: 5%;
+            display: grid;
+            grid-template-rows: 5% 5% 90%;
+            grid-template-areas: 
+            "input1 input1 input1"
+            "input2 input2 input2"
+            "input3 input3 input3"
+        }
     }
-}
+        
 
 #inpName {
     width: 80%;
@@ -177,17 +175,16 @@ body {
     margin-left: 30%;
     font-size: small;
         grid-area: input1;
-        /*grid-column: 1 / 0;*/
+       
 }
-        
-@media only screen and (max-width: 600px) {
-    #inpName {
-        width: 75%;
-        height: 50px;
-        margin-left: 12.5%;
-        margin-bottom: -20px;
+    @media only screen and (max-width: 600px) {
+        #inpName {
+            width: 75%;
+            height: 50px;
+            margin-left: 12.5%;
+            margin-bottom: -20px;
+        }
     }
-}
 
 #inpDescr {
     width: 80%;
@@ -201,14 +198,14 @@ body {
         grid-area: input2;
 }
 
-@media only screen and (max-width: 600px) {
-    #inpDescr {
-        width: 75%;
-        height: 50px;
-        margin-left: 12.5%;
-        margin-top: -20px;
+    @media only screen and (max-width: 600px) {
+        #inpDescr {
+            width: 75%;
+            height: 50px;
+            margin-left: 12.5%;
+            margin-top: -20px;
+        }
     }
-}
 
 #btnCreate {
     background-color: rgb(14, 39, 71);
@@ -229,26 +226,24 @@ body {
     margin-left: -40%;
     grid-area: input3;
 }
-.btnCreate:hover {
-    background-color: rgb(85, 111, 171);
-    opacity: 1;
-}
-
-@media only screen and (max-width: 600px) {
-    #btnCreate {
-        width: 35%;
-        margin-top: -7.5%;
-        margin-left: 32%;
-        height: 30px;
+    .btnCreate:hover {
+        background-color: rgb(85, 111, 171);
+        opacity: 1;
     }
-}
+
+        @media only screen and (max-width: 600px) {
+            #btnCreate {
+                width: 35%;
+                margin-top: -7.5%;
+                margin-left: 32%;
+                height: 30px;
+            }
+        }
 
 .scrollable {
     height: 100%;
     overflow: scroll;
 }
-
-
 
 
 /*---------------Container--------------*/
@@ -261,17 +256,17 @@ body {
     border-radius: 10px;
         grid-area: 2 / 1 / span 1 / span 3;
 }
-
- @media only screen and (max-width: 600px) {
-    #container {
-        background-color: rgb(254, 254, 254);
-        border: 1px black;
-        max-height: 550px;
-        margin: 5%;
-        border-radius: 10px;
-            grid-area: 3 / 1 / span 1 / span 3;
+    @media only screen and (max-width: 600px) {
+        #container {
+            background-color: rgb(254, 254, 254);
+            border: 1px black;
+            max-height: 550px;
+            margin: 5%;
+            border-radius: 10px;
+                grid-area: 3 / 1 / span 1 / span 3;
+        }
     }
-}
+
 
 #container h3 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -307,11 +302,11 @@ body {
     padding: 5px;
 }
       
-#btn1:hover, #btn2:hover, #btn4:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
+    #btn1:hover, #btn2:hover, #btn4:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
+    }
 
-#btn3:hover {
-    background-color: rgb(129, 46, 31);
-}
+    #btn3:hover {
+        background-color: rgb(129, 46, 31);
+    }

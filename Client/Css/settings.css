@@ -44,23 +44,24 @@ body {
     width: 75%;
     height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 15%;    
-        grid-area: button2;     
-}
-#btnLogOut:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
+    margin-top: 20px;    
+        grid-area: button2; 
 
-@media only screen and (max-width: 600px) {
-    #btnLogOut {
-        width: 110%;
-        margin-left: -30%;
-        margin-top: 16%;
-        font-size: 1.5vw;
+}
+    #btnLogOut:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnLogOut {
+                width: 110%;
+                margin-left: -30%;
+                margin-top: 20px;
+                font-size: 1.5vw;
+            }
+        }
 
+        
 #btnBack {
     background-color: rgb(53, 80, 116);
     border: none;
@@ -77,22 +78,21 @@ body {
     height: 45%;
     min-height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 15%;
+    margin-top: 20px; 
         grid-area: button1;
 }
-#btnBack:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
-
-@media only screen and (max-width: 600px) {
-    #btnBack {
-    width: 110%;
-    margin-left: -50%;
-    margin-top: 16%;
-    font-size: 1.5vw;
+    #btnBack:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnBack {
+            width: 110%;
+            margin-left: -50%;
+            margin-top: 40px;
+            font-size: 1.5vw;
+            }
+        }
 
 
 
@@ -112,12 +112,12 @@ body {
     min-width: 300px;
     max-width: 600px;
 }
-@media only screen and (max-width: 600px) {
-    #settingsBox {
-        margin-top: 500px;
-    
+    @media only screen and (max-width: 600px) {
+        #settingsBox {
+            margin-top: 500px;
+        
+        }
     }
-}
 
 
 #updateUsername {
@@ -131,6 +131,7 @@ body {
     outline: none;
   }
 
+
 #updateUserPasswrd {
     width: 70%;
     padding: 12px 20px;
@@ -141,6 +142,7 @@ body {
     transition: 0.5s;
     outline: none;
   }
+
 
 #btnUpdUser {
         background-color: rgb(4, 43, 94);
@@ -158,10 +160,11 @@ body {
         border-radius: 5px;
         width: 70%;
 }
-#btnUpdUser:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
+    #btnUpdUser:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
+    }
+
 
 #btnDeleteUser {
     background-color: rgb(4, 43, 94);
@@ -179,9 +182,9 @@ body {
     border-radius: 5px;
     width: 70%;
 }
-#btnDeleteUser:hover {
-    background-color: rgb(158, 79, 65);
-    opacity: 1
-}
+    #btnDeleteUser:hover {
+        background-color: rgb(158, 79, 65);
+        opacity: 1
+    }
 
 

@@ -37,11 +37,10 @@ body {
     min-width: 350px;
     max-width: 350px;
 }
-
-@media only screen and (max-width: 600px) {
-    #firstSideBox {
+    @media only screen and (max-width: 600px) {
+        #firstSideBox {
+        }
     }
-}
 
 
 #inpUsername {
@@ -100,8 +99,8 @@ body {
         width: 70%;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-.btnCreate:hover {
-    background-color: rgb(85, 111, 171);
-    opacity: 1
-}
-.btnLogin:hover {opacity: 1}
+    .btnCreate:hover {
+        background-color: rgb(85, 111, 171);
+        opacity: 1
+    }
+    .btnLogin:hover {opacity: 1}

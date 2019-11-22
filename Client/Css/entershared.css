@@ -16,12 +16,12 @@ body {
     background-color: white;
     border-radius: 12px; 
     height: auto;
-    width: 100%;
         display: grid;
         grid-template-columns: 70% 10% 10% 10%;
-        grid-template-rows: 3;
+        grid-template-rows: 4;
         grid-template-areas: "logo button0 button1 button2" 
 }
+
 
 .pic {    
     width: 20%;
@@ -46,22 +46,22 @@ body {
     width: 75%;
     height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 15%;    
+    margin-top: 20px;    
         grid-area: button0;     
 }
-#btnBack:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
-
-@media only screen and (max-width: 600px) {
-    #btnBack {
-    width: 110%;
-    margin-left: -70%;
-    margin-top: 40%;
-    font-size: 1.5vw;
+    #btnBack:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnBack {
+            width: 110%;
+            margin-left: -70%;
+            margin-top: 20px;
+            font-size: 1.5vw;
+            }
+        }
+
 
 #btnLogOut {
     background-color: rgb(53, 80, 116);
@@ -77,22 +77,22 @@ body {
     width: 75%;
     height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 15%;    
+    margin-top: 20px;    
         grid-area: button2;     
 }
-#btnLogOut:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
-
-@media only screen and (max-width: 600px) {
-    #btnLogOut {
-        width: 110%;
-        margin-left: -30%;
-        margin-top: 40%;
-        font-size: 1.5vw;
+    #btnLogOut:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnLogOut {
+                width: 110%;
+                margin-left: -30%;
+                margin-top: 20px;
+                font-size: 1.5vw;
+            }
+        }
+
 
 #btnSettings {
     background-color: rgb(53, 80, 116);
@@ -110,22 +110,22 @@ body {
     height: 45%;
     min-height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 15%;
+    margin-top: 20px;
         grid-area: button1;
 }
-#btnSettings:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
-
-@media only screen and (max-width: 600px) {
-    #btnSettings {
-    width: 110%;
-    margin-left: -50%;
-    margin-top: 40%;
-    font-size: 1.5vw;
+    #btnSettings:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnSettings {
+            width: 110%;
+            margin-left: -50%;
+            margin-top: 20px;
+            font-size: 1.5vw;
+            }
+        }
+
 
 #btnShare {
     background-color: rgb(53, 80, 116);
@@ -143,22 +143,22 @@ body {
     height: 45%;
     min-height: 45%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin-top: 15%;
+    margin-top: 20px;
         grid-area: button0;
-}
-#btnShare:hover {
-    background-color: rgb(84, 111, 171);
-    opacity: 1
-}
 
-@media only screen and (max-width: 600px) {
-    #btnShare {
-    width: 110%;
-    margin-left: -70%;
-    margin-top: 16%;
-    font-size: 1.5vw;
-    }
 }
+    #btnShare:hover {
+        background-color: rgb(84, 111, 171);
+        opacity: 1
+    }
+        @media only screen and (max-width: 600px) {
+            #btnShare {
+            width: 110%;
+            margin-left: -70%;
+            margin-top: 20px;
+            font-size: 1.5vw;
+            }
+        }
 
 
 
@@ -185,32 +185,24 @@ body {
         "input3 input4";
         grid-gap: 0%;
 }
-
-
-@media only screen and (max-width: 600px) {
-    #entersharedbox {
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-top: 5%;
-        display: grid;
-        grid-template-rows: 10% 10% 70% 10;
-        grid-template-columns: 50% 50%;
-        grid-template-areas:
-        "input1 input2";
-        grid-area: 3 / 1 / span 2 / span 2;
+    @media only screen and (max-width: 600px) {
+        #entersharedbox {
+        margin-left: 2%;
+        margin-right: 2%;
+        margin-top: 5%;
+            display: grid;
+            grid-template-rows: 10% 10% 70% 10;
+            grid-template-columns: 50% 50%;
+            grid-template-areas:
+            "input1 input2";
+            grid-area: 3 / 1 / span 2 / span 2;
+        }
     }
-}
-
-
-.scrollable {
-    height: 100%;
-    overflow: scroll;
-}
 
 #inpTag {
-    width: 75%;
+    width: 65%;
     height: 50px; 
-    margin-left: 35%;
+    margin-left: 45%;
     box-sizing: border-box;
     border: 2px solid #ccc;
     -webkit-transition: 0.5s;
@@ -219,16 +211,16 @@ body {
     font-size: small;
     text-align: center;
         grid-area: input1;
-}
-        
-@media only screen and (max-width: 600px) {
-    #inpTag {
-        width: 60%;
-        height: 50px;
-        margin-left: 35%;
-        grid-area: input1;
+}   
+    @media only screen and (max-width: 600px) {
+        #inpTag {
+            width: 60%;
+            height: 50px;
+            margin-left: 35%;
+            grid-area: input1;
+        }
     }
-}
+
 
 #btnTag {
     background-color: rgb(14, 39, 71);
@@ -249,20 +241,24 @@ body {
     cursor: pointer;
     grid-area: input2;
 }
-.btnTag:hover {
-    background-color: rgb(85, 111, 171);
-    opacity: 1;
-}
-
-@media only screen and (max-width: 600px) {
-    #btnTag {
-        width: 60%;
-        height: 50px;
-        margin-left: 5%;
-        grid-area: input2;
+    .btnTag:hover {
+        background-color: rgb(85, 111, 171);
+        opacity: 1;
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnTag {
+                width: 60%;
+                height: 50px;
+                margin-left: 5%;
+                grid-area: input2;
+            }
+        }
 
+        
+.scrollable {
+    height: 100%;
+    overflow: scroll;
+}
 
 
 
@@ -278,16 +274,15 @@ body {
     border-radius: 10px;
         grid-area: 2 / 1 / span 1 / span 2;
 }
-
- @media only screen and (max-width: 600px) {
-    #container {
-        background-color: rgb(254, 254, 254);
-        border: 1px black;
-        max-height: 600px;
-        border-radius: 10px;
-            grid-area: 2 / 1 / span 1 / span 2;
+    @media only screen and (max-width: 600px) {
+        #container {
+            background-color: rgb(254, 254, 254);
+            border: 1px black;
+            max-height: 600px;
+            border-radius: 10px;
+                grid-area: 2 / 1 / span 1 / span 2;
+        }
     }
-}
 
 #container h3 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -323,29 +318,17 @@ body {
     grid-area: 3 / 1 / span 1 / span 2;
 }
 
-.btnAllItems:hover {
-    background-color: rgb(85, 111, 171);
-    opacity: 1;
-}
-
-@media only screen and (max-width: 600px) {
-    #btnAllItems {
-        width: 60%;
-        height: 50px;
-        margin-left: 20%;
-        grid-area: 3 / 1 / span 1 / span 2;
+    .btnAllItems:hover {
+        background-color: rgb(85, 111, 171);
+        opacity: 1;
     }
-}
+        @media only screen and (max-width: 600px) {
+            #btnAllItems {
+                width: 60%;
+                height: 50px;
+                margin-left: 20%;
+                grid-area: 3 / 1 / span 1 / span 2;
+            }
+        }
 
-#check {
-        display: block;
-        position: relative;
-        padding-left: 35px;
-        margin-bottom: 12px;
-        cursor: pointer;
-        font-size: 22px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-}
+
