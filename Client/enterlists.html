@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" href="Css/enter.css">-->
-    
+    <link rel="stylesheet" href="Css/enter.css">
 </head>
 
     <header class="header">
@@ -15,17 +14,15 @@
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnBack">Back</button>
         <button id="btnSettings" class="headerBtns">Settings</button>
-        
     </header>
 
 <body>
-        
+
     <div id="enterBox">
         <br>
         <h1 id="listName"></h1>
     <input type="text" id="inpName" placeholder="Name">
     <input type="search" id="inpTag" placeholder="Search tags">
-
     <br>
     <button id="btnCreate">Create item</button>
     <button id="btnTag">Search tags</button>
@@ -38,25 +35,28 @@
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
+
     let emptyTag = "";
 
-    let url = "http://localhost:8080/items";
-    let container = document.getElementById('container');
+    let url = "/items";
 
-    let btnSettings = document.getElementById('btnSettings');
-    let inpDescr = document.getElementById('inpDescr');
+    let container = document.getElementById('container');
+    let txtResult = document.getElementById('txtResult');
 
     let inpName = document.getElementById('inpName'); 
+    let inpTag = document.getElementById('inpTag');
+
+    let btnSettings = document.getElementById('btnSettings');
     let btnBack = document.getElementById('btnBack');
     let btnCreate = document.getElementById('btnCreate');
-    let txtResult = document.getElementById('txtResult');
-    let checkbox = document.getElementById("checkbox");
-    let listsid = sessionStorage.getItem("listsid");
-
     let btnLogOut = document.getElementById('btnLogOut');
     let btnTag = document.getElementById('btnTag');
-    let inpTag = document.getElementById('inpTag');
     let btnAllItems = document.getElementById('btnAllItems');
+    let checkbox = document.getElementById("checkbox");
+
+    let listsid = sessionStorage.getItem("listsid");
+
+    listName.innerHTML = sessionStorage.getItem("listsname");
 
     btnTag.addEventListener('click', async function(evt) {
             location.reload(); 
@@ -77,7 +77,6 @@
                 listsid: listsid,
                 tag: emptyTag
             }
-            
             let cfg = {
                 method: "POST",
                 headers: {
@@ -86,11 +85,7 @@
                 },
                 body: JSON.stringify(updata)
             }
-            
-            setTimeout(function () {
-                listItems();
-            }, 500); //will call the function after 0.5 secs.
-            
+            setTimeout(function () {listItems();}, 500);
 
             try {
                 var resp = await fetch(url, cfg);
@@ -99,7 +94,6 @@
                 if (resp.status > 202) {
                     throw(data);
                 };
-
                 txtResult.innerHTML = data.msg + " for " + inpName.value;
                 location.reload();
             }
@@ -119,10 +113,6 @@
             window.location.href = "createlists.html";
         });
 
-        
-
-        
-
     listItems();
     // ---------------------------------------  
     async function listItems() {
@@ -135,13 +125,10 @@
                 method: "GET",
                 headers: {"authorization": token}
             };
-
             url = url + "?listsid=" + listsid + "&tag=" + inpTag.value;
 
             var resp = await fetch(url, cfg);
             var data = await resp.json();
-        
-            console.log(url);
 
             if (resp.status > 202) {
                 throw(data);
@@ -159,46 +146,43 @@
                 div.innerHTML = html;
 
                 let delBtn = document.createElement("button");
-                delBtn.setAttribute("id", "btn3");
-                delBtn.innerHTML = "Delete";
-                delBtn.style.cursor = "pointer";
-                delBtn.addEventListener('click', function (evt) {
-                    deleteItems(value.id);
-                });
+                    delBtn.setAttribute("id", "btn3");
+                    delBtn.innerHTML = "Delete";
+                    delBtn.style.cursor = "pointer";
+                    delBtn.addEventListener('click', function (evt) {
+                        deleteItems(value.id);
+                    });
 
                 let updateBtn = document.createElement("button");
-                updateBtn.setAttribute("id", "btn2");
-                updateBtn.innerHTML = "Change name";
-                updateBtn.style.cursor = "pointer";
-                updateBtn.addEventListener('click', async function (evt) {
-                    let updateItemName = prompt("New item name:");
-                    if (updateItemName != null){
-                        updateItem(value.id, updateItemName, value.tag, checkBox.checked);                       
-                    }
-                });
+                    updateBtn.setAttribute("id", "btn2");
+                    updateBtn.innerHTML = "Change name";
+                    updateBtn.style.cursor = "pointer";
+                    updateBtn.addEventListener('click', async function (evt) {
+                    let updateItemName = prompt("New item name:", value.name);
+                        if (updateItemName != null){
+                            updateItem(value.id, updateItemName, value.tag, checkBox.checked);                       
+                        }
+                    });
 
                 let tagBtn = document.createElement("button");
-                tagBtn.setAttribute("id", "btn1");
-                tagBtn.innerHTML = "Add tag";
-                tagBtn.style.cursor = "pointer";
-                tagBtn.addEventListener('click', async function (evt) {
+                    tagBtn.setAttribute("id", "btn1");
+                    tagBtn.innerHTML = "Add tag";
+                    tagBtn.style.cursor = "pointer";
+                    tagBtn.addEventListener('click', async function (evt) {
                     let addItemTag = prompt("Add a tag:");
-                    if (addItemTag != null){
-                        updateItem(value.id, value.name, addItemTag, checkBox.checked);                  
-                    }
-                });
+                        if (addItemTag != null){
+                            updateItem(value.id, value.name, addItemTag, checkBox.checked);                  
+                        }
+                    });
                 
                 let checkBox = document.createElement("input");
-                checkBox.setAttribute("id", "check");
-                checkBox.type = "checkbox";
-                checkBox.style.cursor = "pointer";
-                checkBox.checked = value.checked;
-                checkBox.addEventListener("click", function() {
-                    console.log(value.id);
-                    console.log(checkBox.checked);
-                    console.log(value.name);
-                    updateItem(value.id, value.name, value.tag, checkBox.checked);
-                });
+                    checkBox.setAttribute("id", "check");
+                    checkBox.type = "checkbox";
+                    checkBox.style.cursor = "pointer";
+                    checkBox.checked = value.checked;
+                    checkBox.addEventListener("click", function() {
+                        updateItem(value.id, value.name, value.tag, checkBox.checked);
+                    });
                    
                 div.insertBefore(checkBox, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
@@ -206,27 +190,21 @@
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
-            
         }
-        
-
         catch (err) {
             console.log(err);
         }
-
-
     }
 
     //---------------------
     async function deleteItems(id) {
 
-        let updata = { 
-            itemid: id 
-        };
-
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
 
+        let updata = { 
+            itemid: id 
+        }
         let cfg = {
             method: "DELETE",
             headers: {
@@ -235,13 +213,11 @@
             },
             body: JSON.stringify(updata)
         }
-
         try {
             let resp = await fetch(url, cfg);
             if (resp.status > 202) {
                 throw(data);
             };
-
             location.reload();
         }
         catch (err) {
@@ -258,11 +234,8 @@
             id: itemid,
             name: newitemname,
             tag: itemtag,
-            checked: checkvalue,
-            importance: inpValue
-
+            checked: checkvalue
         }
-
         let cfg = {
             method: "PUT",
             headers: {
@@ -279,13 +252,12 @@
             if (resp.status > 200) {
                 throw(resp)
             };
-
             location.reload();
         }
         catch (err) {
             console.log(err);
         }
-        }
+    }
 </script>
 
 </html>

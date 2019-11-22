@@ -4,26 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" href="Css/enter.css">-->
+    <link rel="stylesheet" href="Css/entershared.css">
     
 </head>
 
     <header class="header">
             <a href="createlists.html" class="pic">
-                <img src="Css/images/logo_2.png" width="225px" height="80px">
-            </a>
+                <img src="Css/images/logo_2.png" width="225px" height="80px"></a>
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnBack">Back</button>
+        <button id="btnSettings" class="headerBtns">Settings</button>
         
     </header>
 
 <body>
         
-    <div id="enterBox">
+    <div id="entersharedbox">
         <br>
         <h1 id="listName"></h1>
     <input type="search" id="inpTag" placeholder="Search tags">
-
     <br>
     <button id="btnTag">Search tags</button>
     <button id="btnAllItems">List all items</button>
@@ -35,23 +34,23 @@
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
+
+    let url = "/items";
     let emptyTag = "";
 
-    let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
+    let txtResult = document.getElementById('txtResult');
 
     let btnSettings = document.getElementById('btnSettings');
-
     let btnBack = document.getElementById('btnBack');
-    let txtResult = document.getElementById('txtResult');
-    let checkbox = document.getElementById("checkbox");
-    let listsid = sessionStorage.getItem("listsid");
-
     let btnLogOut = document.getElementById('btnLogOut');
     let btnTag = document.getElementById('btnTag');
-    let inpTag = document.getElementById('inpTag');
     let btnAllItems = document.getElementById('btnAllItems');
+    let checkbox = document.getElementById("checkbox");
+    let inpTag = document.getElementById('inpTag');
 
+    let listsid = sessionStorage.getItem("listsid");
+    
     btnTag.addEventListener('click', async function(evt) {
             location.reload(); 
         });
@@ -62,17 +61,17 @@
         });
 
 
-        btnLogOut.addEventListener('click', async function(evt) {
+    btnLogOut.addEventListener('click', async function(evt) {
             window.location.href = "index.html";
         });
 
-        btnBack.addEventListener('click', async function(evt) {
+    btnBack.addEventListener('click', async function(evt) {
             window.location.href = "sharedlists.html";
         });
 
-        
-
-        
+    btnSettings.addEventListener('click', async function(evt) {
+            window.location.href = "usersettings.html";
+        });
 
     listItems();
     // ---------------------------------------  
@@ -91,8 +90,6 @@
 
             var resp = await fetch(url, cfg);
             var data = await resp.json();
-        
-            console.log(url);
 
             if (resp.status > 202) {
                 throw(data);
@@ -109,43 +106,34 @@
                 let div = document.createElement("div");
                 div.innerHTML = html;
 
-                
                 let checkBox = document.createElement("input");
-                checkBox.setAttribute("id", "check");
-                checkBox.type = "checkbox";
-                checkBox.style.cursor = "pointer";
-                checkBox.checked = value.checked;
-                checkBox.addEventListener("click", function() {
-                    console.log(value.id);
-                    console.log(checkBox.checked);
-                    console.log(value.name);
-                    updateItem(value.id, value.name, value.tag, checkBox.checked);
+                    checkBox.setAttribute("id", "check");
+                    checkBox.type = "checkbox";
+                    checkBox.style.cursor = "pointer";
+                    checkBox.checked = value.checked;
+                    checkBox.addEventListener("click", function() {
+                        updateItem(value.id, value.name, value.tag, checkBox.checked);
                 });
-                   
+
                 div.insertBefore(checkBox, div.lastElementChild);
                 container.appendChild(div);
             }
             
         }
-        
-
         catch (err) {
             console.log(err);
         }
-
-
     }
 
     //---------------------
     async function deleteItems(id) {
 
-        let updata = { 
-            itemid: id 
-        };
-
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
 
+        let updata = { 
+            itemid: id 
+        }
         let cfg = {
             method: "DELETE",
             headers: {
@@ -154,7 +142,6 @@
             },
             body: JSON.stringify(updata)
         }
-
         try {
             let resp = await fetch(url, cfg);
             if (resp.status > 202) {
@@ -179,9 +166,7 @@
             tag: itemtag,
             checked: checkvalue,
             importance: inpValue
-
         }
-
         let cfg = {
             method: "PUT",
             headers: {
@@ -190,7 +175,6 @@
             },
             body: JSON.stringify(updata)
         }  
-        console.log(updata);
         try {
             let resp = await fetch(url, cfg);
             var data = await resp.json();
@@ -204,7 +188,7 @@
         catch (err) {
             console.log(err);
         }
-        }
+    }
 </script>
 
 </html>
