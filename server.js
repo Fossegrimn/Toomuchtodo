@@ -1,4 +1,4 @@
-//--------------------------- Version 4.1 ---------------------------------------
+//--------------------------- Version 4.3 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -251,7 +251,7 @@ app.post('/users', async function (req, res) {
         }
     }
     catch(err) {
-        res.status(200).json({msg: "Something went wrong"}); //send respons
+        res.status(200).json({msg: "User already exists!"}); //send respons
         res.status(500).json({error: err}); //send error respons
     }
 });
