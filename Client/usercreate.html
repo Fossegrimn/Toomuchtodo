@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Css/index.css">
-    <title>Usercreate</title>
 </head>
 
 <body>
+    
     <div class="firstSideBox">
         <img class="logo" src="Css/images/logo_3.png" width="300px" height="100px">
         <br><br>
@@ -17,20 +17,20 @@
         <input type="password" id="inpPasswrd" placeholder="Password">
         <br>
         <button id="btnCreate">Create user</button>
-        <h3 id="txtResult"> </h3>
-        <p id="goToLogin">Go to <a href="index.html">Login page</a> to use your new acount</p>
+        <h3 id="txtResult"></h3>
+        <p id="goToLogin">Back to <a href="index.html">Login page</a>.</p>
     </div>
+
     </body>
-    
+
     <script>
         //Html ark for å lage bruker
         let inpUsername = document.getElementById('inpUsername');
         let inpPasswrd = document.getElementById('inpPasswrd');
-        let btnCreate = document.getElementById('btnCreate');
         let txtResult = document.getElementById('txtResult');
+        let btnCreate = document.getElementById('btnCreate');
         
         btnCreate.addEventListener('click', async function(evt) {
-
 
             let url = "/users";
 
@@ -38,31 +38,22 @@
                 username: inpUsername.value,
                 passwrd: inpPasswrd.value
             }
-            
             let cfg = {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(updata)
             }
             sessionStorage.setItem("username", inpUsername.value);
-
             try {
                 var resp = await fetch(url, cfg);
                 var data = await resp.json();
                 txtResult.innerHTML = data.msg;
-
-                setTimeout(function () {
-                window.location.href = "index.html"
-            }, 1500); //will call the function after 0.5 secs.
+                setTimeout(function () {window.location.href = "index.html"}, 1500);
             }
-            
-
             catch (err) {
                 console.log(err);
             }
         });
-        
-
 </script>
 
 </html>

@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Css/index.css">
-    <title>To-do List</title>
 </head>
 
 <body>
@@ -37,42 +36,30 @@
 
             let url = "/auth";
 
-            console.log(url);
-
             let updata =  {
                 username: inpUsername.value,
                 passwrd: inpPasswrd.value
             }
-            
             let cfg = {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(updata)
             }
-
            try {
                 var resp = await fetch(url, cfg);
                 var data = await resp.json();
                 txtResult.innerHTML = data.msg;
-                console.log(data)
                 if(resp.status > 202) {
                     throw(data);
                 };
-
-                console.log(data);
                 txtResult.innerHTML = data.username + " is logged in!";
                 sessionStorage.setItem("logindata", JSON.stringify(data));
-                setTimeout(function () {
-                window.location.href = "createlists.html"; //will redirect to your blog page (an ex: blog.html)
-            }, 1250); //will call the function after 1.25 secs.
+                setTimeout(function () {window.location.href = "createlists.html";}, 1250);
             }
             catch (err) {
                 console.log(err);
             }
-       
-                
         });
-
 </script>
 
 </html>
