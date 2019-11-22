@@ -1,4 +1,4 @@
-//--------------------------- Version 4.3 ---------------------------------------
+//--------------------------- Version 4.4 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -6,7 +6,8 @@ const app = express(); //server-app
 const bcrypt = require('bcrypt'); //Hashtagger haha, passordet
 const pg = require('pg');
 const jwt = require('jsonwebtoken');
-const secret = "n9}rPL$v'v2wm,55hZX<~u:";
+//const secret = "n9}rPL$v'v2wm,55hZX<~u:";
+
 
 let classified;
 try {
@@ -14,8 +15,9 @@ try {
 } catch (err){
     console.error("Not running locally")
 }
+const secret = classified.env.cryptsecret;
 
-const connstring  = process.env.DATABASE_URL || classified.env.DATABASE_URL
+const connstring  = process.env.DATABASE_URL || classified.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString: connstring });
 
 let token;

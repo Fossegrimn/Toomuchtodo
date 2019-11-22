@@ -14,6 +14,7 @@
             </a>
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnBack" class="headerBtns">Back</button>
+        <button id="btnSettings" class="headerBtns">Settings</button>
     </header>
 <body>
     
@@ -38,9 +39,13 @@
 
         let url = "http://localhost:8080/lists/shared";
         let container = document.getElementById('container');
-
+        let btnSettings = document.getElementById('btnSettings');
         let btnBack = document.getElementById('btnBack');
         let txtResult = document.getElementById('txtResult');
+
+        btnSettings.addEventListener('click', async function(evt) {
+            window.location.href = "usersettings.html";
+        });
 
         listSharedLists();
         
