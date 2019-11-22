@@ -178,7 +178,7 @@ body {
     min-width: 45%;
         display: grid;
         grid-template-rows: 10% 10% 80%;
-        grid-template-columns: 100%;
+        grid-template-columns: 50% 50%;
         grid-template-areas: "input1 input2 input3";
         grid-gap: 0%;
 }
@@ -191,14 +191,14 @@ body {
     margin-right: 2%;
     margin-top: 5%;
         display: grid;
-        grid-template-rows: 10% 10% 80%;
+        grid-template-rows: 20% 10% 70%;
     }
 }
 
 #inpName {
     width: 70%;
-    height: 50px;
-    margin-left: 29%;    
+    height: 50px; 
+    margin-left: 28%;
     box-sizing: border-box;
     border: 2px solid #ccc;
     -webkit-transition: 0.5s;
