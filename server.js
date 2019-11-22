@@ -20,8 +20,6 @@ try {
 const connstring  = process.env.DATABASE_URL || classified.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString: connstring });
 
-console.warn(connstring);
-
 let token;
 let logindata;
 
@@ -74,7 +72,7 @@ app.post('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "List created"}); //send respons
+            res.status(200).json({msg: "List " + updata.name + " created"}); //send respons
         }
         else {
             throw "Failed creating list";
@@ -98,7 +96,7 @@ app.delete('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "List deleted"}); //send respons
+            res.status(200).json({msg: "List " + updata.name + " deleted"}); //send respons
         }
         else {
             throw "Failed deleting list";

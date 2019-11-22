@@ -25,7 +25,7 @@
         <input type="text" id="inpName" class="listinput" placeholder=" List Name">
         <input type="text" id="inpDescr" class="listinput" placeholder=" Description">
         <button id="btnCreate" class="listinput">Create list</button>
-        <!--<h3 id="txtResult"></h3>-->
+        <h3 id="txtResult"></h3>
         <div id="container" class="scrollable"></div>
     </div>
 
@@ -44,7 +44,6 @@
         let btnCreate = document.getElementById('btnCreate');
         let btnLogOut = document.getElementById('btnLogOut');
         let txtResult = document.getElementById('txtResult');
-
 
         listLists();
         async function listLists() {
@@ -75,7 +74,6 @@
                 div.innerHTML = html;
                 //Dette er det som vises til listene
 
-
                 //Lager ern knapp for å kunne oppdatere listene
                 let updateBtn = document.createElement("button");
                 updateBtn.setAttribute("id", "btn2");
@@ -103,19 +101,25 @@
                 delBtn.innerHTML = "Delete";
                 delBtn.addEventListener('click', function (evt) {
                     if (confirm("Are you sure you want to delete this list?")){
-                        deleteList(value.id);
+                        deleteList(value.id, value.name);
                     };
                 });
 
+                
+                //let sharedStatus = document.getElementById("sharedStatus");
                 let shared = false;
                 let shrBtn = document.createElement("button");
                 shrBtn.setAttribute("id", "btn4");
                 shrBtn.innerHTML = "Share";
                 shrBtn.addEventListener('click', function (evt) {
                     if (confirm("Are you sure you want to share this list? (Cancel to unshare)")){
+                        txtResult.innerHTML = "List " + value.name + " shared";
+                        setTimeout(function (){txtResult.innerHTML = "";}, 2000);
                         shared = true;
                         updateList(value.id, value.name, shared);
                     } else {
+                        txtResult.innerHTML = "List " + value.name + " unshared";
+                        setTimeout(function (){txtResult.innerHTML = "";}, 2000);
                         shared = false;
                         updateList(value.id, value.name, shared);
                     }
@@ -170,10 +174,11 @@ async function updateList(listid, listname, status) {
 }
 
     //---------------------
-    async function deleteList(id) {
+    async function deleteList(id, listname) {
 
         let updata = {
-            listsid: id
+            listsid: id,
+            name: listname
         };
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
@@ -189,11 +194,16 @@ async function updateList(listid, listname, status) {
         }
 
         try {
-            let resp = await fetch(url, cfg);
+            var resp = await fetch(url, cfg);
+            var data = await resp.json();
 
             if (resp.status > 200) {
                 throw(data)
             };
+            txtResult.innerHTML = data.msg;
+                setTimeout(function () {
+                    txtResult.innerHTML = "";
+            }, 2000); //will call the function after 0.5 secs.
 
             listLists();
         }
@@ -248,6 +258,9 @@ async function updateList(listid, listname, status) {
                 };
 
                 txtResult.innerHTML = data.msg;
+                setTimeout(function () {
+                    txtResult.innerHTML = "";
+            }, 2000); //will call the function after 0.5 secs.
             }
             catch (err) {
                 console.log(err);
