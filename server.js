@@ -1,4 +1,4 @@
-//--------------------------- Version 4.0 ---------------------------------------
+//--------------------------- Version 4.1 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -8,8 +8,14 @@ const pg = require('pg');
 const jwt = require('jsonwebtoken');
 const secret = "n9}rPL$v'v2wm,55hZX<~u:";
 
-const dbURI = "postgres://mrculhchcipczd:fc7107e2a5205045f559d12c831331516f7418db9a359b8732f92c1087aa0c79@ec2-54-217-235-87.eu-west-1.compute.amazonaws.com:5432/d5ltmt8lskihj" + "?ssl=true";
-const connstring  = process.env.DATABASE_URL || dbURI;
+let classified;
+try {
+    classified = require("./classified")
+} catch (err){
+    console.error("Not running locally")
+}
+
+const connstring  = process.env.DATABASE_URL || classified.env.DATABASE_URL
 const pool = new pg.Pool({ connectionString: connstring });
 
 let token;
