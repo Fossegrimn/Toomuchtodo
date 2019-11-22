@@ -1,4 +1,4 @@
-//--------------------------- Version 3.5 ---------------------------------------
+//--------------------------- Version 4.0 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -29,14 +29,11 @@ app.get('/lists/shared', async function (req, res) {
     
     let sql = 'SELECT * FROM lists WHERE shared = true';
 
-    console.log(logindata);
-
     try {
         let result = await pool.query(sql);
         res.status(200).json(result.rows); //send response   
     }  
     catch(err) {
-        console.log(err);
         res.status(500).json({error: err});
     }
 });
@@ -46,15 +43,11 @@ app.get('/lists', async function (req, res) {
     let sql = 'SELECT * FROM lists WHERE userid = $1';
     let values = [logindata.userid];
 
-
-    console.log(logindata);
-
     try {
         let result = await pool.query(sql, values);
         res.status(200).json(result.rows); //send response   
     }  
     catch(err) {
-        console.log(err);
         res.status(500).json({error: err});
     }
 });
@@ -78,7 +71,6 @@ app.post('/lists', async function (req, res) {
         }
     }  
     catch(err) {
-        console.log(err)
         res.status(500).json({error: err}); //send error respons
     }
    
@@ -122,7 +114,6 @@ app.put('/lists', async function (req, res) {
     }
     catch (err){
         res.status(500).json(err); //send error respons
-        console.log(err);
     }
 });
 
@@ -225,7 +216,6 @@ app.put('/items', async function (req, res) {
     }
     catch (err){
         res.status(500).json(err); //send error respons
-        console.log(err);
     }
 });
 
@@ -257,7 +247,6 @@ app.post('/users', async function (req, res) {
     catch(err) {
         res.status(200).json({msg: "Something went wrong"}); //send respons
         res.status(500).json({error: err}); //send error respons
-        console.log(err)
     }
 });
 
@@ -266,8 +255,6 @@ app.put('/users', async function (req, res) {
 
     let updata = req.body; //the data from the client
     let hash = bcrypt.hashSync(updata.pswhash, 10);
-
-    console.log("logindata server:", logindata);
 
     let sql1 = 'UPDATE users SET username = $2, pswhash = $3 WHERE id = $1 RETURNING *';
     let sql2 = 'UPDATE users SET username = $2 WHERE id = $1 RETURNING *';
@@ -284,7 +271,7 @@ app.put('/users', async function (req, res) {
             catch(err) {
                 res.status(200).json({msg: "User aldready exists"});
                 res.status(500).json({error: err}); //send error respons
-                console.log(err)
+       
             }
     } else if (updata.username != "") {
             try {
@@ -294,7 +281,7 @@ app.put('/users', async function (req, res) {
             catch(err) {
                 res.status(200).json({msg: "User aldready exists"});
                 res.status(500).json({error: err}); //send error respons
-                console.log(err)
+        
             }
     } else if (updata.pswhash != "") {
             try {
@@ -303,7 +290,7 @@ app.put('/users', async function (req, res) {
             }
             catch(err) {
                 res.status(500).json({error: err}); //send error respons
-                console.log(err)
+        
             }
     } else if (updata.username == "" && updata.pswhash == "") {
         res.status(200).json({msg: "Input fields empty!"});
@@ -329,7 +316,6 @@ app.delete('/users', async function (req, res) {
         }
     }
     catch {
-        console.log("error:", err);
         res.status(500).json ({err}); //send error respons
         
     }
@@ -367,7 +353,6 @@ app.post('/auth', async function (req, res) {
         }
     }
     catch(err) {
-        console.log(err);
         res.status(500).json({error:err}); //send error response
     }
 });

@@ -4,22 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="items.css">
+    <link rel="stylesheet" href="Css/enter.css">
     
 </head>
 
     <header class="header">
             <a href="createlists.html" class="pic">
-                <img src="images/logo_2.png" width="225px" height="80px">
+                <img src="Css/images/logo_2.png" width="225px" height="80px">
             </a>
         <button id="btnLogOut" class="headerBtns">Log out</button>
+        <button id="btnBack">Back</button>
         <button id="btnSettings" class="headerBtns">Settings</button>
         
     </header>
 
 <body>
         
-    <div id="firstSideBox">
+    <div id="enterBox">
         <br>
         <h1 id="listName"></h1>
     <input type="text" id="inpName" placeholder="Name">
@@ -157,6 +158,7 @@
                 div.innerHTML = html;
 
                 let delBtn = document.createElement("button");
+                delBtn.setAttribute("id", "btn3");
                 delBtn.innerHTML = "Delete";
                 delBtn.style.cursor = "pointer";
                 delBtn.addEventListener('click', function (evt) {
@@ -164,6 +166,7 @@
                 });
 
                 let updateBtn = document.createElement("button");
+                updateBtn.setAttribute("id", "btn2");
                 updateBtn.innerHTML = "Change name";
                 updateBtn.style.cursor = "pointer";
                 updateBtn.addEventListener('click', async function (evt) {
@@ -183,6 +186,7 @@
                 });
 
                 let tagBtn = document.createElement("button");
+                tagBtn.setAttribute("id", "btn1");
                 tagBtn.innerHTML = "Add tag";
                 tagBtn.style.cursor = "pointer";
                 tagBtn.addEventListener('click', async function (evt) {
@@ -193,6 +197,7 @@
                 });
                 
                 let checkBox = document.createElement("input");
+                checkBox.setAttribute("id", "check");
                 checkBox.type = "checkbox";
                 checkBox.style.cursor = "pointer";
                 checkBox.checked = value.checked;
