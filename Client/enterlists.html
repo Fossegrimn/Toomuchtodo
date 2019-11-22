@@ -29,6 +29,7 @@
     <button id="btnCreate">Create item</button>
     <button id="btnBack">Back to lists</button>
     <button id="btnTag">Search tags</button>
+    <button id="btnAllItems">List all items</button>
     <h3 id="txtResult"></h3>
     <div id="container" class="scrollable"></div>
     </div>
@@ -37,12 +38,10 @@
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
-
     let emptyTag = "";
 
     let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
-
 
     let btnSettings = document.getElementById('btnSettings');
     let inpDescr = document.getElementById('inpDescr');
@@ -57,11 +56,16 @@
     let btnLogOut = document.getElementById('btnLogOut');
     let btnTag = document.getElementById('btnTag');
     let inpTag = document.getElementById('inpTag');
+    let btnAllItems = document.getElementById('btnAllItems');
 
     btnTag.addEventListener('click', async function(evt) {
-            console.log(inpTag.value);
+            location.reload(); 
         });
 
+    btnAllItems.addEventListener('click', async function(evt) {
+            inpTag.value = "";
+            location.reload(); 
+        });
 
         btnCreate.addEventListener('click', async function(evt) {
 
@@ -130,9 +134,12 @@
                 headers: {"authorization": token}
             };
 
-            var resp = await fetch(url + "?listsid=" + listsid, cfg);
+            url = url + "?listsid=" + listsid + "&tag=" + inpTag.value;
+
+            var resp = await fetch(url, cfg);
             var data = await resp.json();
-            
+        
+            console.log(url);
 
             if (resp.status > 202) {
                 throw(data);
@@ -162,8 +169,17 @@
                 updateBtn.addEventListener('click', async function (evt) {
                     let updateItemName = prompt("New item name:");
                     if (updateItemName != null){
-                        updateItem(value.id, updateItemName, value.tag, checkBox.checked);                       
+                        updateItem(value.id, updateItemName, value.tag, checkBox.checked, dropDown[dropDown.selectedIndex].value);                       
                     }
+                });
+
+                let dropDown = document.createElement("select");
+                dropDown.appendChild(new Option("1", "0"));
+                dropDown.appendChild(new Option("2", "1"));
+                dropDown.appendChild(new Option("3", "2"));
+                dropDown.style.cursor = "pointer";
+                dropDown.addEventListener('change', async function (evt) {
+                    console.log(dropDown[dropDown.selectedIndex].value);
                 });
 
                 let tagBtn = document.createElement("button");
@@ -187,18 +203,24 @@
                     updateItem(value.id, value.name, value.tag, checkBox.checked);
                 });
                    
+                div.insertBefore(dropDown, div.lastElementChild);
                 div.insertBefore(checkBox, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(tagBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
+            
         }
+        
+
         catch (err) {
             console.log(err);
         }
+
+
     }
-    
+
     //---------------------
     async function deleteItems(id) {
 
@@ -231,7 +253,7 @@
         }
     }
 
-    async function updateItem(itemid, newitemname, itemtag, checkvalue) {
+    async function updateItem(itemid, newitemname, itemtag, checkvalue, inpValue) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
@@ -240,7 +262,9 @@
             id: itemid,
             name: newitemname,
             tag: itemtag,
-            checked: checkvalue
+            checked: checkvalue,
+            importance: inpValue
+
         }
 
         let cfg = {
