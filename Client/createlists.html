@@ -83,7 +83,7 @@
                 updateBtn.addEventListener('click', async function (evt) {
                     let updateName = prompt("New list name:", value.name);
                     if (updateName != null){
-                        updateList(updateName, value.id, value.shared);                        
+                        updateList(value.id, updateName, value.shared);                        
                     }
                 });
 
@@ -114,10 +114,10 @@
                 shrBtn.addEventListener('click', function (evt) {
                     if (confirm("Are you sure you want to share this list? (Cancel to unshare)")){
                         shared = true;
-                        shareList(value.id, value.name, shared);
+                        updateList(value.id, value.name, shared);
                     } else {
                         shared = false;
-                        shareList(value.id, value.name, shared);
+                        updateList(value.id, value.name, shared);
                     }
                 });
 
@@ -132,41 +132,42 @@
             console.log(err);
         }
     }
-    
-async function shareList(listid, listname, status) {
+
+//----------------------------------------------------------------------------
+
+async function updateList(listid, listname, status) {
 
     let logindata = JSON.parse(sessionStorage.getItem("logindata"));
     let token = logindata.token;
 
-        let updata =    {
-            id: listid,
-            name: listname,
-            shared: status
-        }
+    let updata =    {
+        id: listid,
+        name: listname,
+        shared: status
+    }
 
-        let cfg = {
-            method: "PUT",
-            headers: {
-                "authorization": token,
-                "Content-Type":"application/json"
-            },
+
+    let cfg = {
+        method: "PUT",
+        headers: {
+            "authorization": token,
+            "Content-Type":"application/json"
+        },
             body: JSON.stringify(updata)
-        }  
-        console.log(updata);
-        try {
-            let resp = await fetch(url, cfg);
-            var data = await resp.json();
+    }  
+    console.log(updata);
+    try {
+        let resp = await fetch(url, cfg);
 
-            if (resp.status > 200) {
-                throw(resp)
-            };
-        }
-        catch (err) {
-            console.log(err);
-        }
+        if (resp.status > 200) {
+            throw(resp)
+        };
+        listLists();
+    } 
+    catch (err) {
+        console.log(err);
+    }
 }
-
-
 
     //---------------------
     async function deleteList(id) {
@@ -253,41 +254,7 @@ async function shareList(listid, listname, status) {
             }
         });
 
-//----------------------------------------------------------------------------
 
-    async function updateList(newname, listid, status) {
-
-        let logindata = JSON.parse(sessionStorage.getItem("logindata"));
-        let token = logindata.token;
-
-        let updata =    {
-            name: newname,
-            id: listid,
-            shared: status
-        }
-        
-
-        let cfg = {
-            method: "PUT",
-            headers: {
-                "authorization": token,
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify(updata)
-        }  
-        console.log(updata);
-        try {
-            let resp = await fetch(url, cfg);
-
-            if (resp.status > 200) {
-                throw(resp)
-            };
-            listLists();
-        }
-        catch (err) {
-            console.log(err);
-        }
-        }
 
 </script>
 
