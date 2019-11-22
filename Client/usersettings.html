@@ -20,7 +20,7 @@
     <div class="settingsBox">
         <br>
             <img id="icon" src="Css/images/icon.png" width="40px" height="40px">
-            <h2 id="SignUphead">User settings</h2>
+            <h2 id="SignUphead"></h2>
             <input type="text" id="updateUsername" placeholder="Update Username">
         <br>
             <input type="password" id="updateUserPasswrd" placeholder="Update Password">
@@ -39,12 +39,16 @@
         let updateUsername = document.getElementById('updateUsername');
         let updateUserPasswrd = document.getElementById('updateUserPasswrd');
         let txtResult = document.getElementById('txtResult');
-        let url = "http://localhost:8080/users";
+        let btnLogOut = document.getElementById('btnLogOut');
+        let url = "/users";
         let btnDeleteUser = document.getElementById("btnDeleteUser");
         let logindata = sessionStorage.getItem("logindata");
+        let username = sessionStorage.getItem("username");
         let btnBack = document.getElementById('btnBack');
 
-        updateUsername.value = JSON.parse(sessionStorage.getItem("logindata")).name;
+        //SignUphead.innerHTML = "User settings for " + JSON.parse(sessionStorage.getItem("logindata")).username;
+        SignUphead.innerHTML = "User settings for " + sessionStorage.getItem("username");
+        console.log(username);
 
     btnDeleteUser.addEventListener('click', async function (evt) {
             if (confirm("Are you sure you want to delete this user?")){
@@ -59,7 +63,18 @@
 
 
     btnUpdUser.addEventListener('click', async function (evt) {
+        logindata = sessionStorage.getItem("logindata");
+        if (updateUsername.value != "" && updateUserPasswrd.value != "") {
+            sessionStorage.setItem("username", updateUsername.value);
             updateUser();
+        } else if (updateUsername.value != "") {
+            sessionStorage.setItem("username", updateUsername.value);
+            updateUser();
+        } else if (updateUserPasswrd.value != ""){
+            updateUser();
+        } else {
+            txtResult.innerHTML = "Input fields empty!";
+        }
         });
 
     async function updateUser() {
@@ -89,6 +104,10 @@
             if (resp.status > 200) {
                 throw(resp)
             };
+            setTimeout(function () {
+                window.location.href = "usersettings.html";
+            }, 1500); //will call the function after 0.5 secs.
+            
         }
         catch (err) {
             console.log(err);
@@ -98,6 +117,10 @@
     btnBack.addEventListener('click', async function(evt) {
             window.location.href = "createlists.html";
         });
+    btnLogOut.addEventListener('click', async function(evt) {
+         window.location.href = "index.html";
+     });
+
 
 //--------------------------------------------------------
 

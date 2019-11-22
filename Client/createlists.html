@@ -33,7 +33,7 @@
     
     <script>
     //Html ark for en side hvor du kan adde reiser, trenger en knapp for å komme til denne siden
-        let url = "http://localhost:8080/lists";
+        let url = "/lists";
         let container = document.getElementById('container');
 
         let inpName = document.getElementById('inpName');
@@ -81,7 +81,7 @@
                 updateBtn.setAttribute("id", "btn2");
                 updateBtn.innerHTML = "Change name";
                 updateBtn.addEventListener('click', async function (evt) {
-                    let updateName = prompt("New list name:");
+                    let updateName = prompt("New list name:", value.name);
                     if (updateName != null){
                         updateList(updateName, value.id, value.shared);                        
                     }
@@ -93,6 +93,7 @@
                 lstEntBtn.innerHTML = "Enter List";
                 lstEntBtn.addEventListener('click', function (evt) {
                     sessionStorage.setItem("listsid", value.id);
+                    sessionStorage.setItem("listsname", value.name);
                     location.href = "enterlists.html";
                 });
 
@@ -214,7 +215,7 @@ async function shareList(listid, listname, status) {
 
         btnCreate.addEventListener('click', async function(evt) {
 
-            let url = "http://localhost:8080/lists";
+            let url = "/lists";
 
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;
