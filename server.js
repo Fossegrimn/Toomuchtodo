@@ -1,4 +1,4 @@
-//--------------------------- Version 4.6 ---------------------------------------
+//--------------------------- Version 4.8 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt'); //Hashtagger haha, passordet
 const pg = require('pg');
 const jwt = require('jsonwebtoken');
 const secret = "n9}rPL$v'v2wm,55hZX<~u:";
-
 
 let classified;
 try {
@@ -19,8 +18,6 @@ try {
 
 const connstring  = process.env.DATABASE_URL || classified.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString: connstring });
-
-console.warn(connstring);
 
 let token;
 let logindata;
@@ -74,7 +71,7 @@ app.post('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "List created"}); //send respons
+            res.status(200).json({msg: "List " + updata.name + " created"}); //send respons
         }
         else {
             throw "Failed creating list";
@@ -98,7 +95,7 @@ app.delete('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "List deleted"}); //send respons
+            res.status(200).json({msg: "List " + updata.name + " deleted"}); //send respons
         }
         else {
             throw "Failed deleting list";
@@ -157,7 +154,6 @@ app.get('/items', async function (req, res) {
     let listsid = req.query.listsid; // the data sent from the client
     let tag = req.query.tag;
 
-    console.log(tag);
     let sql = 'SELECT * FROM items WHERE listsid = $1';
     let sqlTag = 'SELECT * FROM items WHERE listsid = $1 AND tag = $2';
     let values = [listsid];
@@ -168,7 +164,6 @@ app.get('/items', async function (req, res) {
         try {
             let result = await pool.query(sqlTag, valuesTag);
             res.status(200).json(result.rows); //send response
-            console.log("get tag");
         }
         catch(err) {
             res.status(500).json({error: err}); //send error respons
@@ -177,7 +172,6 @@ app.get('/items', async function (req, res) {
         try {
             let result = await pool.query(sql, values);
             res.status(200).json(result.rows); //send response
-            console.log("no tag");
         }
         catch(err) {
             res.status(500).json({error: err}); //send error respons
@@ -217,8 +211,8 @@ app.put('/items', async function (req, res) {
     
     let updata = req.body;
 
-    let sql = 'UPDATE items SET name = $2, checked = $3, tag = $4, importance = $5 WHERE id = $1 RETURNING *';
-    let values = [updata.id, updata.name, updata.checked, updata.tag, updata.importance];
+    let sql = 'UPDATE items SET name = $2, checked = $3, tag = $4 WHERE id = $1 RETURNING *';
+    let values = [updata.id, updata.name, updata.checked, updata.tag];
     
     try {
         await pool.query(sql, values);
@@ -317,7 +311,7 @@ app.delete('/users', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "User deleted"}); //send respons
+            res.status(200).json({msg: "User " + updata.username + " deleted"}); //send respons
         }
         else {
             throw "Failed deleting list";
@@ -347,7 +341,6 @@ app.post('/auth', async function (req, res) {
             res.status(400).json({msg: "User doesn´t exist"});
         }
         else {            
-
             let check = bcrypt.compareSync(updata.passwrd, result.rows[0].pswhash);            
 
             if (check == true) {
@@ -370,17 +363,13 @@ function protectEndpoints(req, res, next){
     
     token = req.headers['authorization'];
     
-
     if (token) {
         try {
-            
             logindata = jwt.verify(token, secret);
-            
             next();
         }
         catch (err) {
             res.status(403).json({msg: "Not a valig token"})
-
         }
     }
     else {

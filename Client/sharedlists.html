@@ -10,8 +10,7 @@
 
     <header class="header">
             <a href="createlists.html" class="pic">
-                    <img src="Css/images/logo_2.png" width="225px" height="80px">
-            </a>
+                    <img src="Css/images/logo_2.png" width="225px" height="80px"></a>
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnBack" class="headerBtns">Back</button>
         <button id="btnSettings" class="headerBtns">Settings</button>
@@ -19,7 +18,6 @@
 <body>
     
     <div id="listbox">
-
         <h3 id="txtResult"></h3>
         <h1 id="delteLister">SHARED LISTS</h1>
         <div id="container" class="scrollable"></div>
@@ -30,41 +28,46 @@
     <script>
     //Html ark for en side hvor du kan adde reiser, trenger en knapp for å komme til denne siden
 
-    let btnLogOut = document.getElementById('btnLogOut');
+        let url = "/lists/shared";
+
+        let container = document.getElementById('container');
+        let txtResult = document.getElementById('txtResult');
+
+        let btnLogOut = document.getElementById('btnLogOut');
+        let btnSettings = document.getElementById('btnSettings');
+        let btnBack = document.getElementById('btnBack');
+        
+        btnSettings.addEventListener('click', async function(evt) {
+            window.location.href = "usersettings.html";
+        });
 
         btnLogOut.addEventListener('click', async function(evt) {
             window.location.href = "index.html";
         });
 
-
-        let url = "/lists/shared";
-        let container = document.getElementById('container');
-        let btnSettings = document.getElementById('btnSettings');
-        let btnBack = document.getElementById('btnBack');
-        let txtResult = document.getElementById('txtResult');
-
-        btnSettings.addEventListener('click', async function(evt) {
-            window.location.href = "usersettings.html";
+        btnBack.addEventListener('click', async function(evt) {
+            window.location.href = "createlists.html";
         });
 
         listSharedLists();
-        
         async function listSharedLists() {
         try {
+
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;
+
             let cfg = {
                 method: "GET",
                 headers: {"authorization": token}
             };
-            
+
             var resp = await fetch(url, cfg);
             var data = await resp.json();
             
             if (resp.status > 202) {
                 throw(data);
             };
-            console.log(data);
+
             container.innerHTML = ""; //delete previous content
             
             for (let value of data){
@@ -79,31 +82,13 @@
 
                 //Lager ern knapp for å kunne se listene
                 let lstEntBtn = document.createElement("button");
-                lstEntBtn.setAttribute("id", "button1");
-                lstEntBtn.innerHTML = "Enter List";
-                lstEntBtn.addEventListener('click', function (evt) {
-                    sessionStorage.setItem("listsid", value.id);
-                    location.href = "enterlistsshared.html";
-
+                    lstEntBtn.setAttribute("id", "button1");
+                    lstEntBtn.innerHTML = "Enter List";
+                    lstEntBtn.addEventListener('click', function (evt) {
+                        sessionStorage.setItem("listsid", value.id);
+                        location.href = "enterlistsshared.html";
                 });
-
-                //Share knapp
-                /*let shared = false;
-                let shrBtn = document.createElement("button");
-                shrBtn.setAttribute("id", "button4");
-                shrBtn.innerHTML = "Share";
-                shrBtn.addEventListener('click', function (evt) {
-                    if (confirm("Are you sure you want to share this list?")){
-                        shared = true;
-                        shareList(value.id, value.name, shared);
-                    } else {
-                        shared = false;
-                        shareList(value.id, value.name, shared);
-                    }
-                });*/
-                
                 div.insertBefore(lstEntBtn, div.lastElementChild);
-                //div.insertBefore(shrBtn, div.lastElementChild);
                 container.appendChild(div);
             }
         }
@@ -111,43 +96,6 @@
             console.log(err);
         }
     }
-    
-/*async function shareList(listid, listname, status) {
-
-    let logindata = JSON.parse(sessionStorage.getItem("logindata"));
-    let token = logindata.token;
-
-        let updata =    {
-            id: listid,
-            name: listname,
-            shared: status
-        }
-
-        let cfg = {
-            method: "PUT",
-            headers: {
-                "authorization": token,
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify(updata)
-        }  
-        console.log(updata);
-        try {
-            let resp = await fetch(url, cfg);
-            var data = await resp.json();
-            if (resp.status > 200) {
-                throw(resp)
-            };
-        }
-        catch (err) {
-            console.log(err);
-        }
-}*/
-
-        //Sends you back to login
-        btnBack.addEventListener('click', async function(evt) {
-            window.location.href = "createlists.html";
-        });
 </script>
 
 </html>
