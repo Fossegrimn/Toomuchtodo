@@ -214,7 +214,7 @@ async function shareList(listid, listname, status) {
 
         btnCreate.addEventListener('click', async function(evt) {
 
-            let url = "http://localhost:8080/lists";
+            let url = "/lists";
 
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
             let token = logindata.token;

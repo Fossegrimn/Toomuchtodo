@@ -37,7 +37,8 @@
         let updateUsername = document.getElementById('updateUsername');
         let updateUserPasswrd = document.getElementById('updateUserPasswrd');
         let txtResult = document.getElementById('txtResult');
-        let url = "http://localhost:8080/users";
+        let btnLogOut = document.getElementById('btnLogOut');
+        let url = "/users";
         let btnDeleteUser = document.getElementById("btnDeleteUser");
         let logindata = sessionStorage.getItem("logindata");
         let btnBack = document.getElementById('btnBack');
@@ -96,6 +97,10 @@
     btnBack.addEventListener('click', async function(evt) {
             window.location.href = "createlists.html";
         });
+    btnLogOut.addEventListener('click', async function(evt) {
+         window.location.href = "index.html";
+     });
+
 
 //--------------------------------------------------------
 
