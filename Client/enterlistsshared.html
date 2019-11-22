@@ -50,6 +50,8 @@
     let inpTag = document.getElementById('inpTag');
 
     let listsid = sessionStorage.getItem("listsid");
+
+    listName.innerHTML = sessionStorage.getItem("listsname");
     
     btnTag.addEventListener('click', async function(evt) {
             location.reload(); 
