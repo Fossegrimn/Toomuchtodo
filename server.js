@@ -15,7 +15,7 @@ try {
     console.error("Not running locally")
 }
 
-const connstring  = process.env.DATABASE_URL || classified.env.DATABASE_URL
+const connstring  = process.env.DATABASE_URL
 const pool = new pg.Pool({ connectionString: connstring });
 
 let token;
