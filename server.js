@@ -18,7 +18,7 @@ let logindata;
 // middleware ------------------------------------
 app.use(cors()); //allow all CORS requests
 app.use(express.json()); //for extracting json in the request-body
-app.use('/', express.static('client')); //for serving client files
+app.use('/', express.static('Client')); //for serving client files
 app.use('/lists', protectEndpoints);
 app.use('/items', protectEndpoints);
 
