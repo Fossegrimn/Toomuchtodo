@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index2.css">
+    <link rel="stylesheet" href="Css/createlists.css">
     <title>Travelcreate</title>
 </head>
 
 <body>
 
     <header class="header">
-        <img class="pic" src="images/logo_2.png" width="225px" height="80px">
+        <img class="pic" src="Css/images/logo_2.png" width="225px" height="80px">
        
         <button id="btnLogOut" class="headerBtns">Log out</button>
         <button id="btnShare" class="headerBtns">Shared</button>
@@ -45,6 +45,7 @@
         let btnLogOut = document.getElementById('btnLogOut');
         let txtResult = document.getElementById('txtResult');
 
+
         listLists();
         async function listLists() {
         try {
@@ -67,7 +68,7 @@
             for (let value of data){
                 let html = `
                     <h3>${value.name}</h3>
-                    <p id="descr">${value.description}</p>
+                    <p>${value.description}</p>
                     <hr>
                 `;
                 let div = document.createElement("div");
@@ -82,7 +83,7 @@
                 updateBtn.addEventListener('click', async function (evt) {
                     let updateName = prompt("New list name:");
                     if (updateName != null){
-                        updateList(updateName, value.id, shared);                        
+                        updateList(updateName, value.id, value.shared);                        
                     }
                 });
 
@@ -110,7 +111,7 @@
                 shrBtn.setAttribute("id", "btn4");
                 shrBtn.innerHTML = "Share";
                 shrBtn.addEventListener('click', function (evt) {
-                    if (confirm("Are you sure you want to share this list?")){
+                    if (confirm("Are you sure you want to share this list? (Cancel to unshare)")){
                         shared = true;
                         shareList(value.id, value.name, shared);
                     } else {
@@ -170,7 +171,8 @@ async function shareList(listid, listname, status) {
     async function deleteList(id) {
 
         let updata = {
-            listsid: id};
+            listsid: id
+        };
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;

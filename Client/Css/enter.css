@@ -1,0 +1,342 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background: url("images/back_2.jpg") no-repeat center center fixed;
+    background-size: cover;
+    text-align: center;
+    display: grid;
+}
+
+/*----------------HEADER--------------*/
+
+.header {
+    background-color: white;
+    border-radius: 12px; 
+    height: auto;
+        display: grid;
+        grid-template-columns: 70% 10% 10% 10%;
+        grid-template-rows: 3;
+        grid-template-areas: "logo button0 button1 button2" 
+}
+
+.pic {    
+    width: 20%;
+    height: auto;
+    min-height: 90%;
+    margin-left: 4%;
+    margin-bottom: 1%;
+        grid-area: logo;
+}
+
+#btnBack {
+    background-color: rgb(53, 80, 116);
+    border: none;
+    color: white;
+    font-size: 1vw;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 75%;
+    height: 45%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 15%;    
+        grid-area: button0;     
+}
+#btnBack:hover {
+    background-color: rgb(84, 111, 171);
+    opacity: 1
+}
+
+@media only screen and (max-width: 600px) {
+    #btnBack {
+    width: 110%;
+    margin-left: -70%;
+    margin-top: 40%;
+    font-size: 1.5vw;
+    }
+}
+
+#btnLogOut {
+    background-color: rgb(53, 80, 116);
+    border: none;
+    color: white;
+    font-size: 1vw;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 75%;
+    height: 45%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 15%;    
+        grid-area: button2;     
+}
+#btnLogOut:hover {
+    background-color: rgb(84, 111, 171);
+    opacity: 1
+}
+
+@media only screen and (max-width: 600px) {
+    #btnLogOut {
+        width: 110%;
+        margin-left: -30%;
+        margin-top: 40%;
+        font-size: 1.5vw;
+    }
+}
+
+#btnSettings {
+    background-color: rgb(53, 80, 116);
+    border: none;
+    color: white;
+    font-size: 1vw;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 75%;
+    min-width: 75%;
+    height: 45%;
+    min-height: 45%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 15%;
+        grid-area: button1;
+}
+#btnSettings:hover {
+    background-color: rgb(84, 111, 171);
+    opacity: 1
+}
+
+@media only screen and (max-width: 600px) {
+    #btnSettings {
+    width: 110%;
+    margin-left: -50%;
+    margin-top: 40%;
+    font-size: 1.5vw;
+    }
+}
+
+#btnShare {
+    background-color: rgb(53, 80, 116);
+    border: none;
+    color: white;
+    font-size: 1vw;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 75%;
+    min-width: 75%;
+    height: 45%;
+    min-height: 45%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-top: 15%;
+        grid-area: button0;
+}
+#btnShare:hover {
+    background-color: rgb(84, 111, 171);
+    opacity: 1
+}
+
+@media only screen and (max-width: 600px) {
+    #btnShare {
+    width: 110%;
+    margin-left: -70%;
+    margin-top: 16%;
+    font-size: 1.5vw;
+    }
+}
+
+
+
+
+
+/*------------------LISTE-------------------*/
+
+#enterBox {
+    background-color: rgb(237, 236, 236);
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 60px;
+    height: 800px;
+    padding-top: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-color: grey;
+    border-radius: 25px;
+    min-width: 45%;
+        display: grid;
+        grid-template-rows: 10% 10% 80%;
+        grid-template-columns: 50% 50%;
+        grid-template-areas: "input1 input2 input3";
+        grid-gap: 0%;
+}
+
+
+@media only screen and (max-width: 600px) {
+    #listbox {
+        width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 5%;
+        display: grid;
+        grid-template-rows: 20% 10% 70%;
+    }
+}
+
+#inpName {
+    width: 70%;
+    height: 50px; 
+    margin-left: 28%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    font-size: small;
+        grid-area: input1;
+}
+        
+@media only screen and (max-width: 600px) {
+    #inpName {
+        width: 75%;
+        height: 50px;
+        margin-left: 12.5%;
+        margin-bottom: -20px;
+        grid-area: input1;
+    }
+}
+
+
+#btnCreate {
+    background-color: rgb(14, 39, 71);
+    border: none;
+    color: rgb(245, 245, 245);
+    opacity: 0.6;
+    text-align: center;
+    font-size: 12px;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 70%;
+    height: 50px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+    grid-area: input2;
+}
+.btnCreate:hover {
+    background-color: rgb(85, 111, 171);
+    opacity: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    #btnCreate {
+        width: 35%;
+        margin-top: -7.5%;
+        margin-left: 32%;
+        height: 30px;
+        grid-area: input2;
+    }
+}
+
+.scrollable {
+    height: 100%;
+    overflow: scroll;
+}
+
+
+
+
+/*---------------Container--------------*/
+
+#container {
+    background-color: rgb(252, 252, 252);
+    border: 1px black;
+    width: 80%;
+    height: 90%;
+    margin-right: 10%;
+    margin-left: 10%;
+    border-radius: 10px;
+        grid-area: 2 / 1 / span 1 / span 2;
+}
+
+ @media only screen and (max-width: 600px) {
+    #container {
+        background-color: rgb(254, 254, 254);
+        border: 1px black;
+        max-height: 600px;
+        margin: 5%;
+        border-radius: 10px;
+            grid-area: 2 / 1 / span 1 / span 2;
+    }
+}
+
+#container h3 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: x-large;
+    text-decoration: underline;
+    margin-top: 2%;
+    word-wrap: break-word;
+}
+
+#container #descr {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+
+}
+
+#container hr {
+    border: 8px solid rgb(237, 236, 236);
+    margin-top: 2%;
+}
+
+#btn1, #btn2, #btn3 {
+    background:  rgb(83, 106, 136);
+    opacity: 0.6;
+    border: none;
+    color: white;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0.25%;
+    padding: 5px;
+}
+      
+#btn1:hover, #btn2:hover {
+    background-color: rgb(84, 111, 171);
+    opacity: 1
+}
+
+#btn3:hover {
+    background-color: rgb(158, 79, 65);
+    opacity: 1
+}
+
+#check {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+}

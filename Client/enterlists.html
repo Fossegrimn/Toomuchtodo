@@ -4,22 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="items.css">
+    <link rel="stylesheet" href="Css/enter.css">
     
 </head>
 
     <header class="header">
             <a href="createlists.html" class="pic">
-                <img src="images/logo_2.png" width="225px" height="80px">
+                <img src="Css/images/logo_2.png" width="225px" height="80px">
             </a>
         <button id="btnLogOut" class="headerBtns">Log out</button>
+        <button id="btnBack">Back</button>
         <button id="btnSettings" class="headerBtns">Settings</button>
         
     </header>
 
 <body>
         
-    <div id="firstSideBox">
+    <div id="enterBox">
         <br>
         <h1 id="listName"></h1>
     <input type="text" id="inpName" placeholder="Name">
@@ -29,6 +30,7 @@
     <button id="btnCreate">Create item</button>
     <button id="btnBack">Back to lists</button>
     <button id="btnTag">Search tags</button>
+    <button id="btnAllItems">List all items</button>
     <h3 id="txtResult"></h3>
     <div id="container" class="scrollable"></div>
     </div>
@@ -37,12 +39,10 @@
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
-
     let emptyTag = "";
 
     let url = "http://localhost:8080/items";
     let container = document.getElementById('container');
-
 
     let btnSettings = document.getElementById('btnSettings');
     let inpDescr = document.getElementById('inpDescr');
@@ -57,11 +57,16 @@
     let btnLogOut = document.getElementById('btnLogOut');
     let btnTag = document.getElementById('btnTag');
     let inpTag = document.getElementById('inpTag');
+    let btnAllItems = document.getElementById('btnAllItems');
 
     btnTag.addEventListener('click', async function(evt) {
-            console.log(inpTag.value);
+            location.reload(); 
         });
 
+    btnAllItems.addEventListener('click', async function(evt) {
+            inpTag.value = "";
+            location.reload(); 
+        });
 
         btnCreate.addEventListener('click', async function(evt) {
 
@@ -130,9 +135,12 @@
                 headers: {"authorization": token}
             };
 
-            var resp = await fetch(url + "?listsid=" + listsid, cfg);
+            url = url + "?listsid=" + listsid + "&tag=" + inpTag.value;
+
+            var resp = await fetch(url, cfg);
             var data = await resp.json();
-            
+        
+            console.log(url);
 
             if (resp.status > 202) {
                 throw(data);
@@ -150,6 +158,7 @@
                 div.innerHTML = html;
 
                 let delBtn = document.createElement("button");
+                delBtn.setAttribute("id", "btn3");
                 delBtn.innerHTML = "Delete";
                 delBtn.style.cursor = "pointer";
                 delBtn.addEventListener('click', function (evt) {
@@ -157,16 +166,27 @@
                 });
 
                 let updateBtn = document.createElement("button");
+                updateBtn.setAttribute("id", "btn2");
                 updateBtn.innerHTML = "Change name";
                 updateBtn.style.cursor = "pointer";
                 updateBtn.addEventListener('click', async function (evt) {
                     let updateItemName = prompt("New item name:");
                     if (updateItemName != null){
-                        updateItem(value.id, updateItemName, value.tag, checkBox.checked);                       
+                        updateItem(value.id, updateItemName, value.tag, checkBox.checked, dropDown[dropDown.selectedIndex].value);                       
                     }
                 });
 
+                let dropDown = document.createElement("select");
+                dropDown.appendChild(new Option("1", "0"));
+                dropDown.appendChild(new Option("2", "1"));
+                dropDown.appendChild(new Option("3", "2"));
+                dropDown.style.cursor = "pointer";
+                dropDown.addEventListener('change', async function (evt) {
+                    console.log(dropDown[dropDown.selectedIndex].value);
+                });
+
                 let tagBtn = document.createElement("button");
+                tagBtn.setAttribute("id", "btn1");
                 tagBtn.innerHTML = "Add tag";
                 tagBtn.style.cursor = "pointer";
                 tagBtn.addEventListener('click', async function (evt) {
@@ -177,6 +197,7 @@
                 });
                 
                 let checkBox = document.createElement("input");
+                checkBox.setAttribute("id", "check");
                 checkBox.type = "checkbox";
                 checkBox.style.cursor = "pointer";
                 checkBox.checked = value.checked;
@@ -187,18 +208,24 @@
                     updateItem(value.id, value.name, value.tag, checkBox.checked);
                 });
                    
+                div.insertBefore(dropDown, div.lastElementChild);
                 div.insertBefore(checkBox, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(tagBtn, div.lastElementChild);
                 div.insertBefore(delBtn, div.lastElementChild);
                 container.appendChild(div);
             }
+            
         }
+        
+
         catch (err) {
             console.log(err);
         }
+
+
     }
-    
+
     //---------------------
     async function deleteItems(id) {
 
@@ -231,7 +258,7 @@
         }
     }
 
-    async function updateItem(itemid, newitemname, itemtag, checkvalue) {
+    async function updateItem(itemid, newitemname, itemtag, checkvalue, inpValue) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
         let token = logindata.token;
@@ -240,7 +267,9 @@
             id: itemid,
             name: newitemname,
             tag: itemtag,
-            checked: checkvalue
+            checked: checkvalue,
+            importance: inpValue
+
         }
 
         let cfg = {

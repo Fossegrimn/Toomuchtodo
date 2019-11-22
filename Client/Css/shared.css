@@ -148,6 +148,7 @@ body {
     background-color: rgb(252, 252, 252);
     border: 1px black;
     margin: 5%;
+    height: 90%;
     margin-top: -5%;
     border-radius: 10px;
         grid-area: 2 / 1 / span 1 / span 3;
