@@ -86,6 +86,7 @@
                     lstEntBtn.innerHTML = "Enter List";
                     lstEntBtn.addEventListener('click', function (evt) {
                         sessionStorage.setItem("listsid", value.id);
+                        sessionStorage.setItem("listsname", value.name);
                         location.href = "enterlistsshared.html";
                 });
                 div.insertBefore(lstEntBtn, div.lastElementChild);
