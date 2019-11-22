@@ -165,21 +165,23 @@ body {
 
 /*------------------LISTE-------------------*/
 
-#sharedbox {
+#entersharedbox {
     background-color: rgb(237, 236, 236);
     margin-left: 15%;
     margin-right: 15%;
     margin-top: 60px;
     height: 800px;
+    padding-top: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-color: grey;
     border-radius: 25px;
     min-width: 35%;
         display: grid;
-        grid-template-rows: 100%;
-        grid-template-columns: 100%;
+        grid-template-rows: 10% 80% 10%;
+        grid-template-columns: 50% 50%;
         grid-template-areas:
-        "input1";
+        "input1 input2"
+        "input3 input4";
         grid-gap: 0%;
 }
 
@@ -206,6 +208,62 @@ body {
     overflow: scroll;
 }
 
+#inpTag {
+    width: 35%;
+    height: 50px; 
+    margin-left: 35%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    font-size: small;
+    text-align: center;
+        grid-area: input1;
+}
+        
+@media only screen and (max-width: 600px) {
+    #inpTag {
+        width: 73%;
+        height: 50px;
+        margin-left: 15%;
+        grid-area: input1;
+    }
+}
+
+#btnTag {
+    background-color: rgb(14, 39, 71);
+    border: none;
+    color: rgb(245, 245, 245);
+    opacity: 0.6;
+    text-align: center;
+    font-size: 12px;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 35%;
+    height: 50px;
+    margin-left: 35%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+    grid-area: input2;
+}
+.btnTag:hover {
+    background-color: rgb(85, 111, 171);
+    opacity: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    #btnTag {
+        width: 60%;
+        height: 50px;
+        margin-left: 20%;
+        grid-area: input2;
+    }
+}
+
 
 
 
@@ -215,12 +273,11 @@ body {
     background-color: rgb(252, 252, 252);
     border: 1px black;
     width: 80%;
-    height: 600px;
+    height: 525px;
     margin-right: 10%;
-    margin-top: 50px;
     margin-left: 10%;
     border-radius: 10px;
-        grid-area: 1 / 1 / span 1 / span 2;
+        grid-area: 2 / 1 / span 1 / span 2;
 }
 
  @media only screen and (max-width: 600px) {
@@ -229,7 +286,7 @@ body {
         border: 1px black;
         max-height: 600px;
         border-radius: 10px;
-            grid-area: 1 / 1 / span 1 / span 2;
+            grid-area: 2 / 1 / span 1 / span 2;
     }
 }
 
@@ -245,6 +302,40 @@ body {
 #container hr {
     border: 8px solid rgb(237, 236, 236);
     margin-top: 2%;
+}
+
+#btnAllItems {
+    background-color: rgb(14, 39, 71);
+    border: none;
+    color: rgb(245, 245, 245);
+    opacity: 0.6;
+    text-align: center;
+    font-size: 12px;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 35%;
+    height: 50px;
+    margin-left: 32.5%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+    grid-area: 3 / 1 / span 1 / span 2;
+}
+
+.btnAllItems:hover {
+    background-color: rgb(85, 111, 171);
+    opacity: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    #btnAllItems {
+        width: 60%;
+        height: 50px;
+        margin-left: 20%;
+        grid-area: 3 / 1 / span 1 / span 2;
+    }
 }
 
 #check {

@@ -86,6 +86,7 @@
                 },
                 body: JSON.stringify(updata)
             }
+            
             setTimeout(function () {
                 listItems();
             }, 500); //will call the function after 0.5 secs.
@@ -100,6 +101,7 @@
                 };
 
                 txtResult.innerHTML = data.msg + " for " + inpName.value;
+                location.reload();
             }
             catch (err) {
                 console.log(err);
@@ -171,17 +173,8 @@
                 updateBtn.addEventListener('click', async function (evt) {
                     let updateItemName = prompt("New item name:");
                     if (updateItemName != null){
-                        updateItem(value.id, updateItemName, value.tag, checkBox.checked, dropDown[dropDown.selectedIndex].value);                       
+                        updateItem(value.id, updateItemName, value.tag, checkBox.checked);                       
                     }
-                });
-
-                let dropDown = document.createElement("select");
-                dropDown.appendChild(new Option("1", "0"));
-                dropDown.appendChild(new Option("2", "1"));
-                dropDown.appendChild(new Option("3", "2"));
-                dropDown.style.cursor = "pointer";
-                dropDown.addEventListener('change', async function (evt) {
-                    console.log(dropDown[dropDown.selectedIndex].value);
                 });
 
                 let tagBtn = document.createElement("button");
@@ -207,7 +200,6 @@
                     updateItem(value.id, value.name, value.tag, checkBox.checked);
                 });
                    
-                div.insertBefore(dropDown, div.lastElementChild);
                 div.insertBefore(checkBox, div.lastElementChild);
                 div.insertBefore(updateBtn, div.lastElementChild);
                 div.insertBefore(tagBtn, div.lastElementChild);
@@ -250,7 +242,7 @@
                 throw(data);
             };
 
-            listItems();
+            location.reload();
         }
         catch (err) {
             console.log(err);
@@ -288,7 +280,7 @@
                 throw(resp)
             };
 
-            listItems();
+            location.reload();
         }
         catch (err) {
             console.log(err);
