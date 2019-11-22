@@ -1,4 +1,4 @@
-//--------------------------- Version 3.5 ---------------------------------------
+//--------------------------- Version 4.1 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -8,8 +8,14 @@ const pg = require('pg');
 const jwt = require('jsonwebtoken');
 const secret = "n9}rPL$v'v2wm,55hZX<~u:";
 
-const dbURI = "postgres://mrculhchcipczd:fc7107e2a5205045f559d12c831331516f7418db9a359b8732f92c1087aa0c79@ec2-54-217-235-87.eu-west-1.compute.amazonaws.com:5432/d5ltmt8lskihj" + "?ssl=true";
-const connstring  = process.env.DATABASE_URL || dbURI;
+let classified;
+try {
+    classified = require("./classified")
+} catch (err){
+    console.error("Not running locally")
+}
+
+const connstring  = process.env.DATABASE_URL || classified.env.DATABASE_URL
 const pool = new pg.Pool({ connectionString: connstring });
 
 let token;
@@ -145,17 +151,38 @@ app.post('/items', async function (req, res) {
 app.get('/items', async function (req, res) {
 
     let listsid = req.query.listsid; // the data sent from the client
-    
-    let sql = 'SELECT * FROM items WHERE listsid = $1';
-    let values = [listsid];
+    let tag = req.query.tag;
 
-    try {
-        let result = await pool.query(sql, values);
-        res.status(200).json(result.rows); //send response
+    console.log(tag);
+    let sql = 'SELECT * FROM items WHERE listsid = $1';
+    let sqlTag = 'SELECT * FROM items WHERE listsid = $1 AND tag = $2';
+    let values = [listsid];
+    let valuesTag = [listsid, tag];
+
+
+    if (tag != "") {
+        try {
+            let result = await pool.query(sqlTag, valuesTag);
+            res.status(200).json(result.rows); //send response
+            console.log("get tag");
+        }
+        catch(err) {
+            res.status(500).json({error: err}); //send error respons
+        }
+    } else {
+        try {
+            let result = await pool.query(sql, values);
+            res.status(200).json(result.rows); //send response
+            console.log("no tag");
+        }
+        catch(err) {
+            res.status(500).json({error: err}); //send error respons
+        }
     }
-    catch(err) {
-        res.status(500).json({error: err}); //send error respons
-    }
+
+
+
+   
 });
 
 //endpoint - items DELETE ---------------------------
@@ -186,8 +213,8 @@ app.put('/items', async function (req, res) {
     
     let updata = req.body;
 
-    let sql = 'UPDATE items SET name = $2, checked = $3, tag = $4 WHERE id = $1 RETURNING *';
-    let values = [updata.id, updata.name, updata.checked, updata.tag];
+    let sql = 'UPDATE items SET name = $2, checked = $3, tag = $4, importance = $5 WHERE id = $1 RETURNING *';
+    let values = [updata.id, updata.name, updata.checked, updata.tag, updata.importance];
     
     try {
         await pool.query(sql, values);
@@ -362,6 +389,5 @@ function protectEndpoints(req, res, next){
 // start server -----------------------------------
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
-    ('Server listening on port 8080!');
+    console.log('Server listening on port 8080!');
 });
-
