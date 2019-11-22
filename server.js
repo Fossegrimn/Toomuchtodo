@@ -1,4 +1,4 @@
-//--------------------------- Version 4.3 ---------------------------------------
+//--------------------------- Version 4.6 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -8,14 +8,16 @@ const pg = require('pg');
 const jwt = require('jsonwebtoken');
 const secret = "n9}rPL$v'v2wm,55hZX<~u:";
 
+
 let classified;
 try {
     classified = require("./classified")
 } catch (err){
     console.error("Not running locally")
 }
+//const secret = classified.env.cryptsecret;
 
-const connstring  = process.env.DATABASE_URL || classified.env.DATABASE_URL;
+const connstring  = process.env.DATABASE_URL || classified.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString: connstring });
 
 console.warn(connstring);
@@ -300,9 +302,7 @@ app.put('/users', async function (req, res) {
                 res.status(500).json({error: err}); //send error respons
         
             }
-    } else if (updata.username == "" && updata.pswhash == "") {
-        res.status(200).json({msg: "Input fields empty!"});
-    };
+    }
 });
 
 

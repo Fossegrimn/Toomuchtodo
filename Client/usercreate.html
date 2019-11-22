@@ -44,7 +44,7 @@
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(updata)
             }
-            
+            sessionStorage.setItem("username", inpUsername.value);
 
             try {
                 var resp = await fetch(url, cfg);

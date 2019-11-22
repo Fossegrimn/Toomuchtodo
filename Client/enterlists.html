@@ -22,22 +22,28 @@
         
     <div id="enterBox">
         <br>
-        <h1 id="listName"></h1>
+        <h1 id="listName">H</h1>
     <input type="text" id="inpName" placeholder="Name">
+    
     <input type="search" id="inpTag" placeholder="Search tags">
-
+    
     <br>
+    
     <button id="btnCreate">Create item</button>
     <button id="btnTag">Search tags</button>
     <button id="btnAllItems">List all items</button>
     <h3 id="txtResult"></h3>
     <div id="container" class="scrollable"></div>
+    
     </div>
 
 </body>
 
 <script>
 //Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
+    
+    
+
     let emptyTag = "";
 
     let url = "/items";
@@ -52,6 +58,8 @@
     let txtResult = document.getElementById('txtResult');
     let checkbox = document.getElementById("checkbox");
     let listsid = sessionStorage.getItem("listsid");
+
+    listName.innerHTML = sessionStorage.getItem("listsname");
 
     let btnLogOut = document.getElementById('btnLogOut');
     let btnTag = document.getElementById('btnTag');
@@ -119,10 +127,6 @@
             window.location.href = "createlists.html";
         });
 
-        
-
-        
-
     listItems();
     // ---------------------------------------  
     async function listItems() {
@@ -171,7 +175,7 @@
                 updateBtn.innerHTML = "Change name";
                 updateBtn.style.cursor = "pointer";
                 updateBtn.addEventListener('click', async function (evt) {
-                    let updateItemName = prompt("New item name:");
+                    let updateItemName = prompt("New item name:", value.name);
                     if (updateItemName != null){
                         updateItem(value.id, updateItemName, value.tag, checkBox.checked);                       
                     }
