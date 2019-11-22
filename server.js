@@ -80,7 +80,6 @@ app.post('/lists', async function (req, res) {
     catch(err) {
         res.status(500).json({error: err}); //send error respons
     }
-   
 });
 
 //endpint - lists DELETE ---------------------------
@@ -177,10 +176,6 @@ app.get('/items', async function (req, res) {
             res.status(500).json({error: err}); //send error respons
         }
     }
-
-
-
-   
 });
 
 //endpoint - items DELETE ---------------------------
@@ -294,7 +289,6 @@ app.put('/users', async function (req, res) {
             }
             catch(err) {
                 res.status(500).json({error: err}); //send error respons
-        
             }
     }
 });
@@ -322,8 +316,6 @@ app.delete('/users', async function (req, res) {
         
     }
 });
-
-
 
 // endpoint - auth (login) POST -------------------
 app.post('/auth', async function (req, res) {
