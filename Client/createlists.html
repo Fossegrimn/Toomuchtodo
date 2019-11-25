@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Css/createlists.css">
+    <title>Lists</title>
 </head>
 
 <body>
@@ -44,7 +45,7 @@
 
         let txtResult = document.getElementById('txtResult');
 
-        listLists();
+    listLists();
     async function listLists() {
         try {
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
@@ -215,40 +216,48 @@ async function updateList(listid, listname, status) {
         });
 
         btnCreate.addEventListener('click', async function(evt) {
+            
+            if (inpName.value != "") {
+                console.log("here");
+                let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+                let token = logindata.token;
 
-            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
-            let token = logindata.token;
-
-            let url = "/lists";
+                let url = "/lists";
     
-            let updata =  {
-                name: inpName.value,
-                descr: inpDescr.value,
-                userid: logindata.userid
-            }
-            let cfg = {
-                method: "POST",
-                headers: {
-                    "authorization": token,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updata)
-            }
-            setTimeout(function () {listLists();}, 500);
+                let updata =  {
+                    name: inpName.value,
+                    descr: inpDescr.value,
+                    userid: logindata.userid
+                }
+                let cfg = {
+                    method: "POST",
+                    headers: {
+                        "authorization": token,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updata)
+                }
+                setTimeout(function () {listLists();}, 500);
     
-            try {
-                var resp = await fetch(url, cfg);
-                var data = await resp.json();
-                if (resp.status > 202) {
-                    throw(data) 
-                };
-                txtResult.innerHTML = data.msg;
-                setTimeout(function () {txtResult.innerHTML = "";}, 2000);
-            }
-            catch (err) {
-                console.log(err);
+                try {
+                    var resp = await fetch(url, cfg);
+                    var data = await resp.json();
+                    if (resp.status > 202) {
+                        throw(data) 
+                    };
+                    txtResult.innerHTML = data.msg;
+                    setTimeout(function () {txtResult.innerHTML = "";}, 2000);
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            } else {
+                txtResult.innerHTML = "List has no name";
+                setTimeout(function (){txtResult.innerHTML = "";}, 2000);
             }
         });
+
+            
 </script>
 
 </html>
