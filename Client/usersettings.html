@@ -32,7 +32,6 @@
     </body>
     
     <script>
-        //Html ark for å lage bruker
         
         let url = "/users";
 
@@ -112,8 +111,6 @@
         window.location.href = "index.html";
     });
 
-//--------------------------------------------------------
-
     async function deleteUser(name) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
@@ -137,8 +134,7 @@
 
             txtResult.innerHTML = data.msg;
             setTimeout(function () {
-                window.location.href = "index.html";
-            }, 1500); //will call the function after 0.5 secs.
+                window.location.href = "index.html";}, 1500);
             
             if (resp.status > 200) {
                 throw(data)

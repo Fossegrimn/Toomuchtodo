@@ -26,7 +26,6 @@
     </body>
     
     <script>
-    //Html ark for en side hvor du kan adde reiser, trenger en knapp for å komme til denne siden
 
         let url = "/lists/shared";
 
@@ -68,7 +67,7 @@
                 throw(data);
             };
 
-            container.innerHTML = ""; //delete previous content
+            container.innerHTML = "";
             
             for (let value of data){
                 let html = `
@@ -78,9 +77,7 @@
                 `;
                 let div = document.createElement("div");
                 div.innerHTML = html;
-                //Dette er det som vises til listene
 
-                //Lager ern knapp for å kunne se listene
                 let lstEntBtn = document.createElement("button");
                     lstEntBtn.setAttribute("id", "button1");
                     lstEntBtn.innerHTML = "Enter List";

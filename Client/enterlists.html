@@ -35,7 +35,6 @@
 </body>
 
 <script>
-//Html arkert hvor vi kommer til et nytt ark hvor vi ser itemsene til reisen
 
     let emptyTag = "";
 
@@ -123,7 +122,6 @@
            
 
     listItems();
-    // ---------------------------------------  
     async function listItems() {
 
         try {
@@ -143,7 +141,7 @@
                 throw(data);
             };
 
-            container.innerHTML = ""; //delete previous content
+            container.innerHTML = "";
 
             for (let value of data) {
                 let html = `
@@ -205,7 +203,6 @@
         }
     }
 
-    //---------------------
     async function deleteItems(id) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));

@@ -1,9 +1,7 @@
-//--------------------------- Version 5.0 ---------------------------------------
-
 const express = require('express');
-const cors = require('cors'); //when the clients aren't on the server
-const app = express(); //server-app
-const bcrypt = require('bcrypt'); //Hashtagger haha, passordet
+const cors = require('cors');
+const app = express();
+const bcrypt = require('bcrypt');
 const pg = require('pg');
 const jwt = require('jsonwebtoken');
 const secret = "n9}rPL$v'v2wm,55hZX<~u:";
@@ -22,23 +20,20 @@ const pool = new pg.Pool({ connectionString: connstring });
 let token;
 let logindata;
 
-// middleware ------------------------------------
-app.use(cors()); //allow all CORS requests
-app.use(express.json()); //for extracting json in the request-body
-app.use('/', express.static('Client')); //for serving client files
+app.use(cors());
+app.use(express.json());
+app.use('/', express.static('Client'));
 app.use('/lists', protectEndpoints);
 app.use('/items', protectEndpoints);
 
-// ----------------------lists----------------------
 
-// endpoint - lists GET ----------------------------
 app.get('/lists/shared', async function (req, res) {
     
     let sql = 'SELECT * FROM lists WHERE shared = true';
 
     try {
         let result = await pool.query(sql);
-        res.status(200).json(result.rows); //send response   
+        res.status(200).json(result.rows); 
     }  
     catch(err) {
         res.status(500).json({error: err});
@@ -52,17 +47,16 @@ app.get('/lists', async function (req, res) {
 
     try {
         let result = await pool.query(sql, values);
-        res.status(200).json(result.rows); //send response   
+        res.status(200).json(result.rows);  
     }  
     catch(err) {
         res.status(500).json({error: err});
     }
 });
 
-// endpoint - lists POST ---------------------------
 app.post('/lists', async function (req, res) {
    
-    let updata = req.body; //the data sent from the client
+    let updata = req.body;
     
     let sql = "INSERT INTO lists (id, name, description, userid) VALUES(DEFAULT, $1, $2, $3) RETURNING *";
     let values = [updata.name, updata.descr, updata.userid];
@@ -71,21 +65,20 @@ app.post('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "List " + updata.name + " created"}); //send respons
+            res.status(200).json({msg: "List " + updata.name + " created"});
         }
         else {
             throw "Failed creating list";
         }
     }  
     catch(err) {
-        res.status(500).json({error: err}); //send error respons
+        res.status(500).json({error: err});
     }
 });
 
-//endpint - lists DELETE ---------------------------
 app.delete('/lists', async function (req, res) {
     
-    let updata = req.body; //the data sent from the client
+    let updata = req.body;
 
     let sql = 'DELETE FROM lists WHERE id = $1 RETURNING *';
     let values = [updata.listsid];
@@ -94,18 +87,17 @@ app.delete('/lists', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "List " + updata.name + " deleted"}); //send respons
+            res.status(200).json({msg: "List " + updata.name + " deleted"});
         }
         else {
             throw "Failed deleting list";
         }
     }
     catch {
-        res.status(500).json ({error: err}); //send error respons
+        res.status(500).json ({error: err});
     }
 });
 
-//endpoint - lists UPDATE ---------------------------------
 app.put('/lists', async function (req, res) {
 
     let updata = req.body;
@@ -116,18 +108,15 @@ app.put('/lists', async function (req, res) {
     try {
         await pool.query(sql, values);
 
-            res.status(200).json({msg: "List updated"}); //send respons
+            res.status(200).json({msg: "List updated"});
     }
     catch (err){
-        res.status(500).json(err); //send error respons
+        res.status(500).json(err);
     }
 });
 
-//--------------------items-------------------------
-
-// endpoint - items POST ---------------------------
 app.post('/items', async function (req, res) {
-    let updata = req.body; //the data sent from the clinet
+    let updata = req.body;
 
     let sql = 'INSERT INTO items (id, name, listsid, tag) VALUES(DEFAULT, $1, $2, $3) RETURNING *';
     let values = [updata.name, updata.listsid, updata.tag];
@@ -136,21 +125,20 @@ app.post('/items', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "Item added"}); //send respons
+            res.status(200).json({msg: "Item added"});
         }
         else {
             throw "Failed to add item";
         }
     }
     catch(err) {
-        res.status(500).json({error: err}); //send error respons
+        res.status(500).json({error: err});
     }
 });
 
-// endpoint - items GET ----------------------------
 app.get('/items', async function (req, res) {
 
-    let listsid = req.query.listsid; // the data sent from the client
+    let listsid = req.query.listsid;
     let tag = req.query.tag;
 
     let sql = 'SELECT * FROM items WHERE listsid = $1';
@@ -162,26 +150,25 @@ app.get('/items', async function (req, res) {
     if (tag != "") {
         try {
             let result = await pool.query(sqlTag, valuesTag);
-            res.status(200).json(result.rows); //send response
+            res.status(200).json(result.rows);
         }
         catch(err) {
-            res.status(500).json({error: err}); //send error respons
+            res.status(500).json({error: err});
         }
     } else {
         try {
             let result = await pool.query(sql, values);
-            res.status(200).json(result.rows); //send response
+            res.status(200).json(result.rows);
         }
         catch(err) {
-            res.status(500).json({error: err}); //send error respons
+            res.status(500).json({error: err});
         }
     }
 });
 
-//endpoint - items DELETE ---------------------------
 app.delete('/items', async function (req, res) {
     
-    let updata = req.body; //the data sent from the client 
+    let updata = req.body;
 
     let sql = 'DELETE FROM items WHERE id = $1 RETURNING *';
     let values = [updata.itemid];
@@ -190,18 +177,17 @@ app.delete('/items', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "Item deleted"}); //send respons
+            res.status(200).json({msg: "Item deleted"});
         }
         else {
             throw "Failed to delete item";
         }
     }
     catch {
-        res.status(500).json ({error: err}); //send error respons
+        res.status(500).json ({error: err});
     }
 });
 
-//endpoint - items UPDATE ---------------------------------
 app.put('/items', async function (req, res) {
     
     let updata = req.body;
@@ -211,22 +197,17 @@ app.put('/items', async function (req, res) {
     
     try {
         await pool.query(sql, values);
-            res.status(200).json({msg: "Item updated"}); //send respons
+            res.status(200).json({msg: "Item updated"});
     }
     catch (err){
-        res.status(500).json(err); //send error respons
+        res.status(500).json(err);
     }
 });
 
-
-//----------------------USERS----------------------
-
-//endpoint - users POST ---------------------------
 app.post('/users', async function (req, res) {
 
-    let updata = req.body; //the data from the client
+    let updata = req.body;
 
-    //hashing the password befor it is stored in the DB
     let hash = bcrypt.hashSync(updata.passwrd, 10);
 
     let sql = 'INSERT INTO users (id, username, pswhash) VALUES(DEFAULT, $1, $2) RETURNING *';
@@ -237,22 +218,21 @@ app.post('/users', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0) {
-            res.status(200).json({msg: "User created"}); //send respons
+            res.status(200).json({msg: "User created"});
         }
         else {
             throw "Insert failed";
         }
     }
     catch(err) {
-        res.status(200).json({msg: "User already exists!"}); //send respons
-        res.status(500).json({error: err}); //send error respons
+        res.status(200).json({msg: "User already exists!"});
+        res.status(500).json({error: err});
     }
 });
 
-//endpoint - users PUT ---------------------------
 app.put('/users', async function (req, res) {
 
-    let updata = req.body; //the data from the client
+    let updata = req.body;
     let hash = bcrypt.hashSync(updata.pswhash, 10);
 
     let sql1 = 'UPDATE users SET username = $2, pswhash = $3 WHERE id = $1 RETURNING *';
@@ -269,7 +249,7 @@ app.put('/users', async function (req, res) {
             }
             catch(err) {
                 res.status(200).json({msg: "User aldready exists"});
-                res.status(500).json({error: err}); //send error respons
+                res.status(500).json({error: err});
        
             }
     } else if (updata.username != "") {
@@ -279,7 +259,7 @@ app.put('/users', async function (req, res) {
             }
             catch(err) {
                 res.status(200).json({msg: "User aldready exists"});
-                res.status(500).json({error: err}); //send error respons
+                res.status(500).json({error: err});
         
             }
     } else if (updata.pswhash != "") {
@@ -288,16 +268,14 @@ app.put('/users', async function (req, res) {
                 res.status(200).json({msg: "Password updated!"});
             }
             catch(err) {
-                res.status(500).json({error: err}); //send error respons
+                res.status(500).json({error: err});
             }
     }
 });
 
-
-// endpoint - user DELETE -------------------
 app.delete('/users', async function (req, res) {
     
-    let updata = req.body; //the data sent from the client
+    let updata = req.body;
     let sql = 'DELETE FROM users WHERE id = $1 RETURNING *';
     let values = [updata.id];
 
@@ -305,24 +283,22 @@ app.delete('/users', async function (req, res) {
         let result = await pool.query(sql, values);
 
         if (result.rows.length > 0){
-            res.status(200).json({msg: "User " + updata.username + " deleted"}); //send respons
+            res.status(200).json({msg: "User " + updata.username + " deleted"});
         }
         else {
             throw "Failed deleting list";
         }
     }
     catch {
-        res.status(500).json ({err}); //send error respons
+        res.status(500).json ({err});
         
     }
 });
 
-// endpoint - auth (login) POST -------------------
 app.post('/auth', async function (req, res) {
 
-    let updata = req.body; //the data sent from the client
+    let updata = req.body;
 
-    //get the user from the database
     let sql = 'SELECT * FROM users WHERE username = $1';
     let values = [updata.username];    
 
@@ -337,7 +313,7 @@ app.post('/auth', async function (req, res) {
 
             if (check == true) {
                 let payload = {userid: result.rows[0].id};
-                let tok = jwt.sign(payload, secret, {expiresIn: "12h"}); //create token
+                let tok = jwt.sign(payload, secret, {expiresIn: "12h"});
                 res.status(200).json({username: result.rows[0].username, userid: result.rows[0].id, token: tok});
             }
             else {
@@ -346,11 +322,10 @@ app.post('/auth', async function (req, res) {
         }
     }
     catch(err) {
-        res.status(500).json({error:err}); //send error response
+        res.status(500).json({error:err});
     }
 });
 
-//function used for protectiong endpoints----------
 function protectEndpoints(req, res, next){
     
     token = req.headers['authorization'];
@@ -369,7 +344,6 @@ function protectEndpoints(req, res, next){
     }
 }
 
-// start server -----------------------------------
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log('Server listening on port 8080!');

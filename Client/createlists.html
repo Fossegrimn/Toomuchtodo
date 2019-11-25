@@ -29,8 +29,7 @@
     </body>
 
     <script>
-    //Html ark for en side hvor du kan adde reiser, trenger en knapp for å komme til denne siden
-
+ 
         let url = "/lists";
 
         let container = document.getElementById('container');
@@ -61,7 +60,7 @@
                 throw(data);
             };
 
-            container.innerHTML = ""; //delete previous content
+            container.innerHTML = "";
             
             for (let value of data){
                 let html = `
@@ -71,9 +70,7 @@
                 `;
                 let div = document.createElement("div");
                 div.innerHTML = html;
-                //Dette er det som vises til listene
 
-                //Lager ern knapp for å kunne oppdatere listene
                 let updateBtn = document.createElement("button");
                     updateBtn.setAttribute("id", "btn2");
                     updateBtn.innerHTML = "Change name";
@@ -84,7 +81,6 @@
                         }
                     });
 
-                //Lager en knapp for å kunne se listene
                 let lstEntBtn = document.createElement("button");
                     lstEntBtn.setAttribute("id", "btn1");
                     lstEntBtn.innerHTML = "Enter List";
@@ -94,7 +90,6 @@
                         location.href = "enterlists.html";
                     });
 
-                //Lager en delete knapp som
                 let delBtn = document.createElement("button");
                     delBtn.setAttribute("id", "btn3");
                     delBtn.innerHTML = "Delete";
@@ -104,8 +99,6 @@
                         };
                     });
 
-                
-                //let sharedStatus = document.getElementById("sharedStatus");
                 let shared = false;
                 let shrBtn = document.createElement("button");
                     shrBtn.setAttribute("id", "btn4");
@@ -135,8 +128,6 @@
             console.log(err);
         }
     }
-
-//----------------------------------------------------------------------------
 
 async function updateList(listid, listname, status) {
 
@@ -169,7 +160,6 @@ async function updateList(listid, listname, status) {
     }
 }
 
-    //---------------------
     async function deleteList(id, listname) {
 
         let logindata = JSON.parse(sessionStorage.getItem("logindata"));
@@ -202,7 +192,6 @@ async function updateList(listid, listname, status) {
             console.log(err);
         }
     }
-        //Sends you back to login
         btnLogOut.addEventListener('click', async function(evt) {
             window.location.href = "index.html";
         });
