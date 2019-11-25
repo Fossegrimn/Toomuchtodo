@@ -1,4 +1,4 @@
-//--------------------------- Version 4.9 ---------------------------------------
+//--------------------------- Version 5.0 ---------------------------------------
 
 const express = require('express');
 const cors = require('cors'); //when the clients aren't on the server
@@ -32,7 +32,7 @@ app.use('/items', protectEndpoints);
 // ----------------------lists----------------------
 
 // endpoint - lists GET ----------------------------
-app.get('/lists/shared', async function (res) {
+app.get('/lists/shared', async function (req, res) {
     
     let sql = 'SELECT * FROM lists WHERE shared = true';
 
@@ -45,7 +45,7 @@ app.get('/lists/shared', async function (res) {
     }
 });
 
-app.get('/lists', async function (res) {
+app.get('/lists', async function (req, res) {
     
     let sql = 'SELECT * FROM lists WHERE userid = $1';
     let values = [logindata.userid];

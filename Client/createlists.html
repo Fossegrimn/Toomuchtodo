@@ -44,7 +44,7 @@
 
         let txtResult = document.getElementById('txtResult');
 
-        listLists();
+    listLists();
     async function listLists() {
         try {
             let logindata = JSON.parse(sessionStorage.getItem("logindata"));
@@ -215,9 +215,9 @@ async function updateList(listid, listname, status) {
         });
 
         btnCreate.addEventListener('click', async function(evt) {
-
+            
             if (inpName.value != "") {
-
+                console.log("here");
                 let logindata = JSON.parse(sessionStorage.getItem("logindata"));
                 let token = logindata.token;
 
