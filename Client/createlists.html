@@ -216,39 +216,47 @@ async function updateList(listid, listname, status) {
 
         btnCreate.addEventListener('click', async function(evt) {
 
-            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
-            let token = logindata.token;
+            if (inpName.value != "") {
 
-            let url = "/lists";
+                let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+                let token = logindata.token;
+
+                let url = "/lists";
     
-            let updata =  {
-                name: inpName.value,
-                descr: inpDescr.value,
-                userid: logindata.userid
-            }
-            let cfg = {
-                method: "POST",
-                headers: {
-                    "authorization": token,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updata)
-            }
-            setTimeout(function () {listLists();}, 500);
+                let updata =  {
+                    name: inpName.value,
+                    descr: inpDescr.value,
+                    userid: logindata.userid
+                }
+                let cfg = {
+                    method: "POST",
+                    headers: {
+                        "authorization": token,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updata)
+                }
+                setTimeout(function () {listLists();}, 500);
     
-            try {
-                var resp = await fetch(url, cfg);
-                var data = await resp.json();
-                if (resp.status > 202) {
-                    throw(data) 
-                };
-                txtResult.innerHTML = data.msg;
-                setTimeout(function () {txtResult.innerHTML = "";}, 2000);
-            }
-            catch (err) {
-                console.log(err);
+                try {
+                    var resp = await fetch(url, cfg);
+                    var data = await resp.json();
+                    if (resp.status > 202) {
+                        throw(data) 
+                    };
+                    txtResult.innerHTML = data.msg;
+                    setTimeout(function () {txtResult.innerHTML = "";}, 2000);
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            } else {
+                txtResult.innerHTML = "List has no name";
+                setTimeout(function (){txtResult.innerHTML = "";}, 2000);
             }
         });
+
+            
 </script>
 
 </html>

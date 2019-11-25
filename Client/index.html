@@ -53,6 +53,7 @@
                     throw(data);
                 };
                 txtResult.innerHTML = data.username + " is logged in!";
+                sessionStorage.setItem("username", inpUsername.value);
                 sessionStorage.setItem("logindata", JSON.stringify(data));
                 setTimeout(function () {window.location.href = "createlists.html";}, 1250);
             }

@@ -69,36 +69,41 @@
 
         btnCreate.addEventListener('click', async function(evt) {
 
-            let logindata = JSON.parse(sessionStorage.getItem("logindata"));
-            let token = logindata.token;
+            if (inpName.value != "") {
+                
+                let logindata = JSON.parse(sessionStorage.getItem("logindata"));
+                let token = logindata.token;
 
-            let updata =  {
-                name: inpName.value,
-                listsid: listsid,
-                tag: emptyTag
-            }
-            let cfg = {
-                method: "POST",
-                headers: {
-                    "authorization": token,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updata)
-            }
-            setTimeout(function () {listItems();}, 500);
+                let updata =  {
+                    name: inpName.value,
+                    listsid: listsid,
+                    tag: emptyTag
+                }
+                let cfg = {
+                    method: "POST",
+                    headers: {
+                        "authorization": token,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updata)
+                }
+                setTimeout(function () {listItems();}, 500);
 
-            try {
-                var resp = await fetch(url, cfg);
-                var data = await resp.json();
+                try {
+                    var resp = await fetch(url, cfg);
+                    var data = await resp.json();
 
-                if (resp.status > 202) {
-                    throw(data);
-                };
-                txtResult.innerHTML = data.msg + " for " + inpName.value;
-                location.reload();
-            }
-            catch (err) {
-                console.log(err);
+                    if (resp.status > 202) {
+                        throw(data);
+                    };
+                    txtResult.innerHTML = data.msg + " for " + inpName.value;
+                    location.reload();
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            } else {
+                console.log("no name on item")
             }
         });
 
@@ -112,6 +117,9 @@
         btnBack.addEventListener('click', async function(evt) {
             window.location.href = "createlists.html";
         });
+            
+
+           
 
     listItems();
     // ---------------------------------------  
