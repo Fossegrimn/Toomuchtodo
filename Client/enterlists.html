@@ -135,7 +135,7 @@
                 headers: {"authorization": token}
             };
             url = url + "?listsid=" + listsid + "&tag=" + inpTag.value;
-
+            
             var resp = await fetch(url, cfg);
             var data = await resp.json();
 
